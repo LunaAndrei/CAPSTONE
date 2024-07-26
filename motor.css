@@ -1,0 +1,154 @@
+@import url("https://fonts.googleapis.com/css?family=Poppins:400,500,600,700&display=swap");
+
+* {
+  margin: 0;
+  padding: 0;
+  outline: none;
+  box-sizing: border-box;
+  font-family: "Poppins", sans-serif;
+}
+
+body {
+  height: 100vh;
+  width: 100%;
+  background: url('Background.jpg') no-repeat center center fixed;
+  background-size: cover;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+.overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5); /* Adjust the color and transparency level */
+  z-index: 1;
+}
+
+.center {
+  position: relative;
+  z-index: 2;
+}
+
+.container {
+  scale: 1;
+  opacity: 1;
+  z-index: 11;
+  background: #fff;
+  width: 350px; /* Adjusted width */
+  padding: 20px; /* Adjusted padding */
+  box-shadow: 0 0 8px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+  border-radius: 20px; /* Adjusted border radius */
+}
+
+.container .back-btn {
+  position: absolute;
+  left: 15px;
+  top: 10px;
+  font-size: 18px;
+  cursor: pointer;
+  background: none;
+  border: none;
+  color: #3498db;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.container .back-btn:hover {
+  color: #11131e;
+}
+
+.container .text {
+  font-size: 30px;
+  font-weight: 600;
+  text-align: center;
+}
+
+.container form {
+  margin-top: -10px;
+  transition: all 0.3s ease;
+}
+
+.container form .data {
+  height: 40px; /* Adjusted height */
+  width: 100%;
+  margin: 20px 0; /* Adjusted margin */
+}
+
+.container form .data-row {
+  display: flex;
+  justify-content: space-between;
+  gap: 15px; /* Add gap between the inputs */
+}
+
+form .data-row .data {
+  width: 32%; /* Adjusted width to fit three inputs in a row */
+}
+
+form .data label {
+  font-size: 16px; /* Adjusted font size */
+}
+
+form .data input,
+form .data select {
+  height: 100%;
+  width: 100%;
+  padding-left: 10px;
+  font-size: 13px; /* Adjusted font size */
+  border: 3px solid silver; /* Adjusted border thickness */
+  transition: border-color 0.6s ease, box-shadow 0.6s ease; /* Add transition for smooth effect */
+}
+
+form .data input:focus,
+form .data select:focus {
+  border-color: #3498db;
+  border-bottom-width: 2px;
+}
+
+form .data input:hover,
+form .data select:hover {
+  border-color: #337fb2; /* Change border color on hover */
+  box-shadow: 0 0 5px rgba(52, 152, 219, 0.5); /* Add a subtle shadow on hover */
+}
+
+form .btn {
+  margin: 25px 0; /* Adjusted margin */
+  height: 40px; /* Adjusted height */
+  width: 100%;
+  position: relative;
+  overflow: hidden;
+}
+
+form .btn .inner {
+  height: 100%;
+  width: 300%;
+  position: absolute;
+  left: -100%;
+  z-index: -1;
+  transition: all 0.4s;
+}
+
+form .btn:hover .inner {
+  left: 0;
+}
+
+form .btn button {
+  height: 100%;
+  width: 100%;
+  background: none;
+  border: none;
+  color: #fff;
+  background: #11131e;
+  font-size: 16px; /* Adjusted font size */
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  cursor: pointer;
+  border-radius: 8px;
+  overflow: hidden;
+}
