@@ -46,10 +46,6 @@ body {
   margin-right: 50px; /* Add margin to push the form away from the edge */
 }
 
-.container:hover {
-  background: #a8a3f8; /* Change background color on hover */
-  box-shadow: 0 0 15px rgba(0, 0, 0, 0.2); /* Change box-shadow on hover */
-}
 
 .container .close-btn {
   position: absolute;

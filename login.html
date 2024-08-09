@@ -1,47 +1,51 @@
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
-  <head>
-    <meta charset="utf-8" />
-    <link rel="stylesheet" href="login.css" />
-    <link rel="icon" href="Pic/favicon.png">
-    <link rel="stylesheet"href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"/>
-  </head>
-  <body>
-    <div class="overlay"></div>
-    <div class="center">
-      <div class="container">
-        <div class="text">ENTER LOGIN</div>
-        <form action="#">
-          <div class="data">
-            <label>Enter email address</label>
-              <div class="formcontainer">
-                <i class="fas fa-envelope"></i>
-                <input type="email" required />
-              </div>
+<head>
+  <meta charset="utf-8" />
+  <link rel="stylesheet" href="login.css" />
+  <link rel="icon" href="Pic/favicon.png">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"/>
+  <title>Ecenter San Luis - Login</title>
+</head>
+<body>
+  <div class="overlay"></div>
+  <div class="center">
+    <div class="container">
+      <div class="text">ENTER LOGIN</div>
+      
+      <div id="alert-container"></div> <!-- Alert container for error messages -->
+
+      <form id="loginForm">
+        <div class="data">
+          <label>Enter email address</label>
+          <div class="formcontainer">
+            <i class="fas fa-envelope"></i>
+            <input type="email" name="email" required/>
           </div>
-          <div class="data">
-              <label>Password</label>
-              <div class="formcontainer">
-              <i class="fas fa-lock"></i>
-              <input type="password" name="password" id="password" required />
-              <span class="toggle-password" onclick="togglePassword()">
-                <i class="fa fa-eye" id="toggleIcon"></i>
+        </div>
+        <div class="data">
+          <label>Password</label>
+          <div class="formcontainer">
+            <i class="fas fa-lock"></i>
+            <input type="password" name="password" id="password" required />
+            <span class="toggle-password" onclick="togglePassword()">
+              <i class="fa fa-eye" id="toggleIcon"></i>
             </span>
-            </div>
           </div>
-          <div class="forgot-pass">
-            <a href="#">Forgot Password?</a>
-          </div>
-          <div class="btn">
-            <div class="inner"></div>
-            <button type="submit">Login</button>
-          </div>
-          <div class="signup-link">
-            Not a member? <a href="signup.html">Signup now</a>
-          </div>
-        </form>
-      </div>
+        </div>
+        <div class="forgot-pass">
+          <a href="#">Forgot Password?</a>
+        </div>
+        <div class="btn">
+          <div class="inner"></div>
+          <button type="submit">Login</button>
+        </div>
+        <div class="signup-link">
+          Not a member? <a href="signup.html">Signup now</a>
+        </div>
+      </form>
     </div>
-  </body>
-  <script src="Javascipt/Login.js"></script>
+  </div>
+  <script src="Javascipt/Login.js" ></script>
+</body>
 </html>

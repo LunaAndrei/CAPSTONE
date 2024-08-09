@@ -164,3 +164,48 @@ form .signup-link a {
 form .signup-link a:hover {
   text-decoration: underline;
 }
+
+.alert {
+  display: none;
+  padding: 20px;
+  margin-bottom: 15px;
+  position: fixed;
+  top: 10px;
+  right: 10px;
+  z-index: 1000;
+  border-radius: 5px;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+  font-size: 16px;
+}
+
+.alert.success {
+  background-color: #4CAF50; /* Green */
+  color: white;
+}
+
+.alert.error {
+  background-color: #f44336; /* Red */
+  color: white;
+}
+
+.alert .icon {
+  margin-right: 10px;
+}
+
+.password-container {
+  position: relative;
+}
+
+.password-container input {
+  width: 100%;
+  padding-right: 40px; /* Space for the eye icon */
+}
+
+.password-container .toggle-password {
+  position: absolute;
+  right: 10px;
+  top: 107%;
+  transform: translateY(-50%);
+  cursor: pointer;
+  display: none; /* Hidden by default */
+}
