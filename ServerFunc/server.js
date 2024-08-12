@@ -21,7 +21,7 @@ app.post('/signup_process', async (req, res) => {
     const hashedPassword = await bcrypt.hash(password, saltRounds);
 
     const query = `
-      INSERT INTO public."Admin" (id, firstname, "Lastname", email, password, "Role") 
+      INSERT INTO public."AdminStaff" (id, firstname, "Lastname", email, password, "Role") 
       VALUES ($1, $2, $3, $4, $5, $6) RETURNING *`;
     const values = [UserID, Firstname, Lastname, email, hashedPassword, Role];
 

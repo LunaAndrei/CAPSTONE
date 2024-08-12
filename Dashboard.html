@@ -6,21 +6,21 @@
     <title>Ecenter San Luis - Dashboard</title>
     <link rel="stylesheet" href="Dashboard.css">
     <link rel="icon" href="Pic/favicon.png">
-    <link rel="stylesheet"href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"/>
     <link rel="stylesheet" href="https://unpkg.com/boxicons/css/boxicons.min.css">
     <script src="https://code.iconify.design/2/2.1.0/iconify.min.js"></script>
 </head>
 <body>
     <div class="sidebar">
         <img src="Pic/favicon.png" alt="Logo">
-        <h2>Group 3773</h2>
+        <h2>Menu</h2>
         <ul>
-            <li></i><a href="#"> Dashboard</a></li>
+            <li></i><a href="Dashboard.html"> Dashboard</a></li>
             <li><a href="#"><i class="fas fa-chart-line"></i> Report</a></li>
             <li><a href="#"><i class="iconify" data-icon="mdi:card-account-details-outline"></i> Permit Form</a></li>
-            <li><a href="#"><i class='bx bxs-file-find' ></i> Verifying Documents</a></li>
-            <li><a href="#"><i class="fas fa-id-card icon"></i> Occupational Form</a></li>
-            <li><a href="#"><i class='bx bxs-wallet-alt' ></i> Payment</a></li>
+            <li><a href="#"><i class='bx bxs-file-find'></i> Verifying Documents</a></li>
+            <li><a href="AdminOccuForm.html"><i class="fas fa-id-card icon"></i> Occupational Form</a></li>
+            <li><a href="#"><i class='bx bxs-wallet-alt'></i> Payment</a></li>
             <b>Others</b>
             <li><a href="#"><i class="fas fa-user"></i> Account</a></li>
             <li><a href="#"><i class="fas fa-cog"></i> Settings</a></li>
@@ -31,7 +31,10 @@
     <div class="main-content">
         <div class="header">
             <h1>Dashboard</h1>
-            <input type="text" placeholder="Search...">
+            <div class="search-container">
+                <i class="fa fa-search search-icon"></i>
+                <input type="text" placeholder="Search..." class="search-input">
+            </div>
             <i class='bx bxs-bell'></i>
         </div>
         <div class="dashboard">

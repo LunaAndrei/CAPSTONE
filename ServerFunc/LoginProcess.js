@@ -31,7 +31,7 @@ app.post('/login', async (req, res) => {
   console.log('Login attempt:', { email, password });
 
   try {
-    const query = 'SELECT * FROM "Admin" WHERE email = $1';
+    const query = 'SELECT * FROM "AdminStaff" WHERE email = $1';
     const values = [email];
 
     const result = await pool.query(query, values);
