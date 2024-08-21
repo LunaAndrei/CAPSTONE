@@ -17,6 +17,7 @@ body {
   align-items: center;
   justify-content: flex-end; /* Align to the side */
   position: relative;
+  overflow: hidden;
 }
 
 .overlay {
@@ -38,43 +39,55 @@ body {
   align-items: flex-start;
 }
 
-.info-section {
-  background-color: #dce6cf;
-  padding: 20px;
-  border-radius: 20px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
-  max-width: 600px;
-  color: #333;
-}
 
 .info-section h2 {
+  color: white;
   font-size: 24px;
-  margin-bottom: 10px;
+  padding-left: 19px;
 }
 
 .info-section p {
+  color: white;
+  padding-left: 17px;
   font-size: 16px;
   line-height: 1.6;
-  margin-bottom: 20px;
+
 }
 
 .image-container {
   text-align: center;
-  margin-bottom: 30px;
 }
 
-.image-container img {
-  width: 100%;
+.image-container1 img{
+  width: 25%;
   border-radius: 10px;
   box-shadow: 0 0 8px rgba(0, 0, 0, 0.1);
-}
+  position: relative;
+  top:-230px;
+  left:400px;
 
+}
+.image-container2 img{
+  width: 55%; 
+  box-shadow: 0 0 8px rgba(0, 0, 0, 0.1);
+  position: relative;
+  top:-215px;
+}
 .center {
   position: relative;
   z-index: 2;
 }
+.image2{
+ border-radius: 10px;
+ padding-right: 35px;
+}
 
+.p2{
+position: relative;
+right:-300px;
+}
 .container {
+  margin-top: 120px;
   position: relative;
   z-index: 2;
   background: #fff;
@@ -83,7 +96,7 @@ body {
   box-shadow: 0 0 8px rgba(0, 0, 0, 0.1);
   transition: all 0.3s ease;
   border-radius: 40px; /* Curve the corners */
-  margin-right: 50px; /* Add margin to push the form away from the edge */
+  margin-right: 70px; /* Add margin to push the form away from the edge */
 }
 
 
@@ -118,6 +131,10 @@ body {
 
 form .data label {
   font-size: 18px;
+}
+.info2{
+ position: relative;
+ top: -195px;
 }
 
 form .data input {
@@ -224,3 +241,54 @@ form .signup-link a {
 form .signup-link a:hover {
   text-decoration: underline;
 }
+
+/* Common styles for both arrow buttons */
+.arrow-button {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background-color: rgba(0, 0, 0, 0.5);
+  color: #fff;
+  width: 40px;
+  height: 40px;
+  padding: 20px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  z-index: 3; /* Ensure the buttons are above other content */
+  transition: background-color 0.3s ease;
+}
+
+.arrow-button:hover,
+.right-arrow :hover,
+.left-arrow :hover{
+  background-color: #313030;
+  color: white;
+}
+
+/* Specific styles for the left and right arrow buttons */
+.left-arrow {
+  left: 10px; /* Position the left arrow slightly inset from the left edge */
+}
+
+.right-arrow {
+  right: 10px; /* Position the right arrow slightly inset from the right edge */
+}
+
+.info-section {
+  position: relative;
+  background-color: #dce6cf79;
+  padding: 30px;
+  border-radius: 20px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+  max-width: 650px;
+  max-height: 680px;
+  color: #333;
+  width: 650px; /* Set a fixed width */
+  height: 680px; /* Set a fixed height */
+  left:-200px;
+}
+
+
