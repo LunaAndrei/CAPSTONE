@@ -17,7 +17,7 @@
         <img src="Pic/favicon.png" alt="Logo">
         <h2>Menu</h2>
         <ul>
-            <li><a href="Dashboard.html"></i> Dashboard</a></li>
+            <li><a href="Dashboard.html"><i class="fas fa-home"></i> Dashboard</a></li>
             <li><a href="#"><i class="fas fa-chart-line"></i> Report</a></li>
             <li><a href="#"><i class="iconify" data-icon="mdi:card-account-details-outline"></i> Permit Form</a></li>
             <li><a href="#"><i class='bx bxs-file-find'></i> Verifying Documents</a></li>
@@ -99,32 +99,47 @@
             <label for="homeAddress">Home Address</label>
             <input type="text" id="homeAddress" name="homeAddress" required>
 
-        <div class="form-group">
-          <div class="form-field">
-            <label for="email">E-mail Address</label>
-            <input type="email" id="email" name="email" required>
-          </div>
-          <div class="form-field">
-            <label for="cellphoneNumber">Cellphone Number</label>
-            <input type="tel" id="cellphoneNumber" name="cellphoneNumber" required>
-          </div>
-        </div>
-        <div class="form-group">
-            <div class="form-field">
-            <label for="companyName">Company Name</label>
-            <input type="text" id="companyName" name="companyName" required>
+            <div class="form-group">
+                <div class="form-field">
+                    <label for="email">E-mail Address</label>
+                    <input type="email" id="email" name="email" required>
+                </div>
+                <div class="form-field">
+                    <label for="cellphoneNumber">Cellphone Number</label>
+                    <input type="tel" id="cellphoneNumber" name="cellphoneNumber" required>
+                </div>
             </div>
-            <div class="form-field">
-            <label for="jobPosition">Job Position</label>
-            <input type="text" id="jobPosition" name="jobPosition" required>
+            
+            <div class="form-group">
+                <div class="form-field">
+                    <label for="companyName">Company Name</label>
+                    <input type="text" id="companyName" name="companyName" required>
+                </div>
+                <div class="form-field">
+                    <label for="jobPosition">Job Position</label>
+                    <input type="text" id="jobPosition" name="jobPosition" required>
+                </div>
             </div>
-        </div>
-        
-            <label for="philSysId">PhilSys ID No.</label>
-            <input type="text" id="philSysId" name="philSysId" >
+
+            <!-- Combined ID Type and Number -->
+            <div class="form-group">
+                <div class="form-field">
+                    <label for="combinedId">ID Type and Number</label>
+                    <div style="display: flex;">
+                        <select id="Typeofid" name="Typeofid" required>
+                            <option value="Drivers License">Drivers License</option>
+                            <option value="Philhealth">Philhealth</option>
+                            <option value="NBI">NBI</option>
+                            <option value="Company Id">Company ID</option>
+                        </select>
+                        <input type="text" id="philSysId" name="philSysId" placeholder="ID Number" required style="margin-left: 10px;">
+                    </div>
+                    <input type="hidden" id="combinedId" name="combinedId">
+                </div>
+            </div>
 
             <label for="coe">Certificate of Employment</label>
-            <input type="file" id="coe" name="coe" required>
+            <input type="file" id="coe" name="coe">
 
             <label for="healthCard">Health Card (If Job Requires)</label>
             <input type="file" id="healthCard" name="healthCard">
@@ -155,10 +170,25 @@
             </div>
 
             <div class="form-group">
+                <div class="form-field">
+                    <label for="ctcNumber">CTC Number</label>
+                    <input type="text" id="ctcNumber" name="ctcNumber" required>
+                </div>
+                <div class="form-field">
+                    <label for="ctcDateIssued">CTC Date Issued</label>
+                    <input type="date" id="ctcDateIssued" name="ctcDateIssued" required>
+                </div>
+                <div class="form-field">
+                    <label for="ctcPlaceIssued">CTC Place Issued</label>
+                    <input type="text" id="ctcPlaceIssued" name="ctcPlaceIssued" required>
+                </div>
+            </div>
+
+            <div class="form-group">
                 <div class="form-field checkbox-container">
                     <input type="checkbox" id="consent" name="consent" required>
                     <label for="consent" class="consent-text">
-                        I hereby certify that all the information provided are true and correct based on personal knowledge of facts and further consent to the collection, use, and processing of my personal information by City Government of San Luis for the purpose of processing my Occupational Permit application. I understand my information may be shared with relevant authorities and service providers as necessary. I acknowledge my rights regarding my personal data as outlined by data privacy laws.
+                        I hereby certify that all the information provided are true and correct based on personal knowledge of facts and further consent to the collection, use, and processing of my personal information by Municipal Government of San Luis for the purpose of processing my Occupational Permit application. I understand my information may be shared with relevant authorities and service providers as necessary. I acknowledge my rights regarding my personal data as outlined by data privacy laws.
                     </label>
                 </div>
             </div>
@@ -169,7 +199,7 @@
     </div>
 
     <script>
-        function calculateAge() {
+         function calculateAge() {
             const dob = document.getElementById('dob').value;
             const ageField = document.getElementById('age');
 
@@ -187,9 +217,16 @@
                 ageField.disabled = false;  // Enable the age field
             }
         }
-
+        
         async function confirmSubmission(event) {
     event.preventDefault(); // Prevent the form from submitting immediately
+
+    const idType = document.getElementById('Typeofid').value;
+    const idNumber = document.getElementById('philSysId').value;
+    const combinedIdField = document.getElementById('combinedId');
+    
+    combinedIdField.value = `${idType}: ${idNumber}`;
+
     const confirmed = confirm("Are you sure you want to submit this form?");
 
     if (confirmed) {
