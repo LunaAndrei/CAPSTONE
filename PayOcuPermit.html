@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payment Page</title>
+    <link rel="stylesheet" href="PayOcuPermit.css">
+    <link rel="icon" href="Pic/favicon.png">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"/>
+    <link rel="stylesheet" href="https://unpkg.com/boxicons/css/boxicons.min.css">
+    <script src="https://code.iconify.design/2/2.1.0/iconify.min.js"></script>
+</head>
+<body>
+
+    <div class="sidebar">
+        <img src="Pic/favicon.png" alt="Logo">
+        <h2>Menu</h2>
+        <ul>
+            <li><a href="Dashboard.html"><i class="bx bxs-dashboard"></i> Dashboard</a></li>
+            <li><a href="#"><i class="fas fa-chart-line"></i> Report</a></li>
+            <li><a href="#"><i class="iconify" data-icon="mdi:card-account-details-outline"></i> Permit Form</a></li>
+            <li><a href="#"><i class='bx bxs-file-find'></i> Verifying Documents</a></li>
+            <li><a href="AdminOccuForm.html"><i class="fas fa-id-card icon"></i> Occupational Form</a></li>
+            <li><a href="FranchiseForm.html"><i class="fas fa-id-card icon"></i> Franchise Form</a></li>
+            <li><a href="#"><i class='bx bxs-wallet-alt'></i> Payment</a></li>
+            <b>Others</b>
+            <li><a href="#"><i class="fas fa-user"></i> Account</a></li>
+            <li><a href="#"><i class="fas fa-cog"></i> Settings</a></li>
+            <li><a href="#"><i class="fas fa-question-circle"></i> Help</a></li>
+            <li><a href="login.html"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
+        </ul>
+    </div>
+
+    <div class="main-content">
+        <h1>Payment for Occupational Permit</h1>
+
+        <div class="search-container">
+            <label for="search-id">Search:</label>
+            <input type="text" id="search-id" placeholder="Search ID" required>
+            <button class="search-button">Search</button>
+            <button class="view-receipt-button">View Receipt</button>
+        </div>
+
+        <div class="details-container">
+            <div class="info-container">
+                <label for="id"><strong>ID:</strong></label>
+                <input type="text" id="id" value="" required>
+
+                <label for="name"><strong>Name:</strong></label>
+                <input type="text" id="name" value="" required>
+
+                <label for="address"><strong>Address:</strong></label>
+                <input type="text" id="address" value="" required>
+
+                <label for="date-issued"><strong>Date Issued:</strong></label>
+                <input type="date" id="date-issued" value="" required>
+
+                <label for="expiration-date"><strong>Expiration Date:</strong></label>
+                <input type="date" id="expiration-date" value="" required>
+
+                <label for="fee"><strong>Occupational Fee:</strong></label>
+                <input type="text" id="fee" value="₱170.00" required>
+            </div>
+
+            <div class="payment-container">
+                <label for="total"><strong>Total:</strong></label>
+                <input type="text" id="total" value="₱170.00" readonly>
+
+                <label for="amount"><strong>Amount:</strong></label>
+                <input type="number" id="amount" oninput="calculateChange(); checkInputs();" required>
+
+                <label for="change"><strong>Change:</strong></label>
+                <input type="text" id="change" readonly>
+
+                <button id="pay-button" class="pay-button" disabled>PAY</button>
+                <a href="payment.html" style="text-decoration: none;">
+                    <button class="cancel-button">CANCEL</button>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <script src="Javascipt\Calcu.js"></script>
+</body>
+</html>

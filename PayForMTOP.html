@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payment for MTOP</title>
+    <link rel="stylesheet" href="PayOcuPermit.css">
+    <link rel="icon" href="Pic/favicon.png">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"/>
+    <link rel="stylesheet" href="https://unpkg.com/boxicons/css/boxicons.min.css">
+    <script src="https://code.iconify.design/2/2.1.0/iconify.min.js"></script>
+</head>
+<body>
+
+    <div class="sidebar">
+        <img src="Pic/favicon.png" alt="Logo">
+        <h2>Menu</h2>
+        <ul>
+            <li><a href="Dashboard.html"><i class="bx bxs-dashboard"></i> Dashboard</a></li>
+            <li><a href="#"><i class="fas fa-chart-line"></i> Report</a></li>
+            <li><a href="#"><i class="iconify" data-icon="mdi:card-account-details-outline"></i> Permit Form</a></li>
+            <li><a href="#"><i class='bx bxs-file-find'></i> Verifying Documents</a></li>
+            <li><a href="AdminOccuForm.html"><i class="fas fa-id-card icon"></i> Occupational Form</a></li>
+            <li><a href="FranchiseForm.html"><i class="fas fa-id-card icon"></i> Franchise Form</a></li>
+            <li><a href="#"><i class='bx bxs-wallet-alt'></i> Payment</a></li>
+            <b>Others</b>
+            <li><a href="#"><i class="fas fa-user"></i> Account</a></li>
+            <li><a href="#"><i class="fas fa-cog"></i> Settings</a></li>
+            <li><a href="#"><i class="fas fa-question-circle"></i> Help</a></li>
+            <li><a href="login.html"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
+        </ul>
+    </div>
+
+    <div class="main-content">
+        <h1>Payment for MTOP</h1>
+
+        <div class="search-container">
+            <label for="search-id">Search:</label>
+            <input type="text" id="search-id" placeholder="Search Motor Operator ID" required>
+            <button class="search-button">Search</button>
+        </div>
+
+        <div class="details-container">
+            <div class="info-container">
+                <label for="id"><strong>MO_ID:</strong></label>
+                <input type="text" id="id" value="10012">
+
+                <label for="name"><strong>Name:</strong></label>
+                <input type="text" id="name" value="Lagunsing, John Carlo">
+
+                <label for="address"><strong>Address:</strong></label>
+                <input type="text" id="address" value="Buli, Taal, Batangas">
+
+                <label for="category"><strong>Category:</strong></label>
+                <select id="category">
+                    <option value="Tricycle Permit - New (Operator)">Tricycle Permit - New</option>
+                    <option value="Tricycle Permit - Renewal (Operator)">Tricycle Permit - Renewal</option>
+                    <option value="Tricycle Permit - Both (Operator)">Tricycle Permit - Both</option>
+                </select>
+                
+                <label for="filling-fee"><strong>Filling Fee:</strong></label>
+                <input type="text" id="filling-fee" value="₱22.00">
+
+                <label for="business-permit"><strong>Business Permit:</strong></label>
+                <input type="text" id="business-permit" value="₱33.00">
+
+                <label for="mtop"><strong>MTOP:</strong></label>
+                <input type="text" id="mtop" value="₱165.00">
+
+                <label for="pol-med-mayor"><strong>Pol/Med/Mayor:</strong></label>
+                <input type="text" id="pol-med-mayor" value="₱99.00">
+
+                <label for="plate-number"><strong>Plate No./Sticker No.:</strong></label>
+                <input type="text" id="plate-number" value="₱130.00">
+
+                <label for="inspection-fee"><strong>Inspection Fee:</strong></label>
+                <input type="text" id="inspection-fee" value="₱55.00">
+
+                <label for="id-card"><strong>ID Card:</strong></label>
+                <input type="text" id="id-card" value="₱0.00">
+
+                <label for="sec-fee"><strong>Sec Fee:</strong></label>
+                <input type="text" id="sec-fee" value="₱37.00">
+
+                <label for="dst"><strong>DST:</strong></label>
+                <input type="text" id="dst" value="₱0.00">
+
+                <label for="supervision-fee"><strong>Supervision Fee:</strong></label>
+                <input type="text" id="supervision-fee" value="₱40.00">
+
+                <label for="penalty"><strong>Penalty:</strong></label>
+                <input type="text" id="penalty" value="₱0.00">
+            </div>
+
+            <div class="payment-container">
+                <label for="total"><strong>Total:</strong></label>
+                <input type="text" id="total" value="₱581.00">
+
+                <label for="units"><strong>Units:</strong></label>
+                <input type="number" id="units" value="1">
+
+                <label for="amount"><strong>Amount:</strong></label>
+                <input type="number" id="amount">
+
+                <label for="change"><strong>Change:</strong></label>
+                <input type="text" id="change" readonly>
+
+                <button id="pay-button" class="pay-button">PAY</button>
+                <a href="payment.html" style="text-decoration: none;">
+                    <button class="cancel-button">CANCEL</button>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <script src="Javascipt\Calcu.js"></script>
+</body>
+</html>
