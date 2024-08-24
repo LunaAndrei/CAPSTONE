@@ -39,7 +39,6 @@ body {
   align-items: flex-start;
 }
 
-
 .info-section h2 {
   color: white;
   font-size: 24px;
@@ -51,41 +50,43 @@ body {
   padding-left: 17px;
   font-size: 16px;
   line-height: 1.6;
-
 }
 
 .image-container {
   text-align: center;
 }
 
-.image-container1 img{
+.image-container1 img {
   width: 25%;
   border-radius: 10px;
   box-shadow: 0 0 8px rgba(0, 0, 0, 0.1);
   position: relative;
-  top:-230px;
-  left:400px;
-
+  top: -230px;
+  left: 400px;
 }
-.image-container2 img{
-  width: 55%; 
+
+.image-container2 img {
+  width: 55%;
   box-shadow: 0 0 8px rgba(0, 0, 0, 0.1);
   position: relative;
-  top:-215px;
+  top: -215px;
 }
+
 .center {
   position: relative;
   z-index: 2;
 }
-.image2{
- border-radius: 10px;
- padding-right: 35px;
+
+.image2 {
+  border-radius: 10px;
+  padding-right: 35px;
 }
 
-.p2{
-position: relative;
-right:-300px;
+.p2 {
+  position: relative;
+  right: -300px;
 }
+
 .container {
   margin-top: 120px;
   position: relative;
@@ -98,7 +99,6 @@ right:-300px;
   border-radius: 40px; /* Curve the corners */
   margin-right: 70px; /* Add margin to push the form away from the edge */
 }
-
 
 .container .close-btn {
   position: absolute;
@@ -132,9 +132,10 @@ right:-300px;
 form .data label {
   font-size: 18px;
 }
-.info2{
- position: relative;
- top: -195px;
+
+.info2 {
+  position: relative;
+  top: -195px;
 }
 
 form .data input {
@@ -143,16 +144,18 @@ form .data input {
   padding-left: 10px;
   font-size: 17px;
   border: 2px solid silver;
-  padding-left: 40px; 
+  padding-left: 40px;
   padding-top: 10px;
   padding-bottom: 10px;
   border-radius: 15px;
-  box-shadow: 0 5px 4px rgba(90, 87, 87, 0.1); 
+  box-shadow: 0 5px 4px rgba(90, 87, 87, 0.1);
 }
+
 .formcontainer {
   position: relative;
   width: fit-content;
 }
+
 i {
   position: absolute;
   left: 15px;
@@ -174,6 +177,7 @@ i {
 .toggle-password i {
   font-size: 18px;
 }
+
 form .data input:hover {
   border-color: #337fb2; /* Change border color on hover */
   box-shadow: 0 0 5px rgba(52, 152, 219, 0.5); /* Add a subtle shadow on hover */
@@ -262,8 +266,8 @@ form .signup-link a:hover {
 }
 
 .arrow-button:hover,
-.right-arrow :hover,
-.left-arrow :hover{
+.right-arrow:hover,
+.left-arrow:hover {
   background-color: #313030;
   color: white;
 }
@@ -288,7 +292,43 @@ form .signup-link a:hover {
   color: #333;
   width: 650px; /* Set a fixed width */
   height: 680px; /* Set a fixed height */
-  left:-200px;
+  left: -200px;
 }
 
+/* New styles for the "Choose type of permit" button */
+.permit-btn {
+  display: inline-block;
+  background-color: #070a0b;
+  color: #fff;
+  padding: 10px 20px;
+  font-size: 16px;
+  cursor: pointer;
+  border-radius: 8px;
+  text-decoration: none;
+  text-align: center;
+  margin-top: 20px;
+  transition: background-color 0.3s ease;
+}
 
+.permit-btn:hover {
+  background-color: #f9fbfb;
+  text-decoration: none;
+}
+
+/* New styles for the sliding info section */
+.info-content {
+  position: relative;
+  height: 100%;
+  overflow: hidden;
+}
+
+.info-slide {
+  display: none;
+  opacity: 0;
+  transition: opacity 0.5s ease;
+}
+
+.info-slide.active {
+  display: block;
+  opacity: 1;
+}
