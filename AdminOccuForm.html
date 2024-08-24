@@ -17,7 +17,7 @@
         <img src="Pic/favicon.png" alt="Logo">
         <h2>Menu</h2>
         <ul>
-            <li><a href="Dashboard.html"><i class="fas fa-home"></i> Dashboard</a></li>
+            <li><a href="Dashboard.html"><i class="bx bxs-dashboard"></i></i> Dashboard</a></li>
             <li><a href="#"><i class="fas fa-chart-line"></i> Report</a></li>
             <li><a href="#"><i class="iconify" data-icon="mdi:card-account-details-outline"></i> Permit Form</a></li>
             <li><a href="#"><i class='bx bxs-file-find'></i> Verifying Documents</a></li>
@@ -131,8 +131,10 @@
                             <option value="Philhealth">Philhealth</option>
                             <option value="NBI">NBI</option>
                             <option value="Company Id">Company ID</option>
+                            <option value="Company Id">Philsys ID</option>
+                            <option value="Company Id">National</option>
                         </select>
-                        <input type="text" id="philSysId" name="philSysId" placeholder="ID Number" required style="margin-left: 10px;">
+                        <input type="text" id="IDnumber" name="IDnumber" placeholder="ID Number" required style="margin-left: 10px;">
                     </div>
                     <input type="hidden" id="combinedId" name="combinedId">
                 </div>
@@ -222,7 +224,7 @@
     event.preventDefault(); // Prevent the form from submitting immediately
 
     const idType = document.getElementById('Typeofid').value;
-    const idNumber = document.getElementById('philSysId').value;
+    const idNumber = document.getElementById('IDnumber').value;
     const combinedIdField = document.getElementById('combinedId');
     
     combinedIdField.value = `${idType}: ${idNumber}`;
