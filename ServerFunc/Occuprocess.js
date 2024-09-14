@@ -4,11 +4,11 @@ const path = require('path');
 const bodyParser = require('body-parser');
 const cors = require('cors'); // Import cors package
 const pool = require('./db');
-const app = express();
+const router = express.Router();
 const port = 8000;
 
 // Use cors middleware
-app.use(cors());
+router.use(cors());
 
 const storage = multer.diskStorage({
     destination: function (req, file, cb) {
@@ -21,11 +21,11 @@ const storage = multer.diskStorage({
 
 const upload = multer({ storage: storage });
 
-app.use(bodyParser.urlencoded({ extended: true }));
-app.use(bodyParser.json());
+router.use(bodyParser.urlencoded({ extended: true }));
+router.use(bodyParser.json());
 
 // Endpoint to handle form submission
-app.post('/submitForm', upload.fields([
+router.post('/submitForm', upload.fields([
     { name: 'coe', maxCount: 1 },
     { name: 'healthCard', maxCount: 1 },
     { name: 'birthCertificate', maxCount: 1 },
@@ -75,9 +75,7 @@ app.post('/submitForm', upload.fields([
 
 
 // Serve static files from 'uploads' directory
-app.use('/uploads', express.static('uploads'));
+router.use('/uploads', express.static('uploads'));
 
 // Start the server
-app.listen(port, () => {
-    console.log(`Server running on http://localhost:${port}`);
-});
+module.exports = router;

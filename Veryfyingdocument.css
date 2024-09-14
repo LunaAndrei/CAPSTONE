@@ -1,0 +1,158 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.sidebar {
+    width: 220px;
+    height: 100vh;
+    background-color: #0033cc;
+    color: white;
+    position: fixed;
+    padding: 20px;
+}
+
+.sidebar img {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    margin-bottom: 10px;
+    margin-left: 50px;
+}
+
+.sidebar h2 {
+    font-size: 22px;
+    margin-bottom: 20px;
+}
+
+.sidebar ul {
+    list-style: none;
+    padding: 0 10px;
+}
+
+.sidebar ul li {
+    margin: 10px 0 10px 7px;
+}
+
+.sidebar ul li a {
+    color: white;
+    text-decoration: none;
+    font-size: 18px;
+    display: block;
+    padding: 10px 0;
+    transition: background 0.3s;
+}
+
+.sidebar ul li a:hover {
+    background: #0055ff;
+}
+
+.main-content {
+    margin-left: 270px;
+    padding: 20px;
+}
+
+.main-content .header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.main-content .header h1 {
+    font-size: 24px;
+}
+
+.search-container {
+    position: relative;
+    display: flex;
+    align-items: center;
+    width: 100%;
+    max-width: 400px;
+}
+
+.search-input {
+    padding: 10px 40px 10px 40px; /* Initially space on both sides */
+    border: 2px solid silver;
+    border-radius: 15px;
+    font-size: 16px;
+    width: 100%;
+    outline: none;
+}
+
+.search-icon {
+    position: absolute;
+    left: 10px;
+    color: gray;
+    transition: left 0.3s ease;
+}
+
+.search-input:focus + .search-icon {
+    left: calc(100% - 40px); /* Move the icon to the right when input is focused */
+}
+
+.bx.bxs-bell {
+    background-color: gray;
+    font-size: 20px;
+    color: whitesmoke;
+    padding: 10px;
+    border-radius: 50%;
+    transition: transform 0.2s ease-in-out;
+}
+
+.bx.bxs-bell:hover {
+    animation: rotate 0.4s ease-in-out;
+}
+
+@keyframes rotate {
+    0% {
+        transform: rotate(0deg);
+    }
+    25% {
+        transform: rotate(-20deg);
+    }
+    50% {
+        transform: rotate(0deg);
+    }
+    75% {
+        transform: rotate(20deg);
+    }
+    100% {
+        transform: rotate(0deg);
+    }
+}
+
+.main-content .dashboard {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+.dashboard .card {
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    flex: 1;
+    min-width: 300px;
+    text-decoration: none;
+    color: black;
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.dashboard .card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+}
+
+.dashboard .card h3 {
+    margin-top: 0;
+}
+
+.pie-chart {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 200px;
+}

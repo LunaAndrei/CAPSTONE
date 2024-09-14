@@ -4,28 +4,27 @@ const bcrypt = require('bcrypt');
 const cors = require('cors');
 const pool = require('./db');
 const path = require('path');
+const router = express.Router();
 
-const app = express();
-const PORT = 8000;
 
-app.use(bodyParser.urlencoded({ extended: true }));
-app.use(bodyParser.json());
-app.use(cors());
+router.use(bodyParser.urlencoded({ extended: true }));
+router.use(bodyParser.json());
+router.use(cors());
 
 // Serve static files from the CAPSTONE directory
-app.use(express.static(path.join(__dirname, '..')));
+router.use(express.static(path.join(__dirname, '..')));
 
 // Serve static files from the CAPSTONE directory explicitly
-app.get('/', (req, res) => {
+router.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, '..', 'login.html'));
 });
 
-app.get('/Dashboard.html', (req, res) => {
+router.get('/Dashboard.html', (req, res) => {
   res.sendFile(path.join(__dirname, '..', 'Dashboard.html'));
 });
 
 // Handle POST request for login
-app.post('/login', async (req, res) => {
+router.post('/login', async (req, res) => {
   const { email, password } = req.body;
 
   console.log('Login attempt:', { email, password });
@@ -65,7 +64,4 @@ app.post('/login', async (req, res) => {
   }
 });
 
-// Start the server
-app.listen(PORT, () => {
-  console.log(`Server is running on port ${PORT}`);
-});
+module.exports = router;

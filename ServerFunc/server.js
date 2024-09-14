@@ -1,18 +1,18 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const bcrypt = require('bcrypt');
-const pool = require('./db');
+const pool = require('./db'); // Assuming you have a db connection in db.js
 const { v4: uuidv4 } = require('uuid');
 const cors = require('cors');
+const router = express.Router();
 
-const app = express();
-const port = 8000;
+// Enable CORS and body parsing middleware
+router.use(cors());
+router.use(bodyParser.urlencoded({ extended: true }));
+router.use(bodyParser.json());
 
-app.use(cors());
-app.use(bodyParser.urlencoded({ extended: true }));
-app.use(bodyParser.json());
-
-app.post('/signup_process', async (req, res) => {
+// Signup route
+router.post('/signup_process', async (req, res) => {
   const { Firstname, Lastname, Role, email, password } = req.body;
   const UserID = uuidv4();
   const saltRounds = 10;
@@ -34,6 +34,4 @@ app.post('/signup_process', async (req, res) => {
   }
 });
 
-app.listen(port, () => {
-  console.log(`Server running on http://localhost:${port}`);
-});
+module.exports = router;

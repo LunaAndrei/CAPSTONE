@@ -95,6 +95,7 @@ form textarea {
     border: 1px solid #ccc;
     border-radius: 4px;
     box-sizing: border-box;
+    outline: none;
 }
 
 /* Form button styling */
@@ -141,21 +142,27 @@ form button[type="button"]:hover {
 /* Checkbox and consent text alignment */
 .checkbox-container {
     display: flex;
-    align-items: center; /* Align items in the center vertically */
+    align-items: flex-start;
+    gap: 10px;
     margin: 20px 0;
+    max-width: 100%;
+    flex-wrap: nowrap;
 }
 
 .checkbox-container input[type="checkbox"] {
-    margin-right: 10px; /* Space between checkbox and the text */
+    margin-top: 55px; /* Align the checkbox with the text */
+    flex-shrink: 0;  /* Prevent the checkbox from shrinking */
 }
 
-.consent-text {
-    font-size: 8px;
+.checkbox-container .consent-text {
+    font-size: 14px;
+    line-height: 1.5;
     color: #333;
-    line-height: 1.5; /* Adjust line height for better readability */
-    display: flex;
-    align-items: center;
+    flex-grow: 1;    /* Allow the text to take up remaining space */
 }
+
+
+
 
 /* Style for the Application Type section */
 form .form-group .form-field input[type="radio"] {
@@ -322,17 +329,62 @@ form .form-group .form-field label[for="applicationType"] {
 }
 
 /* Styling for Add Unit button */
+
 .add-unit-button {
-    margin-top: 10px;
-    padding: 10px 15px;
+    padding: 8px 12px;
+    background-color: #0033cc;
     color: white;
-    background-color: #28a745;
     border: none;
     border-radius: 4px;
     cursor: pointer;
     font-size: 16px;
+    margin-right: 10px;
 }
 
 .add-unit-button:hover {
-    background-color: #218838;
+    background-color: #0055ff;
+}
+/* Style for the delete button */
+form button.deletebutton {
+    background-color: #e74c3c; /* Red color */
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+    padding: 12px 20px;
+    margin: 20px 0 0 10px;
+}
+
+.deletebutton:hover {
+    background-color: #c0392b; /* Darker red on hover */
+}
+
+
+/* Alert box styling */
+
+.hidden {
+    display: none;
+}
+
+.alert {
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    margin-bottom: 15px;
+    border-radius: 5px;
+    font-size: 16px;
+    color: #ffffff;
+}
+
+.alert.success {
+    background-color: #4CAF50; /* Green */
+}
+
+.alert.error {
+    background-color: #f44336; /* Red */
+}
+
+.alert span {
+    margin-right: 10px;
 }
