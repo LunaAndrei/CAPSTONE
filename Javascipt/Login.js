@@ -41,3 +41,22 @@ const passwordInput = document.getElementById('password');
               window.location.href = '/Dashboard.html';
             }
           });
+
+
+          document.getElementById("loginForm").addEventListener("submit", function(e) {
+            e.preventDefault(); // Prevent form submission
+          
+            // Validate login (for demonstration purposes, this is a basic example)
+            const email = document.querySelector('input[name="email"]').value;
+            const password = document.querySelector('input[name="password"]').value;
+          
+            if (email === "admin@ecenter.com" && password === "Admin123!") {
+              // If login is successful, redirect to the dashboard
+              window.location.href = "HeadDashboard.html";
+            } else {
+              // Show error message for incorrect credentials
+              const alertContainer = document.getElementById("alert-container");
+              alertContainer.innerHTML = "<p style='color: red;'>Invalid login credentials</p>";
+            }
+          });
+          
