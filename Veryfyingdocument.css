@@ -3,6 +3,7 @@ body {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+    outline: none;
 }
 
 .sidebar {
@@ -47,6 +48,8 @@ body {
 
 .sidebar ul li a:hover {
     background: #0055ff;
+    padding: 10px;
+    border-radius:20px ;
 }
 
 .main-content {
@@ -129,30 +132,215 @@ body {
     gap: 20px;
 }
 
-.dashboard .card {
-    background: white;
-    padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    flex: 1;
-    min-width: 300px;
-    text-decoration: none;
-    color: black;
-    transition: transform 0.3s, box-shadow 0.3s;
+.table-container {
+    margin-top: 50px; /* Adds spacing between the header and table */
+    display: flex;
+    justify-content: center; /* Centers the table horizontally */
 }
 
-.dashboard .card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+.custom-table {
+    width: 90%; /* Adjust the table width as needed */
+    border-collapse: collapse;
+    margin: 20px 0;
+    font-size: 18px;
+    text-align: left;
 }
 
-.dashboard .card h3 {
-    margin-top: 0;
+.custom-table th {
+    background-color: #d5d7dc;
+    color:  #0055ff;
+    padding: 12px 20px;
 }
 
-.pie-chart {
+.custom-table th:first-child {
+    border-top-left-radius: 10px;
+}
+
+.custom-table th:last-child {
+    border-top-right-radius: 10px;
+}
+
+.custom-table th, .custom-table td {
+    border-bottom: 1px solid #dddddd;
+    padding:12px 11px;
+    font-size: 15px;
+}
+
+.custom-table tr:nth-child(even) {
+    background-color: #f3f3f3;
+}
+select{
+    padding:5px;
+}
+select:focus {
+    outline: none;
+    box-shadow: none;
+}
+
+.custom-icon {
+    color: rgb(68, 67, 67); /* Change the color */
+    padding-left: 28px;
+    font-size: 20px; /* Adjust the size */
+    cursor: pointer;  
+    transition: font-size 0.3s ease;
+}
+
+:hover.custom-icon{
+     font-size: 18px;
+    
+}
+
+.filter-button-container {
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: 10px;
+    margin-right: 5%;
+    cursor: pointer;
+}
+
+.filter-dropdown {
+    padding: 10px;
+    color: #0b0b0b;
+    font-size: 13px;
+    border-radius: 5px;
+    margin-right: -570px;
+    border: 2px solid #003bb5;
+    cursor: pointer;
+}
+
+.filter-button {
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    font-size: 16px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    cursor: pointer;
+}
+
+.filter-button:hover {
+    background-color: #d5d6d7;
+}
+
+.table-container {
+    margin-top: 50px;
+    display: flex;
+    flex-direction: column; /* Makes sure the filter button and table stack vertically */
+    align-items: center;
+    justify-content: center;
+}
+.filter-icon {
+    font-size: 18px;
+    color: #0055ff; /* Icon color */
+    margin-right: 10px; /* Space between icon and dropdown */
+}
+
+ /* Modal Styles */
+ .modal {
+    display: none;
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgb(0,0,0);
+    background-color: rgba(0,0,0,0.4);
+    padding-top: -5px;
+}
+
+.modal-content {
+    background-color: #fefefe;
+    margin: 2% auto;
+    padding: 30px;
+    border: 1px solid #888;
+    width: 80%;
+}
+
+.close {
+    color: #aaa;
+    float: right;
+    font-size: 24px; /* Adjust font size */
+    font-weight: bold;
+    width: 30px; /* Reduced width */
+    height: 30px; /* Reduced height */
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 200px;
+    border-radius: 50%;
+    transition: background-color 0.3s ease, transform 0.3s ease;
 }
+
+.close:hover,
+.close:focus {
+    color: #fff;
+    text-decoration: none;
+    cursor: pointer;
+    background-color: #555;
+    font-size: 20px; /* Reduced padding */
+}
+
+
+.modal-body img {
+    max-width: 100%;
+    height: auto;
+}
+
+.signaturepart {
+    text-align: right; /* Align to the right */
+    margin-top: -190px; /* Adds some space before the signature */
+}
+
+.signature-container {
+    display: inline-block; /* Keeps the signature area inline */
+    text-align: center; /* Centers content within the block */
+}
+
+.signature-line {
+    width: 280px;
+    border: none;
+    border-bottom: 2px solid black; /* Thicker line for signature */
+    margin-bottom: 5px; /* Space between line and text */
+}
+
+.signature-text {
+    font-size: 14px;
+    color: black;
+    margin-bottom: 10px; /* Adds space between text and signature */
+}
+
+.signature-image {
+    display: block;
+    width: 180px; /* Adjust size as needed */
+    padding-left: 60px;
+}
+
+.print-btn {
+    position: absolute;
+    top: 4%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #464646;
+    color: rgb(236, 235, 235);
+    border: none;
+    padding: 10px 12px;
+    border-radius: 3px;
+    cursor: pointer;
+    font-size: 15px;
+}
+
+.print-btn i {
+    margin-right: 5px;
+}
+:hover.print-btn{
+    background-color: #6d6d6d;
+}
+
+@media print {
+    .print-btn, .close {
+        display: none;
+    }
+}
+

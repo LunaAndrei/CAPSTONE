@@ -26,6 +26,7 @@ const passwordInput = document.getElementById('password');
             
             const response = await fetch('/login', {
               method: 'POST',
+              credentials: 'include',
               headers: {
                 'Content-Type': 'application/json'
               },

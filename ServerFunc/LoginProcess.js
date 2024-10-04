@@ -4,12 +4,20 @@ const bcrypt = require('bcrypt');
 const cors = require('cors');
 const pool = require('./db');
 const path = require('path');
+const session = require('express-session'); // Import session
 const router = express.Router();
-
 
 router.use(bodyParser.urlencoded({ extended: true }));
 router.use(bodyParser.json());
 router.use(cors());
+
+// Set up express-session middleware
+router.use(session({
+  secret: 'your-secret-key',  // Replace with a strong secret key
+  resave: false,
+  saveUninitialized: true,
+  cookie: { secure: false }   // Set `true` if using HTTPS
+}));
 
 // Serve static files from the CAPSTONE directory
 router.use(express.static(path.join(__dirname, '..')));
@@ -51,6 +59,14 @@ router.post('/login', async (req, res) => {
       });
 
       if (match) {
+        // Store user details in the session
+        req.session.user = {
+          id: user.id,
+          firstname: user.firstname,
+          lastname: user.lastname,
+          email: user.email
+        };
+
         res.json({ success: true, message: 'Login successful' });
       } else {
         res.status(401).json({ error: 'Invalid email or password' });
@@ -63,5 +79,8 @@ router.post('/login', async (req, res) => {
     res.status(500).json({ error: 'Internal Server Error' });
   }
 });
+
+// Logout route (optional)
+
 
 module.exports = router;

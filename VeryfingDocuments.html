@@ -3,10 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ecenter San Luis - Dashboard</title>
-    <link rel="stylesheet" href="Dashboard.css">
+    <title>Ecenter San Luis - Verifying</title>
+    <link rel="stylesheet" href="Veryfyingdocument.css">
     <link rel="icon" href="Pic/favicon.png">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link rel="stylesheet" href="https://unpkg.com/boxicons/css/boxicons.min.css">
     <script src="https://code.iconify.design/2/2.1.0/iconify.min.js"></script>
 </head>
@@ -15,10 +17,10 @@
         <img src="Pic/favicon.png" alt="Logo">
         <h2>Menu</h2>
         <ul>
-            <li><a href="Dashboard.html"><i class="bx bxs-dashboard"></i></i> Dashboard</a></li>
+            <li><a href="Dashboard.html"><i class="bx bxs-dashboard"></i> Dashboard</a></li>
             <li><a href="#"><i class="fas fa-chart-line"></i> Report</a></li>
             <li><a href="#"><i class="iconify" data-icon="mdi:card-account-details-outline"></i> Permit Form</a></li>
-            <li><a href="#"><i class='bx bxs-file-find'></i> Verifying Documents</a></li>
+            <li><a href="VeryfingDocuments.html"><i class='bx bxs-file-find'></i> Verifying Documents</a></li>
             <li><a href="AdminOccuForm.html"><i class="fas fa-id-card icon"></i> Occupational Form</a></li>
             <li><a href="FranchiseForm.html"><i class="fas fa-id-card icon"></i> Franchise Form</a></li>
             <li><a href="payment.html"><i class='bx bxs-wallet-alt'></i> Payment</a></li>
@@ -38,6 +40,266 @@
             </div>
             <i class='bx bxs-bell'></i>
         </div>
+        <div class="table-container">
+            <div class="filter-button-container">
+                <select id="filter-dropdown" class="filter-dropdown"> 
+                    <option value="Tricycle Franchise Applicants">Tricycle Franchise Applicants</option>
+                    <option value="Occupational Applicants">Occupational Applicants</option>
+                    <option value="Motor Operator Applicants">Motor Operator Applicants</option>
+                </select>
+            </div>
+            <table class="custom-table">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Application Type</th>
+                        <th>Name</th>
+                        <th>Documents</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody id="table-body"></tbody>
+            </table>
+        </div>
+
+        <!-- Modal for displaying details -->
+        <div id="myModal" class="modal">
+            <div class="modal-content">
+                <button id="printBtn" class="print-btn">
+                    <i class="fa fa-print"></i> <!-- FontAwesome print icon -->
+                </button>
+                <span class="close">&times;</span>
+                <div class="modal-body">
+                    <h2 id="modal-name"></h2>
+                    <p><strong>ID:</strong> <span id="modal-id"></span></p>
+                    <p><strong>Application Type:</strong> <span id="modal-type"></span></p>
+                    <p><strong>Date:</strong> <span id="modal-date"></span></p>
+                    <p><strong>Route:</strong> <span id="modal-route"></span></p>
+                    <p><strong>Address:</strong> <span id="modal-baranggay"></span>&nbsp;<span id="modal-municipality"></span>,&nbsp;<span id="modal-province"></span></p>
+                    <p><strong>Occupation:</strong> <span id="modal-occupation"></span></p>
+                    <p><strong>Type of Ownership:</strong> <span id="modal-typeownership"></span></p>
+                    <p><strong>Number of Units:</strong> <span id="modal-numunits"></span></p>
+                    <p><strong>Motorcycle Name:</strong> <span id="unit_name"></span></p>
+                    <p><strong>Model:</strong> <span id="unit_model"></span></p>
+                    <p><strong>Motor no:</strong> <span id="motor_no"></span></p>
+                    <p><strong>Chassis no:</strong> <span id="chassis_no"></span></p>
+                    <p><strong>Plate Number:</strong> <span id="plate_no"></span></p>
+                    <p><strong>Official Driver:</strong> <span id="modal-officialdriver"></span></p>
+                    <p><strong>License Number:</strong> <span id="modal-licensenumber"></span></p>
+                    <p><strong>Certification Issue Date:</strong> <span id="modal-certfdate"></span></p>
+                    <p><strong>Subscribed Date:</strong> <span id="modal-subscribed-date"></span></p> <!-- Updated to display formatted date -->
+                    <p><strong>Community Tax Certificate No:</strong> <span id="modal-cmttaxcertno"></span></p>
+                    <p><strong>Inspected by:</strong> <span id="modal-inspected"></span></p>
+                    <div class="signaturepart">
+                        <div class="signature-container">
+                            <img id="modal-signature" alt="Applicant Signature" class="signature-image" />
+                            <hr class="signature-line">
+                            <p class="signature-text"><strong>Applicant's Signature</strong></p>
+                            
+                        </div>
+                    </div>                    
+                </div>
+            </div>
+        </div>
+        <div id="printArea" style="display:none;"></div>
+        <script>
+          document.addEventListener('DOMContentLoaded', function() {
+            fetch('http://127.0.0.1:8000/getRecords')
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok');
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    console.log('Fetched Data:', data);
+                    const tableBody = document.getElementById('table-body');
+                    data.sort((a, b) => {
+                        const idA = parseInt(a.tfid.split('-')[0]);
+                        const idB = parseInt(b.tfid.split('-')[0]);
+                        return idA - idB;
+                    });
+
+                    // Populate table with data
+                    data.forEach(record => {
+                        const row = document.createElement('tr');
+                        row.innerHTML = `
+    <td>${record.tfid}</td>
+    <td>${record.applicationtype}</td>
+    <td>${record.nameapplicant}</td>
+    <td><i class="fa-regular fa-folder-open custom-icon" data-id="${record.tfid}"></i></td>
+    <td>
+        <select class="status-dropdown" data-id="${record.tfid}" data-status="${record.status}">
+    <option value="On Process" ${record.status === 'On Process' ? 'selected' : ''}>To be Processed</option>
+    <option value="Approved" ${record.status === 'Approved' ? 'selected' : ''}>Approved</option>
+    <option value="Declined" ${record.status === 'Declined' ? 'selected' : ''}>Declined</option>
+</select>
+    </td>`;
+
+                        tableBody.appendChild(row);
+                    });
+
+                    // Event listener for dropdown status change
+                    document.querySelectorAll('.status-dropdown').forEach(select => {
+                        select.addEventListener('change', function() {
+                            const selectedStatus = this.value;
+                            const tfid = this.getAttribute('data-id');
+
+                            // Send the status update to the server via POST request
+                            fetch('http://127.0.0.1:8000/updateStatus', {
+                                method: 'POST',
+                                credentials: 'include',
+                                headers: {
+                                    'Content-Type': 'application/json'
+                                },
+                                body: JSON.stringify({ tfid, status: selectedStatus })
+                            })
+                            .then(response => response.json())
+                            .then(data => {
+                                console.log('Status updated:', data.message);
+                            })
+                            .catch(error => console.error('Error updating status:', error));
+                        });
+                    });
+
+                    document.getElementById('printBtn').addEventListener('click', function() {
+    // Get the modal content
+    var modalContent = document.getElementById('modal-body').innerHTML;
+
+    // Copy modal content to print area
+    var printArea = document.getElementById('printArea');
+    printArea.innerHTML = modalContent;
+
+    // Trigger the print dialog for the print area
+    window.print();
+});
+                    // Modal elements
+                    const modal = document.getElementById("myModal");
+                    const span = document.getElementsByClassName("close")[0];
+                    const modalName = document.getElementById("modal-name");
+                    const modalId = document.getElementById("modal-id");
+                    const modalType = document.getElementById("modal-type");
+                    const modalDate = document.getElementById("modal-date");
+                    const modalRoute = document.getElementById("modal-route");
+                    const modalBarangay = document.getElementById("modal-baranggay");
+                    const modalMunicipality = document.getElementById("modal-municipality");
+                    const modalProvince = document.getElementById("modal-province");
+                    const modalOccupation = document.getElementById("modal-occupation");
+                    const modalTypeOwnership = document.getElementById("modal-typeownership");
+                    const modalOfficialDriver = document.getElementById("modal-officialdriver");
+                    const modalLicenseNumber = document.getElementById("modal-licensenumber");
+                    const modalCertfDate = document.getElementById("modal-certfdate");
+                    const modalSubscribedDate = document.getElementById("modal-subscribed-date");
+                    const modalCtn = document.getElementById("modal-cmttaxcertno");
+                    const modalInspectedBy = document.getElementById("modal-inspected");
+                    const modalunitnames = document.getElementById("unit_name");
+                    const modalunitmodel = document.getElementById("unit_model");
+                    const modalmotorno = document.getElementById("motor_no");
+                    const modalchassisno = document.getElementById("chassis_no");
+                    const modalplate_no = document.getElementById("plate_no");
+                    const modalSignature = document.getElementById("modal-signature"); 
+
+                    // Function to format date or return 'N/A' if invalid
+                    const formatDate = (dateString) => {
+                        if (dateString) {
+                            const date = new Date(dateString);
+                            if (!isNaN(date.getTime())) {
+                                return date.toLocaleDateString('en-US', {
+                                    year: 'numeric',
+                                    month: 'long',
+                                    day: 'numeric'
+                                });
+                            } else {
+                                console.log('Invalid Date:', dateString);
+                                return 'N/A';
+                            }
+                        } else {
+                            console.log('No Date Provided');
+                            return 'N/A';
+                        }
+                    };
+
+                    // Function to format subscribed date
+                    const formatSubscribedDate = (day, month, year) => {
+                        if (day && month && year) {
+                            const date = new Date(`${year}-${month}-${day}`);
+                            return date.toLocaleDateString('en-US', {
+                                year: 'numeric',
+                                month: 'long',
+                                day: 'numeric'
+                            });
+                        }
+                        return 'N/A';
+                    };
+
+                    // When the folder icon is clicked, show the modal with the corresponding data
+                    document.querySelectorAll('.custom-icon').forEach(icon => {
+                        icon.addEventListener('click', function() {
+                            const id = this.getAttribute('data-id');
+                            const record = data.find(record => record.tfid === id);
+                            if (record) {
+                                modalName.textContent = record.nameapplicant;
+                                modalId.textContent = record.tfid;
+                                modalType.textContent = record.applicationtype;
+                                modalRoute.textContent = record.route;
+                                modalBarangay.textContent = record.barangay;
+                                modalMunicipality.textContent = record.municipality;
+                                modalProvince.textContent = record.province;
+                                modalOccupation.textContent = record.occupation;
+                                modalTypeOwnership.textContent = record.typeownership;
+                                const modalNumUnits = document.getElementById("modal-numunits");
+                                modalNumUnits.textContent = record.numunits;
+                                modalOfficialDriver.textContent = record.officialdriver;
+                                modalLicenseNumber.textContent = record.licensenumber;
+                                modalCertfDate.textContent = formatDate(record.certificationdate); // Populate Certification Date
+                                modalDate.textContent = formatDate(record.applicationdate);
+                                modalCtn.textContent = record.communitytaxcertno;
+                                modalInspectedBy.textContent = record.inspectedby;
+                                modalunitnames.textContent =  record.unit_names;
+                                modalunitmodel.textContent = record.unit_models;
+                                modalmotorno.textContent =  record.motor_numbers;
+                                modalchassisno.textContent = record.chassis_numbers;
+                                modalplate_no.textContent = record.plate_numbers;
+
+                                // Format and display subscribed date
+                                modalSubscribedDate.textContent = formatSubscribedDate(record.subscribedday, record.subscribedmonth, record.subscribedyear);
+
+                                modal.style.display = "block";
+
+                                if (record.signatureapplicant) {
+                                    modalSignature.src = `data:image/png;base64,${record.signatureapplicant}`;
+                                    modalSignature.style.display = 'block';
+                                } else {
+                                    modalSignature.style.display = 'none';
+                                }
+                            }
+                        });
+                    });
+
+                    // Close the modal when the 'x' is clicked
+                    span.onclick = function() {
+                        modal.style.display = "none";
+                    }
+
+                    // Close the modal when clicking outside the modal content
+                    window.onclick = function(event) {
+                        if (event.target == modal) {
+                            modal.style.display = "none";
+                        }
+                    };
+                    printBtn.addEventListener('click', function() {
+                        window.print();
+                    });
+
+                })
+                .catch(error => {
+                    console.error('Error fetching data:', error);
+                    const tableBody = document.getElementById('table-body');
+                    tableBody.innerHTML = '<tr><td colspan="5">Error fetching data</td></tr>';
+                });
+          });
+
+        </script>
     </div>
 </body>
 </html>
