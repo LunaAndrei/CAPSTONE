@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard</title>
+    <link rel="stylesheet" href="HeadDashboard.css">
+    <link href="https://fonts.googleapis.com/css2?family=Arial:wght@400;600&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="dashboard-container">
+        <!-- Sidebar -->
+        <div class="sidebar">
+            <img src="Pic/favicon.png" alt="Profile Picture">
+            <h2>Admin Panel</h2>
+            <ul>
+                <li><a href="#" class="active">Dashboard</a></li>
+                <li><a href="#">Account</a></li>
+                <li><a href="#">Verifying Documents</a></li>
+                <li><a href="#">Settings</a></li>
+            </ul>
+            
+            <!-- Logout Button -->
+            <a href="#" id="logoutButton" class="logout">Logout</a> 
+        </div>
+
+        <!-- Main Content -->
+        <div class="main-content">
+            <header class="header">
+                <h1>Admin Dashboard</h1>
+                <div class="search-container">
+                    <input type="text" class="search-input" placeholder="Search...">
+                </div>
+                <div class="bell-icon">
+                    <i class="bx bxs-bell"></i>
+                </div>
+            </header>
+
+            <!-- Dashboard Cards -->
+            <div class="dashboard">
+                <div class="card">
+                    <h3>Total Users</h3>
+                    <p>1,250</p>
+                </div>
+                <div class="card">
+                    <h3>Pending Documents</h3>
+                    <p>12</p>
+                </div>
+                <div class="card">
+                    <h3>Account Issues</h3>
+                    <p>4</p>
+                </div>
+            </div>
+
+            <!-- Inputs Section -->
+            <div class="input-section">
+                <h3>Form Inputs</h3>
+                <input type="text" placeholder="Enter Name" class="custom-input">
+                <input type="email" placeholder="Enter Email" class="custom-input">
+                <button class="custom-button">Submit</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add the JavaScript here -->
+    <script>
+        document.getElementById('logoutButton').addEventListener('click', function(event) {
+            event.preventDefault(); // Prevent the default link behavior
+            var confirmation = confirm("Are you sure you want to log out?");
+            if (confirmation) {
+                window.location.href = 'HeadAdmin.html'; // Redirect to the login page
+            }
+        });
+    </script>
+</body>
+</html>
