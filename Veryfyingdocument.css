@@ -344,3 +344,17 @@ select:focus {
     }
 }
 
+.filter-button-container2 {
+    position: absolute; /* Position it absolutely */
+    top: 130px; /* Adjust the distance from the top */
+    left: 350px; /* Adjust the distance from the left */
+    z-index: 1; /* Ensure it stays on top */
+}
+
+.filter-dropdown {
+    padding: 10px;
+    color: #0b0b0b;
+    font-size: 13px;
+    border-radius: 5px;
+    border: 2px solid #003bb5;
+}

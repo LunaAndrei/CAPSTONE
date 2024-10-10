@@ -161,3 +161,26 @@ form .btn button {
   border-radius: 8px;
   overflow: hidden;
 }
+
+.alert {
+  display: none; /* Initially hidden */
+  background-color: rgb(37, 195, 203); /* Green background for the alert */
+  color: white;
+  padding: 6px;
+  border-radius: 2px;
+  font-size: 16px;
+  text-align: center;
+  position: fixed; /* Position at the top of the page */
+  top: 5px; /* Stick to the top */
+  left: 50%; /* Center horizontally */
+  transform: translateX(-50%); /* Adjust for proper centering */
+  width: 100%; /* Full width, or adjust as needed */
+  max-width: 300px; /* Optional: Limit max width for larger screens */
+  z-index: 9999; /* Ensure it's on top of other elements */
+  margin-top: 0;
+}
+
+/* Show alert when necessary */
+.alert.show {
+  display: block;
+}

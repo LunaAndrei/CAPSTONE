@@ -1,86 +1,89 @@
 const express = require('express');
-const bodyParser = require('body-parser');
 const bcrypt = require('bcrypt');
-const cors = require('cors');
 const pool = require('./db');
 const path = require('path');
-const session = require('express-session'); // Import session
+
 const router = express.Router();
-
-router.use(bodyParser.urlencoded({ extended: true }));
-router.use(bodyParser.json());
-router.use(cors());
-
-// Set up express-session middleware
-router.use(session({
-  secret: 'your-secret-key',  // Replace with a strong secret key
-  resave: false,
-  saveUninitialized: true,
-  cookie: { secure: false }   // Set `true` if using HTTPS
-}));
 
 // Serve static files from the CAPSTONE directory
 router.use(express.static(path.join(__dirname, '..')));
 
-// Serve static files from the CAPSTONE directory explicitly
+// Serve the login page
 router.get('/', (req, res) => {
-  res.sendFile(path.join(__dirname, '..', 'login.html'));
+    res.sendFile(path.join(__dirname, '..', 'login.html'));
 });
 
+// Serve the dashboard page
 router.get('/Dashboard.html', (req, res) => {
-  res.sendFile(path.join(__dirname, '..', 'Dashboard.html'));
+    res.sendFile(path.join(__dirname, '..', 'Dashboard.html'));
+});
+
+// Serve the verifying document page
+router.get('/verifyingdocument.html', (req, res) => {
+    res.sendFile(path.join(__dirname, '..', 'VerifyingDocuments.html'));
 });
 
 // Handle POST request for login
 router.post('/login', async (req, res) => {
   const { email, password } = req.body;
 
-  console.log('Login attempt:', { email, password });
-
   try {
     const query = 'SELECT * FROM "AdminStaff" WHERE email = $1';
     const values = [email];
-
     const result = await pool.query(query, values);
-
-    console.log('Query result:', result.rows);
 
     if (result.rows.length > 0) {
       const user = result.rows[0];
-      const storedPassword = user.password.trim();
-      console.log('Trimmed stored password:', storedPassword);
+      console.log('User object retrieved from DB:', user); // Log the user object
 
+      // Check if password and other fields are present before trimming
+      const storedPassword = user.password ? user.password.trim() : '';
       const match = await bcrypt.compare(password, storedPassword);
 
-      console.log('Password comparison:', {
-        providedPassword: password,
-        storedHash: storedPassword,
-        matchResult: match
+      if (!match) {
+        return res.status(401).json({ error: 'Invalid email or password' });
+      }
+
+      // Store user info in session after successful login
+      req.session.firstname = user.firstname ? user.firstname.trim() : ''; // Ensure 'firstname' matches your DB field
+      req.session.lastname = user.Lastname ? user.Lastname.trim() : '';    // Use capital "L" for Lastname as in your DB
+
+      // Store additional session details like user ID
+      req.session.userId = user.id;  // Assuming 'id' is the primary key in the AdminStaff table
+      req.session.is_logged_in = true; // Save login status
+
+      console.log('User data saved in session:', {
+        userId: req.session.userId,
+        firstname: req.session.firstname,
+        lastname: req.session.lastname,
+        is_logged_in: req.session.is_logged_in
       });
 
-      if (match) {
-        // Store user details in the session
-        req.session.user = {
-          id: user.id,
-          firstname: user.firstname,
-          lastname: user.lastname,
-          email: user.email
-        };
+      // Update the `is_logged_in` field in the database to mark user as logged in
+      const loginUpdateQuery = 'UPDATE "AdminStaff" SET is_logged_in = true WHERE id = $1';
+      await pool.query(loginUpdateQuery, [user.id]);
 
+      // Save session explicitly
+      req.session.save(err => {
+        if (err) {
+          console.error('Error saving session:', err);
+          return res.status(500).json({ error: 'Session save error' });
+        }
+
+        // Log the session data after saving to verify
+        console.log('Session saved after login:', req.session);
         res.json({ success: true, message: 'Login successful' });
-      } else {
-        res.status(401).json({ error: 'Invalid email or password' });
-      }
+      });
+
     } else {
-      res.status(401).json({ error: 'Invalid email or password' });
+      // If no user found with the provided email
+      return res.status(401).json({ error: 'Invalid email or password' });
     }
+
   } catch (err) {
     console.error('Error during login:', err);
     res.status(500).json({ error: 'Internal Server Error' });
   }
 });
-
-// Logout route (optional)
-
 
 module.exports = router;
