@@ -1,0 +1,250 @@
+/* General Reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+}
+
+/* Root variables for theme colors */
+:root {
+    --primary-color: #0033cc;
+    --primary-hover-color: #0055ff;
+    --background-color: #f0f2f5;
+    --text-color: #ffffff;
+    --approved-color: #28a745;
+    --box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 10px;
+}
+
+/* Body Styling */
+body {
+    background-color: var(--background-color);
+}
+
+/* Dashboard Layout */
+.dashboard-container {
+    display: flex;
+    min-height: 100vh;
+}
+
+/* Sidebar Styling */
+.sidebar {
+    width: 220px;
+    height: 100vh;
+    background-color: var(--primary-color);
+    color: var(--text-color);
+    position: fixed;
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+}
+
+.sidebar img {
+    width: 80px;
+    height: 80px;
+    margin: 0 auto 20px;
+}
+
+.sidebar h2 {
+    font-size: 20px;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.sidebar ul {
+    list-style: none;
+    margin-bottom: auto;
+    padding: 0;
+}
+
+.sidebar ul li {
+    margin: 15px 0;
+}
+
+.sidebar ul li a {
+    color: var(--text-color);
+    text-decoration: none;
+    font-size: 18px;
+    display: block;
+    padding: 10px;
+    border-radius: 8px;
+    transition: background-color 0.3s;
+}
+
+.sidebar ul li a:hover,
+.sidebar ul li a.active {
+    background-color: var(--primary-hover-color);
+}
+
+.logout {
+    margin-top: auto;
+    color: var(--text-color);
+    text-decoration: none;
+    font-size: 18px;
+    display: block;
+    padding: 10px;
+    text-align: center;
+    background-color: var(--primary-color);
+    border-radius: 8px;
+    transition: background-color 0.3s;
+}
+
+.logout:hover {
+    background-color: var(--primary-hover-color);
+}
+
+/* Main Content Styling */
+.mainContent {
+    padding: 40px;
+    width: calc(100% - 240px); /* Adjusted to account for sidebar */
+    background-color: var(--background-color);
+    margin-left: 240px; /* Add margin-left to offset for the sidebar */
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Center the table and button horizontally */
+}
+
+h3 {
+    font-size: 40px;
+    text-align: center; /* Center the title */
+    margin-bottom: 20px;
+}
+
+/* Table Styling for Admin Staff List */
+#staffTable {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    background-color: #fff;
+    box-shadow: var(--box-shadow);
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+#staffTable th, #staffTable td {
+    padding: 12px 15px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+    
+}
+
+#staffTable th {
+    background-color: var(--primary-color);
+    color: var(--text-color);
+    font-weight: 600;
+    text-transform: uppercase;
+}
+
+#staffTable td {
+    font-size: 18px;
+    color: #333;
+}
+
+/* Hover effect for table rows */
+#staffTable tr:hover {
+    background-color: #f1f1f1;
+}
+
+/* Alternate row colors for better readability */
+#staffTable tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+/* Add Account Button */
+.add-button {
+    display: inline-block;
+    background-color: var(--approved-color); /* Green color for the button */
+    color: var(--text-color); /* White text */
+    text-decoration: none;
+    padding: 6px 12px; /* Smaller padding for a more compact button */
+    border-radius: 4px;
+    font-weight: 600;
+    margin-top: 20px; /* Space between the table and the button */
+    transition: background-color 0.3s;
+    box-shadow: var(--box-shadow);
+    display: flex;
+    align-items: center;
+    justify-content: center; /* Center the text and icon */
+    width: auto; /* Let the width adjust to the text */
+    font-size: 14px; /* Slightly smaller text */
+}
+
+.add-button:hover {
+    background-color: #4fcb6c; /* Lighter shade on hover */
+}
+
+/* Icon Style for Small Button */
+.add-button .icon {
+    margin-right: 5px; /* Spacing between icon and text */
+    font-size: 14px; /* Smaller icon size to match the button */
+    font-weight: bold;
+}
+
+/* View Archived Accounts Button */
+.view-archived-button {
+    background-color: red;
+    color: var(--text-color);
+    padding: 8px 15px;
+    font-size: 14px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-top: 20px;
+    transition: background-color 0.3s;
+}
+
+.view-archived-button:hover {
+    background-color: darkred;
+}
+
+/* Archive and Unarchive Button */
+.archive-button, .unarchive-button {
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    color: red;
+    font-size: 20px;
+    transition: color 0.3s;
+    margin-left: 10px;
+    padding: 5px;
+}
+
+.archive-button:hover {
+    color: darkred;
+}
+
+.unarchive-button {
+    color: green;
+    transition: transform 0.3s ease-in-out; /* smooth transition */
+}
+
+.unarchive-button:hover {
+    color: darkgreen;
+    transform: rotate(45deg); /* rotate the button 15 degrees */
+}
+
+
+/* Adjust spacing for the table headers and columns */
+#archivedTable th, #archivedTable td {
+    padding: 12px 20px; /* Increased padding for more space between columns */
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+}
+
+#archivedTable th {
+    background-color: rgb(191, 53, 53);
+    color: var(--text-color);
+    font-weight: 600;
+    text-transform: uppercase;
+}
+
+#archivedTable td {
+    font-size: 18px;
+    color: #333;
+    padding-left: 20px; /* Add padding to the left for better spacing */
+}
+
+.material-icons {
+    vertical-align: middle;
+    margin-left: 10px; /* Add margin-left to the icon to create space from the role text */
+}

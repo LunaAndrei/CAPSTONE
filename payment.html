@@ -37,5 +37,14 @@
         </div>
         <a href="confirm.html" class="confirm-button">Confirm</a>
     </div>
+    <script>
+        document.getElementById('logoutButton').addEventListener('click', function(event) {
+            event.preventDefault(); // Prevent the default link behavior
+            var confirmation = confirm("Are you sure you want to log out?");
+            if (confirmation) {
+                window.location.href = 'login.html'; // Redirect to the login page
+            }
+        });
+    </script>
 </body>
 </html>

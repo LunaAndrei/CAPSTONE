@@ -68,6 +68,62 @@
                 <option value="Renewal">Renewal Applicants</option>
             </select>
         </div>
+
+        <div id="occustatus-container" style="display: none;">
+            <table id="occustatus-table" class="custom-table">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Fullname</th>
+                        <th>Documents</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody id="occustatus-body"></tbody>
+            </table>
+        </div>
+      <!-- Modal for displaying documents of OccuPermit -->
+<div id="occPermitModal" class="modal-occPermit">
+    <div class="modal-content-occPermit">
+      <span class="close-occPermit-modal">&times;</span>
+      <div class="modal-body-occPermit">
+        <h2 id="occPermit-doc-name"></h2>
+        <p><strong>Occuid:</strong> <span id="occPermit-doc-occuid"></span></p>
+        <p><strong>First Name:</strong> <span id="occPermit-doc-firstname"></span></p>
+        <p><strong>Middle Name:</strong> <span id="occPermit-doc-middlename"></span></p>
+        <p><strong>Last Name:</strong> <span id="occPermit-doc-lastname"></span></p>
+        <p><strong>Suffix:</strong> <span id="occPermit-doc-suffix"></span></p>
+        <p><strong>Address:</strong> <span id="occPermit-doc-address"></span></p>
+        <p><strong>Date of Birth:</strong> <span id="occPermit-doc-dob"></span></p>
+        <p><strong>Age:</strong> <span id="occPermit-doc-age"></span> years old</p>
+        <p><strong>Place of Birth:</strong> <span id="occPermit-doc-placeofbirth"></span></p>
+        <p><strong>Contact No:</strong> <span id="occPermit-doc-contactno"></span></p>
+        <p><strong>Email:</strong> <span id="occPermit-doc-email"></span></p>
+        <p><strong>Gender:</strong> <span id="occPermit-doc-gender"></span></p>
+        <p><strong>Civil Status:</strong> <span id="occPermit-doc-cstatus"></span></p>
+        <p><strong>Company Name:</strong> <span id="occPermit-doc-compname"></span></p>
+        <p><strong>Job Position:</strong> <span id="occPermit-doc-jobpos"></span></p>
+        <p><strong></strong> <span id="occPermit-doc-combid"></span></p>
+        <p><strong>OR Number:</strong> <span id="occPermit-doc-ornumber"></span></p>
+        <p><strong>OR Extension:</strong> <span id="occPermit-doc-orextension"></span></p>
+        <p><strong>OR Amount:</strong> <span id="occPermit-doc-oramount"></span></p>
+        <p><strong>CTC Number:</strong> <span id="occPermit-doc-ctcnumber"></span></p>
+        <p><strong>CTC Date Issued:</strong> <span id="occPermit-doc-ctcdti"></span></p>
+        <p><strong>CTC Place Issued:</strong> <span id="occPermit-doc-placeissued"></span></p>
+        <p><strong>COE:</strong></p>
+        <img id="occPermit-doc-coe" src="" alt="COE Image" style="max-width: 20%; height: auto;">
+        <p id="healthcard-label" style="display:none;"><strong>Health Card:</strong></p>
+        <img id="occPermit-healthcard" src="" alt="Health Card Image" style="max-width: 20%; height: auto; display:none;">
+        <p id="BirthCertificate-label" style="display:none;"><strong>Birth Certificate:</strong></p>
+        <img id="occPermit-BirthCertificate" src="" alt="Birth Certificate Image" style="max-width: 20%; height: auto; display:none;">
+        <p><strong>Official Receipt:</strong></p>
+        <img id="occPermit-OfficialReceipt" src="" alt="Official Reciept" style="max-width: 20%; height: auto;">
+      </div>
+    </div>
+</div>
+
+
+  
         <!-- Modal for displaying details -->
         <div id="myModal" class="modal">
             <div class="modal-content">
@@ -148,15 +204,16 @@
                         select.addEventListener('change', function() {
                             const selectedStatus = this.value;
                             const tfid = this.getAttribute('data-id');
+                            const occuid = this.getAttribute('data-occuid');
+            fetch('http://localhost:8000/updateStatus', {
+             method: 'POST',
+    credentials: 'include',
+    headers: {
+        'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({ tfid, occuid, status: selectedStatus })  // Ensure occuid is passed
+})
 
-                            fetch('http://localhost:8000/updateStatus', {
-                                method: 'POST',
-                                credentials: 'include',
-                                headers: {
-                                    'Content-Type': 'application/json'
-                                },
-                                body: JSON.stringify({ tfid, status: selectedStatus })
-                            })
                             .then(response => response.json())
                             .then(data => {
                                 console.log('Status updated:', data.message);
@@ -209,6 +266,18 @@
                         }
                     };
 
+                    const formatSubscribedDate = (day, month, year) => {
+                        if (day && month && year) {
+                            const date = new Date(`${year}-${month}-${day}`);
+                            return date.toLocaleDateString('en-US', {
+                                year: 'numeric',
+                                month: 'long',
+                                day: 'numeric'
+                            });
+                        }
+                        return 'N/A';
+                    };
+
                     // When the folder icon is clicked, show the modal with the corresponding data
                     document.querySelectorAll('.custom-icon').forEach(icon => {
                         icon.addEventListener('click', function() {
@@ -236,7 +305,7 @@
                                 modalmotorno.textContent = record.motor_numbers;
                                 modalchassisno.textContent = record.chassis_numbers;
                                 modalplate_no.textContent = record.plate_numbers;
-                                modalSubscribedDate.textContent = formatDate(record.subscribeddate);
+                                modalSubscribedDate.textContent = formatSubscribedDate(record.subscribedday, record.subscribedmonth, record.subscribedyear);
                                 
                                 if (record.signatureapplicant) {
                                     modalSignature.src = `data:image/png;base64,${record.signatureapplicant}`;
@@ -320,6 +389,235 @@
             // Trigger the print dialog for the print area
             window.print();
         });
+
+        // Event listener for changing dropdown filter
+document.getElementById('filter-dropdown').addEventListener('change', function() {
+    const selectedValue = this.value;
+    const table = document.getElementById('applicants-table');
+    const occustatusTable = document.getElementById('occustatus-table');
+    const filterTypeDropdown = document.getElementById('filter-type-dropdown');
+
+    if (selectedValue === "Occupational Applicants") {
+        // Fetch occupational applicants data
+        fetch('http://127.0.0.1:8000/getOccupationalApplicants')
+            .then(response => response.json())
+            .then(data => {
+                displayOccupationalApplicants(data);
+                attachOccuPermitModalListeners();  // Call function to display data
+            })
+            .catch(error => console.error('Error fetching occupational applicants:', error));
+        
+        table.style.display = 'none'; // Hide main table
+        document.getElementById('occustatus-container').style.display = 'block'; // Show occupational applicants table
+        filterTypeDropdown.style.display = 'none'; // Hide filter for occupational applicants
+    } else if (selectedValue === "Tricycle Franchise Applicants") {
+        table.style.display = 'table'; // Show main table
+        document.getElementById('occustatus-container').style.display = 'none'; // Hide occupational applicants table
+        filterTypeDropdown.style.display = 'block'; // Show filter dropdown
+    }
+});
+
+// Function to display Occupational Applicants
+// Function to display Occupational Applicants
+function displayOccupationalApplicants(data) {
+    const occustatusTableBody = document.getElementById('occustatus-body');
+    occustatusTableBody.innerHTML = '';  // Clear existing data
+
+    data.forEach(record => {
+        const row = document.createElement('tr');
+        row.innerHTML = `
+            <td>${record.occuid}</td>
+            <td>${record.fullname}</td>
+            <td><i class="fa-regular fa-folder-open custom-icon-occPermit" data-occuid="${record.occuid}"></i></td>
+            <td>
+                <select class="status-dropdown" data-occuid="${record.occuid}">
+                    <option value="On Process" ${record.status === 'On Process' ? 'selected' : ''}>On Process</option>
+                    <option value="Approved" ${record.status === 'Approved' ? 'selected' : ''}>Approved</option>
+                    <option value="Declined" ${record.status === 'Declined' ? 'selected' : ''}>Declined</option>
+                </select>
+            </td>`;
+
+        occustatusTableBody.appendChild(row);
+    });
+
+    // Reattach event listener to the newly created select elements for status change
+    document.querySelectorAll('.status-dropdown').forEach(select => {
+        select.addEventListener('change', function() {
+            const selectedStatus = this.value;
+            const occuid = this.getAttribute('data-occuid');
+
+            // Call the backend to update status
+            fetch('http://localhost:8000/updateStatus', {
+                method: 'POST',
+                credentials: 'include',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ occuid, status: selectedStatus })
+            })
+            .then(response => response.json())
+            .then(data => {
+                console.log('Status updated:', data.message);
+            })
+            .catch(error => console.error('Error updating status:', error));
+        });
+    });
+}
+
+    // Reattach event listener to icons
+    attachOccuPermitModalListeners();
+
+
+// Function to handle opening of OccuPermit modal
+function attachOccuPermitModalListeners() {
+    document.querySelectorAll('.custom-icon-occPermit').forEach(icon => {
+        icon.addEventListener('click', function() {
+            const occuid = this.getAttribute('data-occuid');  // Fetch occuid
+            
+            // Fetch the documents for the specific OccuPermit
+            fetch(`http://127.0.0.1:8000/getOccuPermitDocuments/${occuid}`)
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            })
+            .then(data => {
+                if (data && data.length > 0) {
+                    const documentData = data[0];
+
+
+                    console.log('Fetched COE:', documentData.COE); 
+                    document.getElementById('occPermit-doc-occuid').textContent = documentData.Occuid;
+                    document.getElementById('occPermit-doc-firstname').textContent = documentData.Firstname;
+                    document.getElementById('occPermit-doc-middlename').textContent = documentData.Middlename;
+                    document.getElementById('occPermit-doc-lastname').textContent = documentData.Lastname;
+                    document.getElementById('occPermit-doc-suffix').textContent = documentData.Suffix || 'N/A';
+                    document.getElementById('occPermit-doc-name').textContent = `${documentData.Firstname} ${documentData.Middlename.charAt(0)}. ${documentData.Lastname}`;
+                    document.getElementById('occPermit-doc-address').textContent= documentData.Address;
+                    document.getElementById('occPermit-doc-age').textContent = documentData.Age;
+                    document.getElementById('occPermit-doc-placeofbirth').textContent = documentData.PlaceofBirth;
+                    document.getElementById('occPermit-doc-contactno').textContent = documentData.ContactNo;
+                    document.getElementById('occPermit-doc-email').textContent = documentData.Email;
+                    document.getElementById('occPermit-doc-gender').textContent = documentData.Gender;
+                    document.getElementById('occPermit-doc-cstatus').textContent = documentData.CivilStatus;
+                    document.getElementById('occPermit-doc-compname').textContent = documentData.CompanyName;
+                    document.getElementById('occPermit-doc-jobpos').textContent = documentData.JobPosition;
+                    document.getElementById('occPermit-doc-combid').textContent = documentData.combinedId;
+                    document.getElementById('occPermit-doc-ornumber').textContent = documentData.ORNumber;
+                    document.getElementById('occPermit-doc-orextension').textContent = documentData.ORExtension;
+                    document.getElementById('occPermit-doc-oramount').textContent = documentData.ORAmount;
+                    document.getElementById('occPermit-doc-ctcnumber').textContent = documentData.CTCNumber;
+                   
+
+
+                    // Function to format the CTC Date Issued to "Month Day, Year" format
+const formatCTCDate = (dateString) => {
+    if (dateString) {
+        const date = new Date(dateString);
+        if (!isNaN(date.getTime())) {
+            return date.toLocaleDateString('en-US', {
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric'
+            });
+        } else {
+            return 'N/A';
+        }
+    } else {
+        return 'N/A';
+    }
+};
+
+// When displaying the document details, call this function for the CTC Date Issued
+                    document.getElementById('occPermit-doc-ctcdti').textContent = formatCTCDate(documentData.CTCDateIssued);
+                    document.getElementById('occPermit-doc-placeissued').textContent = documentData.CTCPlaceIssued;
+                    document.getElementById('occPermit-doc-dob').textContent = formatCTCDate(documentData.DateofBirth);
+                   
+
+                  
+                    if (documentData.COE) {
+                            const coeImage = `data:image/png;base64,${documentData.COE}`;
+                            document.getElementById('occPermit-doc-coe').src = coeImage;
+                        } else {
+                            document.getElementById('occPermit-doc-coe').src = ''; // Clear if no image
+                        }
+
+
+                    if (documentData.HealthCard && documentData.HealthCard.trim() !== "") {
+                        const healthCardImage = `data:image/png;base64,${documentData.HealthCard}`;
+                        document.getElementById('healthcard-label').style.display = 'block'; // Show label
+                        document.getElementById('occPermit-healthcard').src = healthCardImage;
+                        document.getElementById('occPermit-healthcard').style.display = 'block'; // Show image
+                    } else {
+                        document.getElementById('healthcard-label').style.display = 'none'; // Hide label
+                        document.getElementById('occPermit-healthcard').style.display = 'none'; // Hide image
+                    }
+
+                    if (documentData.BirthCertificate && documentData.BirthCertificate.trim() !== "") {
+                        const BirthCertificateImage = `data:image/png;base64,${documentData.BirthCertificate}`;
+                        document.getElementById('BirthCertificate-label').style.display = 'block'; // Show label
+                        document.getElementById('occPermit-BirthCertificate').src = BirthCertificateImage;
+                        document.getElementById('occPermit-BirthCertificate').style.display = 'block'; // Show image
+                    } else {
+                        document.getElementById('BirthCertificate-label').style.display = 'none'; // Hide label
+                        document.getElementById('occPermit-BirthCertificate').style.display = 'none'; // Hide image
+                    }
+
+
+                    if (documentData.OfficialReceipt) {
+                            const OfficialReceiptImage = `data:image/png;base64,${documentData.OfficialReceipt}`;
+                            document.getElementById('occPermit-OfficialReceipt').src = OfficialReceiptImage;
+                        } else {
+                            document.getElementById('occPermit-OfficialReceipt').src = ''; // Clear if no image
+                        }
+
+/* <p><strong>Official Receipt:</strong></p>
+        <img id="occPermit-OfficialReceipt" src="" alt="Official Reciept" style="max-width: 20%; height: auto;">*/
+
+
+                    // Show the document modal
+                   
+                                        
+                                        // Show the document modal
+                                        const documentModal = document.getElementById('occPermitModal');
+                                        documentModal.style.display = 'block';
+                                    }
+                                })
+                                .catch(error => {
+                                    console.error('Error fetching OccuPermit documents:', error);
+                                });
+                        });
+                    });
+                }
+
+// Call this function after the table is populated
+attachOccuPermitModalListeners();
+
+
+
+          
+            document.addEventListener('DOMContentLoaded', function() {
+    console.log("DOM fully loaded and parsed");  // Check if the JS is running
+
+    // Icon click listener for displaying OccuPermit documents
+   
+    // Close modal on clicking the close button
+    const closeDocumentModal = document.getElementsByClassName("close-occPermit-modal")[0];
+    closeDocumentModal.onclick = function() {
+        document.getElementById("occPermitModal").style.display = "none";
+    };
+
+    // Close modal if clicked outside of the modal content
+    window.onclick = function(event) {
+        const documentModal = document.getElementById("occPermitModal");
+        if (event.target == documentModal) {
+            documentModal.style.display = "none";
+        }
+    };
+});
+
+
 
         </script>
     </div>

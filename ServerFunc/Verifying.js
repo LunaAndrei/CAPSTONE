@@ -6,11 +6,11 @@ const pool = require('./db');
 const router = express.Router();
 const pgSession = require('connect-pg-simple')(session);
 
-
 const app = express();
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use(cors());
+const path = require('path');
 app.use(session({
     store: new pgSession({
         pool: pool,
@@ -24,9 +24,10 @@ app.use(session({
         secure: true // Set to true in production
     }
 }));
+app.use('/uploads', express.static(path.join(__dirname, '../uploads')));
+  // This will allow access to /uploads/<file_name>
 
-
-// Route to get records
+// Route to get tricycle franchise records
 router.get('/getRecords', (req, res) => {
     const sqlQuery = `
         SELECT 
@@ -99,37 +100,101 @@ router.get('/getRecords', (req, res) => {
     });
 });
 
-// Route to update status
-router.post('/updateStatus', (req, res) => {
-    console.log('Full session object:', req.session);
-    const { tfid, status } = req.body;
-
-  
-
-
-    // Get processed_by information from the session
-    const processedBy = (req.session.firstname || '').trim() + ' ' + (req.session.lastname || '').trim();
-
-
-    // Log the processedBy and session info
-    console.log('Processed by:', processedBy);
-    console.log('Session:', req.session);
-
-    // SQL query to update the status of the given tfid
-    const sqlUpdate = `
-        UPDATE status 
-        SET status = $1, processed_by = $2
-        WHERE tfid = $3;
+// Route to get occupational applicants
+router.get('/getOccupationalApplicants', (req, res) => {
+    const sqlQuery = `
+        SELECT 
+            occuid, 
+            fullname, 
+            status, 
+            process_by 
+        FROM 
+            occustatus
+        ORDER BY 
+            occuid;
     `;
 
-    // Execute the update query
-    pool.query(sqlUpdate, [status, processedBy, tfid], (err, result) => {
+    pool.query(sqlQuery, (err, results) => {
         if (err) {
-            console.error('Error executing update query:', err.message);
-            return res.status(500).send('Error updating status');
+            console.error('Error executing query:', err.message);
+            return res.status(500).send('Error fetching occupational applicants');
         }
-        res.json({ message: 'Status updated successfully' });
+        if (results.rows.length === 0) {
+            return res.status(404).send('No occupational applicants found');
+        }
+        res.json(results.rows);
     });
 });
 
+// Route to update status
+// Route to update status
+// Route to update status
+// Route to update status
+router.post('/updateStatus', (req, res) => {
+    const { tfid, occuid, status } = req.body;
+    const processedBy = (req.session.firstname || '').trim() + ' ' + (req.session.lastname || '').trim();
+
+    if (occuid) {
+        // Update for occupational applicants
+        const sqlUpdateOccustatus = `
+            UPDATE occustatus
+            SET status = $1, process_by = $2
+            WHERE occuid = $3;
+        `;
+        pool.query(sqlUpdateOccustatus, [status, processedBy, occuid], (err, result) => {
+            if (err) {
+                console.error('Error executing occustatus update query:', err.message);
+                return res.status(500).send('Error updating status in occustatus table');
+            }
+            res.json({ message: 'Occustatus updated successfully' });
+        });
+    } else if (tfid) {
+        // Update for tricycle franchise applicants
+        const sqlUpdateStatus = `
+            UPDATE status
+            SET status = $1, processed_by = $2
+            WHERE tfid = $3;
+        `;
+        pool.query(sqlUpdateStatus, [status, processedBy, tfid], (err, result) => {
+            if (err) {
+                console.error('Error executing status update query:', err.message);
+                return res.status(500).send('Error updating status in status table');
+            }
+            res.json({ message: 'Status updated successfully' });
+        });
+    } else {
+        res.status(400).send('Missing tfid or occuid');
+    }
+});
+
+
+// Route to get specific OccuPermit by occuid
+router.get('/getOccuPermitDocuments/:occuid', (req, res) => {
+    const occuid = req.params.occuid;
+
+    const sqlQuery = `
+        SELECT "Occuid","Lastname", "Firstname", "Middlename", "Suffix", "Address", "DateofBirth", "Age", "PlaceofBirth",
+         "ContactNo", "Email", "Gender", "CivilStatus", "CompanyName", "JobPosition", "combinedId", "ORNumber", "ORExtension",
+          "ORAmount", "CTCNumber", "CTCDateIssued", "CTCPlaceIssued", encode("COE", 'base64') as "COE", encode("HealthCard", 'base64') as "HealthCard",
+          encode("BirthCertificate", 'base64') as "BirthCertificate",encode("OfficialReceipt", 'base64') as "OfficialReceipt"
+        FROM "OccuPermit"
+        WHERE "Occuid" = $1;
+    `;
+
+    pool.query(sqlQuery, [occuid], (err, results) => {
+        if (err) {
+            console.error('Error fetching documents:', err.message);
+            return res.status(500).send('Error fetching OccuPermit documents');
+        }
+        if (results.rows.length === 0) {
+            console.log(`No record found for Occuid: ${occuid}`);
+            return res.status(404).send('No record found');
+        }
+        res.json(results.rows);
+    });
+});
+
+
+
 module.exports = router;
+

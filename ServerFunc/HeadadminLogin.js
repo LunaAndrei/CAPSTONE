@@ -11,7 +11,7 @@ router.use(express.json()); // Middleware for JSON body parsing
 
 // GET request handler for the head admin login page
 router.get('/headadmin', (req, res) => {
-    res.send('Head Admin Login Page'); // Replace with actual HTML render or response
+    res.sendFile(path.join(__dirname, '../HeadAdmin.html')); // Replace with actual HTML render or file path
 });
 
 // POST request handler for login
@@ -49,7 +49,7 @@ router.post('/headadmin', [
         }
 
         // Successful login, redirect to HeadDashboard.html
-        return res.status(200).json({ redirect: '/HeadDashboard.html' }); // Changed redirect here
+        return res.status(200).json({ redirect: '/HeadDashboard.html' });
     } catch (err) {
         console.error(err);
         return res.status(500).json({ message: 'Server error' });

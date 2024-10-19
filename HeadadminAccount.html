@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HeadAdmin MTOP</title>
+    <link rel="icon" href="Pic/favicon.png">
+    <link rel="stylesheet" href="HeadadminAccount.css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"/>
+    <link rel="stylesheet" href="https://unpkg.com/boxicons/css/boxicons.min.css">
+    <script src="https://code.iconify.design/2/2.1.0/iconify.min.js"></script> <!-- Google Material Icons -->
+</head>
+<body>
+    <div class="dashboard-container">
+        <!-- Sidebar -->
+        <div class="sidebar">
+            <img src="Pic/favicon.png" alt="Profile Picture">
+            <h2>Admin Panel</h2>
+            <ul>
+                <li><a href="HeadDashboard.html">Dashboard</a></li>
+                <li><a href="HeadadminAccount.html" class="active"><i class="fas fa-user"></i> Account</a></li>
+                <li><a href="#">Verifying Documents</a></li>
+                <li><a href="#"><i class="fas fa-cog"></i>Settings</a></li>
+            </ul>
+            
+            <!-- Logout Button -->
+            <a href="#" id="logoutButton" class="logout"><i class="fas fa-sign-out-alt"></i> Logout</a> 
+         
+        </div>
+
+        <!-- Main Content -->
+        <div class="mainContent">
+            <h3>Admin Staff List</h3>
+            <table id="staffTable">
+                <thead>
+                    <tr>
+                        <th>Full Name</th>
+                        <th>Role</th>
+                        <th>Archive</th> <!-- Column for the archive action -->
+                    </tr>
+                </thead>
+                <tbody id="staffNames"></tbody>
+            </table>
+
+            <!-- Add Account Button below the table -->
+            <a href="signup.html" id="addAccountButton" class="add-button">
+                <span class="icon">+</span> Add Account
+            </a>
+
+            <!-- Button to view archived accounts -->
+            <button id="viewArchivedButton" class="view-archived-button" onclick="toggleArchivedAccounts()">View Archived Accounts</button>
+
+            <!-- Archived Accounts Section (Initially Hidden) -->
+            <div id="archivedSection" style="display: none; margin-top: 20px;">
+                <h3>Archived Accounts</h3>
+                <table id="archivedTable">
+                    <thead>
+                        <tr>
+                            <th>Full Name</th>
+                            <th>Role</th>
+                            <th>Unarchive</th> <!-- Column for the unarchive action -->
+                        </tr>
+                    </thead>
+                    <tbody id="archivedNames"></tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- JavaScript -->
+    <script>
+        let activeAccounts = [];
+        let archivedAccounts = [];
+        let archivedVisible = false; // Variable to track archived visibility
+
+        document.getElementById('logoutButton').addEventListener('click', function(event) {
+            event.preventDefault(); // Prevent the default link behavior
+            var confirmation = confirm("Are you sure you want to log out?");
+            if (confirmation) {
+                window.location.href = 'HeadAdmin.html'; // Redirect to the login page
+            }
+        });
+
+        // Function to archive an account
+        async function archiveAccount(accountName) {
+            try {
+                await fetch('/archive-account', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ fullname: accountName }),
+                });
+                console.log('Account archived');
+                fetchStaffNames(); // Refresh the list of active staff
+            } catch (err) {
+                console.error('Error archiving account:', err);
+            }
+        }
+
+        // Function to unarchive an account
+        async function unarchiveAccount(accountName) {
+            try {
+                await fetch('/unarchive-account', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ fullname: accountName }),
+                });
+                console.log('Account unarchived');
+                fetchStaffNames(); // Refresh the list of archived staff
+            } catch (err) {
+                console.error('Error unarchiving account:', err);
+            }
+        }
+
+        // Toggle the visibility of archived accounts
+        function toggleArchivedAccounts() {
+            archivedVisible = !archivedVisible;
+            const archivedSection = document.getElementById('archivedSection');
+            const viewArchivedButton = document.getElementById('viewArchivedButton');
+            if (archivedVisible) {
+                archivedSection.style.display = 'block'; // Show archived accounts
+                viewArchivedButton.textContent = 'Hide Archived Accounts'; // Change button text
+            } else {
+                archivedSection.style.display = 'none'; // Hide archived accounts
+                viewArchivedButton.textContent = 'View Archived Accounts'; // Change button text
+            }
+        }
+
+        // Fetch and display the concatenated names
+        async function fetchStaffNames() {
+            try {
+                // Fetch active accounts
+                const activeResponse = await fetch('/admin-staff');
+                const activeData = await activeResponse.json();
+                activeAccounts = activeData;
+
+                // Fetch archived accounts
+                const archivedResponse = await fetch('/archived-staff');
+                const archivedData = await archivedResponse.json();
+                archivedAccounts = archivedData;
+
+                renderTables(); // Re-render both tables
+            } catch (err) {
+                console.error('Error fetching staff names:', err);
+            }
+        }
+
+        // Function to render both active and archived tables
+        function renderTables() {
+            // Render active accounts
+            const staffNamesTable = document.getElementById('staffNames');
+            staffNamesTable.innerHTML = ''; // Clear table
+            activeAccounts.forEach(staff => {
+                const row = document.createElement('tr');
+                const nameCell = document.createElement('td');
+                nameCell.textContent = staff.fullname;
+                row.appendChild(nameCell);
+
+                const roleCell = document.createElement('td');
+                roleCell.textContent = staff.Role;
+                row.appendChild(roleCell);
+
+                const actionCell = document.createElement('td');
+                const archiveButton = document.createElement('button');
+                archiveButton.classList.add('archive-button');
+                archiveButton.innerHTML = '<span class="material-icons">delete</span>';
+                archiveButton.onclick = () => archiveAccount(staff.fullname);
+                actionCell.appendChild(archiveButton);
+                row.appendChild(actionCell);
+
+                staffNamesTable.appendChild(row);
+            });
+
+            // Render archived accounts
+            const archivedNamesTable = document.getElementById('archivedNames');
+            archivedNamesTable.innerHTML = ''; // Clear table
+            archivedAccounts.forEach(staff => {
+                const row = document.createElement('tr');
+                const nameCell = document.createElement('td');
+                nameCell.textContent = staff.fullname;
+                row.appendChild(nameCell);
+
+                const roleCell = document.createElement('td');
+                roleCell.textContent = staff.Role;
+                row.appendChild(roleCell);
+
+                const actionCell = document.createElement('td');
+                const unarchiveButton = document.createElement('button');
+                unarchiveButton.classList.add('unarchive-button');
+                unarchiveButton.innerHTML = '<span class="material-icons">restore</span>';
+                unarchiveButton.onclick = () => unarchiveAccount(staff.fullname);
+                actionCell.appendChild(unarchiveButton);
+                row.appendChild(actionCell);
+
+                archivedNamesTable.appendChild(row);
+            });
+        }
+
+        // Call the function to fetch and display the names when the page loads
+        window.onload = fetchStaffNames;
+    </script>
+</body>
+</html>

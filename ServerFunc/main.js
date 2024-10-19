@@ -8,7 +8,8 @@ const serverRouter = require('./server');
 const FCRouter = require('./FranchiseProcess');
 const OccuProcessRouter = require('./Occuprocess');
 const VerifyingRouter = require('./Verifying');
-const HeadadminRouter = require('./HeadadminLogin');
+const HeadadminRouter = require('./HeadadminLogin'); // Head admin login router
+const HeadadminAccountRouter = require('./HeadAdminAccount'); // Use HeadadminAccount for account management routes
 const pool = require('./db');
 const cors = require('cors');
 const cookieParser = require('cookie-parser');
@@ -48,13 +49,12 @@ app.use(session({
 
 // Use routers for different routes
 app.use('/', loginProcessRouter);  // Login related routes
-app.use('/', serverRouter);
-app.use('/', FCRouter);
-app.use('/', OccuProcessRouter);
-app.use('/', VerifyingRouter);
-app.use('/', HeadadminRouter);
-
-// Test route to check session values
+app.use('/', serverRouter);  // Other server routes
+app.use('/', FCRouter);  // Franchise routes
+app.use('/', OccuProcessRouter);  // Occupation process routes
+app.use('/', VerifyingRouter);  // Verifying routes
+app.use('/', HeadadminRouter);  // Head admin login routes
+app.use('/', HeadadminAccountRouter);  // Use HeadadminAccountRouter for account management
 
 // Start the server
 app.listen(port, () => {

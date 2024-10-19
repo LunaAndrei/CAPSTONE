@@ -10,21 +10,14 @@ const port = 8000;
 // Use cors middleware
 router.use(cors());
 
-const storage = multer.diskStorage({
-    destination: function (req, file, cb) {
-        cb(null, 'uploads/');
-    },
-    filename: function (req, file, cb) {
-        cb(null, Date.now() + path.extname(file.originalname));
-    }
-});
-
+// Use memoryStorage for multer to keep files in memory as buffer
+const storage = multer.memoryStorage();
 const upload = multer({ storage: storage });
 
 router.use(bodyParser.urlencoded({ extended: true }));
 router.use(bodyParser.json());
 
-// Endpoint to handle form submission
+// Endpoint to handle form submission with binary file storage
 router.post('/submitForm', upload.fields([
     { name: 'coe', maxCount: 1 },
     { name: 'healthCard', maxCount: 1 },
@@ -37,11 +30,11 @@ router.post('/submitForm', upload.fields([
         orNumber, orExtension, orDate, orAmount, ctcNumber, ctcDateIssued, ctcPlaceIssued
     } = req.body;
 
-    // Get file paths from multer
-    const coe = req.files['coe'] ? req.files['coe'][0].path : null;
-    const healthCard = req.files['healthCard'] ? req.files['healthCard'][0].path : null;
-    const birthCertificate = req.files['birthCertificate'] ? req.files['birthCertificate'][0].path : null;
-    const officialReceipt = req.files['officialReceipt'] ? req.files['officialReceipt'][0].path : null;
+    // Get binary data (buffers) from multer for each file
+    const coe = req.files['coe'] ? req.files['coe'][0].buffer : null;
+    const healthCard = req.files['healthCard'] ? req.files['healthCard'][0].buffer : null;
+    const birthCertificate = req.files['birthCertificate'] ? req.files['birthCertificate'][0].buffer : null;
+    const officialReceipt = req.files['officialReceipt'] ? req.files['officialReceipt'][0].buffer : null;
 
     try {
         const query = `
@@ -56,6 +49,7 @@ router.post('/submitForm', upload.fields([
             )
         `;
         
+        // Format the CTC date for insertion
         const formattedCtcDateIssued = new Date(ctcDateIssued).toISOString().split('T')[0];
 
         const values = [
@@ -65,6 +59,7 @@ router.post('/submitForm', upload.fields([
             orNumber, orExtension, orDate, orAmount, ctcNumber, formattedCtcDateIssued, ctcPlaceIssued
         ];
 
+        // Insert the form data along with the binary files into the database
         await pool.query(query, values);
         res.send('Form submitted successfully!');
     } catch (err) {
@@ -73,8 +68,7 @@ router.post('/submitForm', upload.fields([
     }
 });
 
-
-// Serve static files from 'uploads' directory
+// Serve static files from 'uploads' directory (though we're not using this with memoryStorage)
 router.use('/uploads', express.static('uploads'));
 
 // Start the server

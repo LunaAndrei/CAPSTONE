@@ -21,9 +21,10 @@ router.post('/signup_process', async (req, res) => {
     const hashedPassword = await bcrypt.hash(password, saltRounds);
 
     const query = `
-      INSERT INTO public."AdminStaff" (id, firstname, "Lastname", email, password, "Role") 
-      VALUES ($1, $2, $3, $4, $5, $6) RETURNING *`;
-    const values = [UserID, Firstname, Lastname, email, hashedPassword, Role];
+  INSERT INTO public."AdminStaff" (firstname, "Lastname", email, password, "Role") 
+  VALUES ($1, $2, $3, $4, $5) RETURNING *`;
+  const values = [Firstname, Lastname, email, hashedPassword, Role];
+
 
     const result = await pool.query(query, values);
     console.log('User added:', result.rows[0]);

@@ -3,10 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin Dashboard</title>
+    <title>HeadAdmin MTOP</title>
     <link rel="icon" href="Pic/favicon.png">
-    <link rel="stylesheet" href="HeadDashboard.css">
-    <link href="https://fonts.googleapis.com/css2?family=Arial:wght@400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="HeadadminAccount.css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"/>
+    <link rel="stylesheet" href="https://unpkg.com/boxicons/css/boxicons.min.css">
+    <script src="https://code.iconify.design/2/2.1.0/iconify.min.js"></script> <!-- Google Material Icons -->
 </head>
 <body>
     <div class="dashboard-container">
@@ -15,15 +18,17 @@
             <img src="Pic/favicon.png" alt="Profile Picture">
             <h2>Admin Panel</h2>
             <ul>
-                <li><a href="#" class="active">Dashboard</a></li>
-                <li><a href="#">Account</a></li>
+                <li><a href="HeadDashboard.html"  class="active">Dashboard</a></li>
+                <li><a href="HeadadminAccount.html"><i class="fas fa-user"></i> Account</a></li>
                 <li><a href="#">Verifying Documents</a></li>
-                <li><a href="#">Settings</a></li>
+                <li><a href="#"><i class="fas fa-cog"></i>Settings</a></li>
             </ul>
             
             <!-- Logout Button -->
-            <a href="#" id="logoutButton" class="logout">Logout</a> 
+            <a href="#" id="logoutButton" class="logout"><i class="fas fa-sign-out-alt"></i> Logout</a> 
+         
         </div>
+
 
         <!-- Main Content -->
         <div class="main-content">
