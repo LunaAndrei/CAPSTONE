@@ -225,26 +225,79 @@ h3 {
 
 
 /* Adjust spacing for the table headers and columns */
+#archivedInspectorTable, #archivedTable {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: #fff;
+    box-shadow: var(--box-shadow);
+    border-radius: 8px;
+    overflow: hidden;
+    margin-top: 20px;
+}
+
+#archivedInspectorTable th, #archivedInspectorTable td, 
 #archivedTable th, #archivedTable td {
-    padding: 12px 20px; /* Increased padding for more space between columns */
+    padding: 12px 20px;
     text-align: left;
     border-bottom: 1px solid #ddd;
 }
 
-#archivedTable th {
+#archivedInspectorTable th, #archivedTable th {
     background-color: rgb(191, 53, 53);
     color: var(--text-color);
     font-weight: 600;
     text-transform: uppercase;
 }
 
-#archivedTable td {
+#archivedInspectorTable td, #archivedTable td {
     font-size: 18px;
     color: #333;
-    padding-left: 20px; /* Add padding to the left for better spacing */
 }
+
+
 
 .material-icons {
     vertical-align: middle;
     margin-left: 10px; /* Add margin-left to the icon to create space from the role text */
+}
+
+/* Change Password Button */
+.change-password-button {
+    background-color: #ff9900; /* Orange color for the button */
+    color: var(--text-color); /* White text */
+    text-decoration: none;
+    padding: 8px 15px;
+    font-size: 14px;
+    border-radius: 4px;
+    margin-top: 20px;
+    display: inline-block;
+    transition: background-color 0.3s;
+}
+
+.change-password-button:hover {
+    background-color: #f6b14a; /* Lighter shade on hover */
+}
+
+.change-password-button .icon {
+    margin-right: 5px; /* Spacing between icon and text */
+}
+
+/* Filter and Back Buttons */
+.filter-button {
+    background-color: #007bff; /* Blue color for the button */
+    color: var(--text-color); /* White text */
+    padding: 8px 15px;
+    font-size: 14px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    margin: 10px 0;
+    position: relative;
+    top: -10px; /* Position at the top right of the table */
+    float: right;
+    transition: background-color 0.3s;
+}
+
+.filter-button:hover {
+    background-color: #0056b3;
 }

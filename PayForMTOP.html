@@ -4,13 +4,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Payment for MTOP</title>
-    <link rel="stylesheet" href="PayOcuPermit.css">
+    <link rel="stylesheet" href="PayForMTOP.css">
     <link rel="icon" href="Pic/favicon.png">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"/>
     <link rel="stylesheet" href="https://unpkg.com/boxicons/css/boxicons.min.css">
     <script src="https://code.iconify.design/2/2.1.0/iconify.min.js"></script>
 </head>
 <body>
+
 
     <div class="sidebar">
         <img src="Pic/favicon.png" alt="Logo">
@@ -31,79 +32,113 @@
         </ul>
     </div>
 
+
     <div class="main-content">
         <h1>Payment for MTOP</h1>
+
 
         <div class="search-container">
             <label for="search-id">Search:</label>
             <input type="text" id="search-id" placeholder="Search Motor Operator ID" required>
             <button class="search-button">Search</button>
+            <button class="view-receipt-button">View Receipt</button>
         </div>
 
+
         <div class="details-container">
-            <div class="info-container">
+            <!-- First Row -->
+            <div>
                 <label for="id"><strong>MO_ID:</strong></label>
-                <input type="text" id="id" value="10012">
-
+                <input type="text" id="id">
+            </div>
+            <div>
                 <label for="name"><strong>Name:</strong></label>
-                <input type="text" id="name" value="Lagunsing, John Carlo">
-
+                <input type="text" id="name">
+            </div>
+            <div>
                 <label for="address"><strong>Address:</strong></label>
-                <input type="text" id="address" value="Buli, Taal, Batangas">
-
+                <input type="text" id="address">
+            </div>
+            <div>
                 <label for="category"><strong>Category:</strong></label>
                 <select id="category">
                     <option value="Tricycle Permit - New (Operator)">Tricycle Permit - New</option>
                     <option value="Tricycle Permit - Renewal (Operator)">Tricycle Permit - Renewal</option>
                     <option value="Tricycle Permit - Both (Operator)">Tricycle Permit - Both</option>
                 </select>
-                
+            </div>
+
+
+            <!-- Second Row -->
+            <div>
                 <label for="filling-fee"><strong>Filling Fee:</strong></label>
                 <input type="text" id="filling-fee" value="₱22.00">
-
+            </div>
+            <div>
                 <label for="business-permit"><strong>Business Permit:</strong></label>
                 <input type="text" id="business-permit" value="₱33.00">
-
+            </div>
+            <div>
                 <label for="mtop"><strong>MTOP:</strong></label>
                 <input type="text" id="mtop" value="₱165.00">
-
+            </div>
+            <div>
                 <label for="pol-med-mayor"><strong>Pol/Med/Mayor:</strong></label>
                 <input type="text" id="pol-med-mayor" value="₱99.00">
+            </div>
 
+
+            <!-- Third Row -->
+            <div>
                 <label for="plate-number"><strong>Plate No./Sticker No.:</strong></label>
                 <input type="text" id="plate-number" value="₱130.00">
-
+            </div>
+            <div>
                 <label for="inspection-fee"><strong>Inspection Fee:</strong></label>
                 <input type="text" id="inspection-fee" value="₱55.00">
-
+            </div>
+            <div>
                 <label for="id-card"><strong>ID Card:</strong></label>
                 <input type="text" id="id-card" value="₱0.00">
-
+            </div>
+            <div>
                 <label for="sec-fee"><strong>Sec Fee:</strong></label>
                 <input type="text" id="sec-fee" value="₱37.00">
+            </div>
 
+
+            <!-- Fourth Row -->
+            <div>
                 <label for="dst"><strong>DST:</strong></label>
                 <input type="text" id="dst" value="₱0.00">
-
+            </div>
+            <div>
                 <label for="supervision-fee"><strong>Supervision Fee:</strong></label>
                 <input type="text" id="supervision-fee" value="₱40.00">
-
+            </div>
+            <div>
                 <label for="penalty"><strong>Penalty:</strong></label>
                 <input type="text" id="penalty" value="₱0.00">
             </div>
 
+
+            <!-- Payment Section -->
             <div class="payment-container">
                 <label for="total"><strong>Total:</strong></label>
                 <input type="text" id="total" value="₱581.00">
 
+
                 <label for="units"><strong>Units:</strong></label>
                 <input type="number" id="units" value="1">
+
 
                 <label for="amount"><strong>Amount:</strong></label>
                 <input type="number" id="amount">
 
+
                 <label for="change"><strong>Change:</strong></label>
                 <input type="text" id="change" readonly>
+
 
                 <button id="pay-button" class="pay-button">PAY</button>
                 <a href="payment.html" style="text-decoration: none;">
@@ -113,6 +148,7 @@
         </div>
     </div>
 
-    <script src="Javascipt\Calcu.js"></script>
+
+    <script src="Javascipt/Calcu.js"></script>
 </body>
 </html>

@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Inspector Signup</title>
+  <link rel="icon" href="Pic/favicon.png">
+  <link rel="stylesheet" href="inpectorchangepass.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+</head>
+<body>
+  <div class="overlay"></div>
+  <div class="center">
+    <div class="container">
+      <div class="text">Changing Inspector Password</div>
+      <form id="signupForm">
+        <p id="error-message" style="color: red;"></p>
+        <div class="data">
+          <label for="email">Email Address</label>
+          <input type="email" name="email" id="email" required />
+        </div>
+        <div class="signup-link">
+          Only HeadAdmin can Access this part. Unauthorized Personnel is Strictly Prohibited.
+        </div>
+        <div class="btn">
+          <button type="submit">Change Password</button>
+        </div>
+      </form>
+      <p id="error-message" style="color: red;"></p>
+    </div>
+  </div>
+
+  <script>
+    document.getElementById('signupForm').addEventListener('submit', async (event) => {
+      event.preventDefault();
+      const email = document.getElementById('email').value;
+
+      try {
+        const response = await fetch('/checkEmail', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ email })
+        });
+
+        if (response.redirected) {
+            localStorage.setItem('email', email);
+          window.location.href = "inspectorchangepass2.html"; // Redirects to changepass2 if email exists
+        } else if (response.status === 404) {
+          const data = await response.json();
+          document.getElementById('error-message').textContent = data.message;
+        } else {
+          document.getElementById('error-message').textContent = 'An error occurred. Please try again.';
+        }
+      } catch (error) {
+        console.error('Error:', error);
+        document.getElementById('error-message').textContent = 'Failed to connect to the server.';
+      }
+    });
+  </script>
+</body>
+</html>

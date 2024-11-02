@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -11,6 +12,7 @@
     <script src="https://code.iconify.design/2/2.1.0/iconify.min.js"></script>
 </head>
 <body>
+
 
     <div class="sidebar">
         <img src="Pic/favicon.png" alt="Logo">
@@ -31,8 +33,10 @@
         </ul>
     </div>
 
+
     <div class="main-content">
         <h1>Payment for Occupational Permit</h1>
+
 
         <div class="search-container">
             <label for="search-id">Search:</label>
@@ -41,36 +45,46 @@
             <button class="view-receipt-button">View Receipt</button>
         </div>
 
+
         <div class="details-container">
             <div class="info-container">
                 <label for="id"><strong>ID:</strong></label>
-                <input type="text" id="id" value="" required>
+                <input type="text" id="id" class="reduced-width" required>
+
 
                 <label for="name"><strong>Name:</strong></label>
-                <input type="text" id="name" value="" required>
+                <input type="text" id="name" class="reduced-width" required>
+
 
                 <label for="address"><strong>Address:</strong></label>
-                <input type="text" id="address" value="" required>
+                <input type="text" id="address" class="reduced-width" required>
+
 
                 <label for="date-issued"><strong>Date Issued:</strong></label>
-                <input type="date" id="date-issued" value="" required>
+                <input type="date" id="date-issued" class="reduced-width" required>
+
 
                 <label for="expiration-date"><strong>Expiration Date:</strong></label>
-                <input type="date" id="expiration-date" value="" required>
+                <input type="date" id="expiration-date" class="reduced-width" required>
+
 
                 <label for="fee"><strong>Occupational Fee:</strong></label>
                 <input type="text" id="fee" value="₱170.00" required>
             </div>
 
+
             <div class="payment-container">
                 <label for="total"><strong>Total:</strong></label>
-                <input type="text" id="total" value="₱170.00" readonly>
+                <input type="text" id="total" class="reduced-width" value="₱170.00" readonly>
+
 
                 <label for="amount"><strong>Amount:</strong></label>
-                <input type="number" id="amount" oninput="calculateChange(); checkInputs();" required>
+                <input type="number" id="amount" class="reduced-width" oninput="calculateChange(); checkInputs();" required>
+
 
                 <label for="change"><strong>Change:</strong></label>
-                <input type="text" id="change" readonly>
+                <input type="text" id="change" class="reduced-width" readonly>
+
 
                 <button id="pay-button" class="pay-button" disabled>PAY</button>
                 <a href="payment.html" style="text-decoration: none;">
@@ -80,6 +94,7 @@
         </div>
     </div>
 
-    <script src="Javascipt\Calcu.js"></script>
+
+    <script src="Javascipt/Calcu.js"></script>
 </body>
 </html>

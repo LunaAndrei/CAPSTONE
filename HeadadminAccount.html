@@ -9,7 +9,7 @@
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"/>
     <link rel="stylesheet" href="https://unpkg.com/boxicons/css/boxicons.min.css">
-    <script src="https://code.iconify.design/2/2.1.0/iconify.min.js"></script> <!-- Google Material Icons -->
+    <script src="https://code.iconify.design/2/2.1.0/iconify.min.js"></script>
 </head>
 <body>
     <div class="dashboard-container">
@@ -26,18 +26,25 @@
             
             <!-- Logout Button -->
             <a href="#" id="logoutButton" class="logout"><i class="fas fa-sign-out-alt"></i> Logout</a> 
-         
         </div>
 
         <!-- Main Content -->
         <div class="mainContent">
-            <h3>Admin Staff List</h3>
+            <h3 id="tableTitle">Admin Staff List</h3>
+            
+            <!-- Filter by Inspector Button -->
+            <button id="filterInspectorButton" class="filter-button" onclick="filterByInspector()">Filter the Inspector List</button>
+            
+            <!-- Back to Admin Staff List Button (Initially hidden) -->
+            <button id="backToAdminListButton" class="filter-button" onclick="showAdminStaffList()" style="display: none;">Back to Admin Staff List</button>
+
+            
             <table id="staffTable">
                 <thead>
                     <tr>
                         <th>Full Name</th>
                         <th>Role</th>
-                        <th>Archive</th> <!-- Column for the archive action -->
+                        <th>Archive</th>
                     </tr>
                 </thead>
                 <tbody id="staffNames"></tbody>
@@ -45,11 +52,40 @@
 
             <!-- Add Account Button below the table -->
             <a href="signup.html" id="addAccountButton" class="add-button">
-                <span class="icon">+</span> Add Account
+                <span class="icon">+</span> Add Admin Account
             </a>
 
+            <a href="Signupforinspector.html" id="addInspectorButton" class="add-button" style="display: none;">
+                <span class="icon">+</span> Add Inspector Account
+            </a>
+
+            <button id="viewArchivedInspectorButton" class="view-archived-button" onclick="toggleArchivedInspectorSection()" style="display: none;">
+                View Archived Inspector Accounts
+            </button>
+            
+            <a href="inpectorchangepass.html" id="changePasswordInspectorButton" class="change-password-button" style="display: none;">
+                <span class="icon">🔒</span> Change Password
+            </a>
+
+            <div id="archivedInspectorSection" style="display: none; margin-top: 20px;">
+                <h3>Archived Inspector Accounts</h3>
+                <table id="archivedInspectorTable">
+                    <thead>
+                        <tr>
+                            <th>Full Name</th>
+                            <th>Unarchive</th>
+                        </tr>
+                    </thead>
+                    <tbody id="archivedInspectorNames"></tbody>
+                </table>
+            </div>
             <!-- Button to view archived accounts -->
             <button id="viewArchivedButton" class="view-archived-button" onclick="toggleArchivedAccounts()">View Archived Accounts</button>
+
+            <!-- Button to change password -->
+            <a href="forgotpassAdmin.html" id="changePasswordButton" class="change-password-button">
+                <span class="icon">🔒</span> Change Password
+            </a>
 
             <!-- Archived Accounts Section (Initially Hidden) -->
             <div id="archivedSection" style="display: none; margin-top: 20px;">
@@ -59,7 +95,7 @@
                         <tr>
                             <th>Full Name</th>
                             <th>Role</th>
-                            <th>Unarchive</th> <!-- Column for the unarchive action -->
+                            <th>Unarchive</th>
                         </tr>
                     </thead>
                     <tbody id="archivedNames"></tbody>
@@ -72,86 +108,358 @@
     <script>
         let activeAccounts = [];
         let archivedAccounts = [];
-        let archivedVisible = false; // Variable to track archived visibility
+        let archivedVisible = false;
 
         document.getElementById('logoutButton').addEventListener('click', function(event) {
-            event.preventDefault(); // Prevent the default link behavior
+            event.preventDefault();
             var confirmation = confirm("Are you sure you want to log out?");
             if (confirmation) {
-                window.location.href = 'HeadAdmin.html'; // Redirect to the login page
+                window.location.href = 'HeadAdmin.html';
             }
         });
+       
+        function filterByInspector() {
+    const addAccountButton = document.getElementById('addAccountButton');
+    const viewArchivedButton = document.getElementById('viewArchivedButton');
+    const viewArchivedInspectorButton = document.getElementById('viewArchivedInspectorButton');
+    const changePasswordButton = document.getElementById('changePasswordButton');
+    const filterInspectorButton = document.getElementById('filterInspectorButton');
+    const backToAdminListButton = document.getElementById('backToAdminListButton');
+    const addInspectorButton = document.getElementById('addInspectorButton');
+    const changePasswordInspectorButton = document.getElementById('changePasswordInspectorButton');
+    const tableTitle = document.getElementById('tableTitle');
+    const archivedTable = document.getElementById('archivedSection');
 
-        // Function to archive an account
-        async function archiveAccount(accountName) {
-            try {
-                await fetch('/archive-account', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({ fullname: accountName }),
-                });
-                console.log('Account archived');
-                fetchStaffNames(); // Refresh the list of active staff
-            } catch (err) {
-                console.error('Error archiving account:', err);
-            }
+    //archivedTable
+
+    // Hide Admin-specific buttons
+    addAccountButton.style.display = 'none';
+    viewArchivedButton.style.display = 'none';
+    changePasswordButton.style.display = 'none';
+    filterInspectorButton.style.display = 'none';
+    archivedTable.style.display = 'none';
+
+    // Show Inspector-specific buttons
+    backToAdminListButton.style.display = 'inline-block';
+    addInspectorButton.style.display = 'inline-block';
+    changePasswordInspectorButton.style.display = 'inline-block';
+    viewArchivedInspectorButton.style.display = 'inline-block';
+
+    // Update title for the Inspector view
+    tableTitle.textContent = 'Inspector List';
+
+    // Adjust table headers
+    const tableHeader = document.getElementById('staffTable').querySelector('thead tr');
+    tableHeader.innerHTML = `
+        <th>Full Name</th>
+        <th>Archive</th>
+    `;
+
+    // Fetch and display inspectors
+    fetchInspectors();
+}
+
+function showAdminStaffList() {
+    const addAccountButton = document.getElementById('addAccountButton');
+    const viewArchivedButton = document.getElementById('viewArchivedButton');
+    const viewArchivedInspectorButton = document.getElementById('viewArchivedInspectorButton');
+    const changePasswordButton = document.getElementById('changePasswordButton');
+    const filterInspectorButton = document.getElementById('filterInspectorButton');
+    const backToAdminListButton = document.getElementById('backToAdminListButton');
+    const addInspectorButton = document.getElementById('addInspectorButton');
+    const changePasswordInspectorButton = document.getElementById('changePasswordInspectorButton');
+    const tableTitle = document.getElementById('tableTitle');
+    const archivedInspectorSection = document.getElementById('archivedInspectorSection');
+
+    // Show Admin-specific buttons
+    addAccountButton.style.display = 'inline-block';
+    viewArchivedButton.style.display = 'inline-block';
+    changePasswordButton.style.display = 'inline-block';
+    filterInspectorButton.style.display = 'inline-block';
+
+    // Hide Inspector-specific buttons
+    backToAdminListButton.style.display = 'none';
+    addInspectorButton.style.display = 'none';
+    changePasswordInspectorButton.style.display = 'none';
+    viewArchivedInspectorButton.style.display = 'none';
+    archivedInspectorSection.style.display = 'none';
+
+    // Update title for the Admin Staff view
+    tableTitle.textContent = 'Admin Staff List';
+
+    // Adjust table headers
+    const tableHeader = document.getElementById('staffTable').querySelector('thead tr');
+    tableHeader.innerHTML = `
+        <th>Full Name</th>
+        <th>Role</th>
+        <th>Archive</th>
+    `;
+
+    // Fetch and display admin staff list
+    fetchStaffNames();
+}
+
+
+function fetchInspectors() {
+    fetch('/inspectors')
+        .then(response => response.json())
+        .then(data => renderInspectorTable(data))
+        .catch(error => console.error('Error fetching inspectors:', error));
+}
+
+function renderInspectorTable(inspectors) {
+    const inspectorTable = document.getElementById('staffNames');
+    inspectorTable.innerHTML = ''; // Clear current table data
+
+    inspectors.forEach(inspector => {
+        const row = document.createElement('tr');
+
+        const nameCell = document.createElement('td');
+        nameCell.textContent = inspector.name;
+        row.appendChild(nameCell);
+
+        const archiveCell = document.createElement('td');
+        const archiveButton = document.createElement('button');
+        archiveButton.classList.add('archive-button');
+        archiveButton.innerHTML = '<span class="material-icons">delete</span>';
+        archiveButton.onclick = () => archiveInspector(inspector.name); // Archive function
+        archiveCell.appendChild(archiveButton);
+
+        row.appendChild(archiveCell);
+        inspectorTable.appendChild(row);
+    });
+}
+
+
+
+
+
+
+async function archiveInspector(inspectorName) {
+    try {
+        const response = await fetch('/archive-inspector', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ fullname: inspectorName }),
+        });
+
+        if (response.ok) {
+            fetchInspectors(); // Refresh inspector list
+            fetchArchivedInspectors(); // Refresh archived inspector list
+        } else {
+            console.error('Failed to archive inspector');
         }
+    } catch (err) {
+        console.error('Error archiving inspector:', err);
+    }
+}
 
-        // Function to unarchive an account
-        async function unarchiveAccount(accountName) {
-            try {
-                await fetch('/unarchive-account', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({ fullname: accountName }),
-                });
-                console.log('Account unarchived');
-                fetchStaffNames(); // Refresh the list of archived staff
-            } catch (err) {
-                console.error('Error unarchiving account:', err);
-            }
+// Toggle archived inspectors section visibility
+function toggleArchivedInspectorSection() {
+    const archivedSection = document.getElementById('archivedSection');
+    const archivedInspectorSection = document.getElementById('archivedInspectorSection');
+
+    archivedSection.style.display = 'none'; // Hide Admin Archived Accounts section
+    archivedInspectorSection.style.display = archivedInspectorSection.style.display === 'none' ? 'block' : 'none';
+    
+    if (archivedInspectorSection.style.display === 'block') {
+        fetchArchivedInspectors(); // Refresh archived inspector list
+    }
+}
+
+
+// Fetch and render archived inspectors
+async function fetchArchivedInspectors() {
+    try {
+        const response = await fetch('/archived-inspectors');
+        const data = await response.json();
+
+        if (response.ok) {
+            renderArchivedInspectorTable(data);
+        } else {
+            console.error('Error fetching archived inspectors:', data.error);
         }
+    } catch (error) {
+        console.error('Error fetching archived inspectors:', error);
+    }
+}
 
-        // Toggle the visibility of archived accounts
-        function toggleArchivedAccounts() {
-            archivedVisible = !archivedVisible;
-            const archivedSection = document.getElementById('archivedSection');
-            const viewArchivedButton = document.getElementById('viewArchivedButton');
-            if (archivedVisible) {
-                archivedSection.style.display = 'block'; // Show archived accounts
-                viewArchivedButton.textContent = 'Hide Archived Accounts'; // Change button text
-            } else {
-                archivedSection.style.display = 'none'; // Hide archived accounts
-                viewArchivedButton.textContent = 'View Archived Accounts'; // Change button text
-            }
+function renderArchivedInspectorTable(archivedInspectors) {
+    const archivedTable = document.getElementById('archivedInspectorNames');
+    archivedTable.innerHTML = ''; // Clear existing rows
+
+    archivedInspectors.forEach(inspector => {
+        const row = document.createElement('tr');
+
+        const nameCell = document.createElement('td');
+        nameCell.textContent = inspector.name;
+        row.appendChild(nameCell);
+
+        const actionCell = document.createElement('td');
+        const unarchiveButton = document.createElement('button');
+        unarchiveButton.classList.add('unarchive-button');
+        unarchiveButton.innerHTML = '<span class="material-icons">restore</span>';
+        unarchiveButton.onclick = () => unarchiveInspector(inspector.name); // Corrected for unarchive function
+        actionCell.appendChild(unarchiveButton);
+
+        row.appendChild(actionCell);
+        archivedTable.appendChild(row);
+    });
+}
+// Unarchive an inspector
+async function unarchiveInspector(inspectorName) {
+    try {
+        const response = await fetch('/unarchive-inspector', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ fullname: inspectorName }),
+        });
+
+        if (response.ok) {
+            fetchInspectors(); // Refresh inspector list
+            fetchArchivedInspectors(); // Refresh archived inspector list
+        } else {
+            console.error('Failed to unarchive inspector');
         }
+    } catch (err) {
+        console.error('Error unarchiving inspector:', err);
+    }
+}
 
-        // Fetch and display the concatenated names
+
+
+
+
         async function fetchStaffNames() {
             try {
-                // Fetch active accounts
                 const activeResponse = await fetch('/admin-staff');
                 const activeData = await activeResponse.json();
                 activeAccounts = activeData;
 
-                // Fetch archived accounts
-                const archivedResponse = await fetch('/archived-staff');
-                const archivedData = await archivedResponse.json();
-                archivedAccounts = archivedData;
-
-                renderTables(); // Re-render both tables
+                renderTables();
             } catch (err) {
                 console.error('Error fetching staff names:', err);
             }
         }
+// Toggle the visibility of archived accounts
+function toggleArchivedAccounts() {
+    archivedVisible = !archivedVisible;
+    const archivedSection = document.getElementById('archivedSection');
+    const viewArchivedButton = document.getElementById('viewArchivedButton');
 
-        // Function to render both active and archived tables
+    if (archivedVisible) {
+        // Show archived accounts and change button text
+        archivedSection.style.display = 'block';
+        viewArchivedButton.textContent = 'Hide Archived Accounts';
+
+        // Fetch archived accounts and display them
+        fetchArchivedAccounts();
+    } else {
+        // Hide archived accounts and reset button text
+        archivedSection.style.display = 'none';
+        viewArchivedButton.textContent = 'View Archived Accounts';
+    }
+}
+
+// Fetch archived accounts from the server and render them in the table
+async function fetchArchivedAccounts() {
+    try {
+        const response = await fetch('/archived-staff');
+        const data = await response.json();
+
+        if (response.ok) {
+            renderArchivedAccounts(data);
+        } else {
+            console.error('Error fetching archived accounts:', data.error);
+        }
+    } catch (error) {
+        console.error('Error fetching archived accounts:', error);
+    }
+}
+
+// Render archived accounts in the archived table
+function renderArchivedAccounts(archivedAccounts) {
+    const archivedNamesTable = document.getElementById('archivedNames');
+    archivedNamesTable.innerHTML = ''; // Clear existing rows
+
+    archivedAccounts.forEach(staff => {
+        const row = document.createElement('tr');
+
+        // Full Name cell
+        const nameCell = document.createElement('td');
+        nameCell.textContent = staff.fullname;
+        row.appendChild(nameCell);
+
+        // Role cell
+        const roleCell = document.createElement('td');
+        roleCell.textContent = staff.Role;
+        row.appendChild(roleCell);
+
+        // Unarchive action cell with a button
+        const actionCell = document.createElement('td');
+        const unarchiveButton = document.createElement('button');
+        unarchiveButton.classList.add('unarchive-button');
+        unarchiveButton.innerHTML = '<span class="material-icons">restore</span>';
+        unarchiveButton.onclick = () => unarchiveAccount(staff.fullname); // Call unarchive function with fullname
+        actionCell.appendChild(unarchiveButton);
+        row.appendChild(actionCell);
+
+        archivedNamesTable.appendChild(row);
+    });
+}
+
+// Function to unarchive an account
+async function unarchiveAccount(accountName) {
+    try {
+        // Send request to unarchive account by full name
+        const response = await fetch('/unarchive-account', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ fullname: accountName }),
+        });
+
+        if (response.ok) {
+            console.log('Account unarchived successfully');
+            fetchArchivedAccounts(); // Refresh the archived staff list to reflect changes
+            fetchStaffNames(); // Also refresh the active staff list
+        } else {
+            console.error('Failed to unarchive account');
+        }
+    } catch (err) {
+        console.error('Error unarchiving account:', err);
+    }
+}
+
+// Function to archive an account
+async function archiveAccount(accountName) {
+    try {
+        // Send request to archive account by full name
+        const response = await fetch('/archive-account', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ fullname: accountName }),
+        });
+
+        if (response.ok) {
+            console.log('Account archived successfully');
+            fetchStaffNames(); // Refresh the active staff list to reflect changes
+        } else {
+            console.error('Failed to archive account');
+        }
+    } catch (err) {
+        console.error('Error archiving account:', err);
+    }
+}
+
         function renderTables() {
-            // Render active accounts
             const staffNamesTable = document.getElementById('staffNames');
             staffNamesTable.innerHTML = ''; // Clear table
             activeAccounts.forEach(staff => {
@@ -174,33 +482,8 @@
 
                 staffNamesTable.appendChild(row);
             });
-
-            // Render archived accounts
-            const archivedNamesTable = document.getElementById('archivedNames');
-            archivedNamesTable.innerHTML = ''; // Clear table
-            archivedAccounts.forEach(staff => {
-                const row = document.createElement('tr');
-                const nameCell = document.createElement('td');
-                nameCell.textContent = staff.fullname;
-                row.appendChild(nameCell);
-
-                const roleCell = document.createElement('td');
-                roleCell.textContent = staff.Role;
-                row.appendChild(roleCell);
-
-                const actionCell = document.createElement('td');
-                const unarchiveButton = document.createElement('button');
-                unarchiveButton.classList.add('unarchive-button');
-                unarchiveButton.innerHTML = '<span class="material-icons">restore</span>';
-                unarchiveButton.onclick = () => unarchiveAccount(staff.fullname);
-                actionCell.appendChild(unarchiveButton);
-                row.appendChild(actionCell);
-
-                archivedNamesTable.appendChild(row);
-            });
         }
 
-        // Call the function to fetch and display the names when the page loads
         window.onload = fetchStaffNames;
     </script>
 </body>

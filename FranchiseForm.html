@@ -39,21 +39,19 @@
         </div>
 
         <form action="http://localhost:8000/submit" method="POST" enctype="multipart/form-data">
+            <!-- Application Type Section -->
             <div class="form-group">
                 <div class="form-field">
-                    <label for="applicationType" class="application-type-label">Application Type:</label>
-                    <div class="radio-container">
-                        <label for="newApplication">New</label>
-                        <input type="radio" id="newApplication" name="applicationType" value="new" required>
-                    </div>
-                    <div class="radio-container">
-                        <label for="renewalApplication">Renewal</label>
-                        <input type="radio" id="renewalApplication" name="applicationType" value="renewal" required>
-                    </div>
+                    <label for="applicationType">Application Type:</label>
+                    <select id="applicationType" name="applicationType" required>
+                        <option value="new">New</option>
+                        <option value="renewal">Renewal</option>
+                    </select>
                 </div>
             </div>
 
-            <div class="form-group">
+            <!-- Personal Details Section -->
+            <div class="personal-details">
                 <div class="form-field">
                     <label for="nameApplicant">Name of Applicant</label>
                     <input type="text" id="nameApplicant" name="nameApplicant" required>
@@ -62,38 +60,34 @@
                     <label for="date">Date</label>
                     <input type="date" id="date" name="date" required>
                 </div>
-            </div>
-
-            <div class="form-group">
                 <div class="form-field">
                     <label for="route">Route</label>
                     <input type="text" id="route" name="route" required>
                 </div>
-            </div>
-
-            <div class="form-group address-group">
-                <div class="form-field address-field">
-                    <label for="barangay">Barangay</label>
-                    <input type="text" id="barangay" name="barangay" required>
-                </div>
-                <div class="form-field address-field">
-                    <label for="municipality">Municipality</label>
-                    <input type="text" id="municipality" name="municipality" required>
-                </div>
-                <div class="form-field address-field">
-                    <label for="province">Province</label>
-                    <input type="text" id="province" name="province" required>
-                </div>
-            </div>
-
-            <div class="form-group">
                 <div class="form-field">
                     <label for="occupation">Occupation</label>
                     <input type="text" id="occupation" name="occupation" required>
                 </div>
             </div>
 
-            <div class="form-group">
+            <!-- Address Section -->
+            <div class="address-group">
+                <div class="form-field">
+                    <label for="barangay">Barangay</label>
+                    <input type="text" id="barangay" name="barangay" required>
+                </div>
+                <div class="form-field">
+                    <label for="municipality">Municipality</label>
+                    <input type="text" id="municipality" name="municipality" required>
+                </div>
+                <div class="form-field">
+                    <label for="province">Province</label>
+                    <input type="text" id="province" name="province" required>
+                </div>
+            </div>
+
+            <!-- Ownership and Units Section -->
+            <div class="ownership-units-group">
                 <div class="form-field">
                     <label for="typeOwnership">Type of Ownership</label>
                     <select id="typeOwnership" name="typeOwnership" required>
@@ -102,46 +96,43 @@
                         <option value="corporation">Corporation</option>
                     </select>
                 </div>
-            </div>
-
-            <div class="form-group">
                 <div class="form-field">
                     <label for="numUnits">Number of Units</label>
                     <input type="number" id="numUnits" name="numUnits" required>
                 </div>
             </div>
 
-            <div class="form-group">
-                <div class="form-field">
-                    <label for="unitDescription">Description of Ready Units</label>
-                    <table class="unit-table" id="unitTable">
-                        <thead>
-                            <tr>
-                                <th>Name</th>
-                                <th>Model</th>
-                                <th>Motor No.</th>
-                                <th>Chassis No.</th>
-                                <th>Plate No.</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td><input type="text" name="unitName[]" required></td>
-                                <td><input type="text" name="unitModel[]" required></td>
-                                <td><input type="text" name="unitMotorNo[]" required></td>
-                                <td><input type="text" name="unitChassisNo[]" required></td>
-                                <td><input type="text" name="unitPlateNo[]" required></td>
-                            </tr>
-                        </tbody>
-                    </table>
-                    <div class="button-container">
-                        <button type="button" class="add-unit-button" onclick="addUnitRow()">Add Unit</button>
-                        <button type="button" class="deletebutton" onclick="deleteUnitRow()">Delete Unit</button>
-
-                    </div>
+            <!-- Units Table -->
+            <div class="form-field">
+                <label for="unitDescription">Description of Ready Units</label>
+                <table class="unit-table" id="unitTable">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Model</th>
+                            <th>Motor No.</th>
+                            <th>Chassis No.</th>
+                            <th>Plate No.</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><input type="text" name="unitName[]" required></td>
+                            <td><input type="text" name="unitModel[]" required></td>
+                            <td><input type="text" name="unitMotorNo[]" required></td>
+                            <td><input type="text" name="unitChassisNo[]" required></td>
+                            <td><input type="text" name="unitPlateNo[]" required></td>
+                        </tr>
+                    </tbody>
+                </table>
+                <div class="button-container">
+                    <button type="button" class="add-unit-button" onclick="addUnitRow()">Add Unit</button>
+                    <button type="button" class="deletebutton" onclick="deleteUnitRow()">Delete Unit</button>
                 </div>
             </div>
-            <div class="form-group">
+
+            <!-- Driver Details -->
+                        <div class="driver-license-group">
                 <div class="form-field">
                     <label for="officialDriver">Name of Official Driver</label>
                     <input type="text" id="officialDriver" name="officialDriver" required>
@@ -152,28 +143,23 @@
                 </div>
             </div>
 
-            <div class="form-group checkbox-container">
-                <input type="checkbox" id="consent" name="consent" required>
-                <label for="consent" class="consent-text">
-                    I hereby certify that all the information provided are true and correct based on personal knowledge of facts and further consent to the collection, use, and processing of my personal information by Municipal Government of San Luis for the purpose of processing my Occupational Permit application. I understand my information may be shared with relevant authorities and service providers as necessary. I acknowledge my rights regarding my personal data as outlined by data privacy laws.
-                </label>
-            </div>
-            
-                    
-            
+            <!-- Certification Section -->
+            <div class="certification-section">
+                <div class="checkbox-container">
+                    <input type="checkbox" id="consent" name="consent" required>
+                    <label for="consent" class="consent-text">
+                        I hereby certify that all the information provided are true and correct based on personal knowledge of facts and further consent to the collection, use, and processing of my personal information by Municipal Government of San Luis for the purpose of processing my Occupational Permit application.
+                    </label>
+                </div>
 
-            <div class="form-group">
                 <p>
                     <strong>San Luis, Batangas dated</strong> <input type="date" id="certificationDate" name="certificationDate">
                 </p>
                 <p>
                     <strong>Signature of Applicant</strong> <input type="file" id="signatureApplicant" name="signatureApplicant">
                 </p>
-            </div>
-            
-            <div class="form-group">
-                <label for="subscribed">Subscribed and sworn to before me</label>
                 <p>
+                    <strong>Subscribed and sworn to before me:</strong>
                     This <input type="text" id="subscribedDate" name="subscribedDay" placeholder="Day" required> day of <input type="text" id="subscribedMonth" name="subscribedMonth" placeholder="Month" required>, <input type="text" id="subscribedYear" name="subscribedYear" placeholder="Year" required> at San Luis, Batangas.
                 </p>
                 <p>
@@ -187,9 +173,9 @@
                     <strong>Issued By:</strong> <input type="text" id="inspectedBy" name="inspectedBy" placeholder="Name" required>
                 </p>
             </div>
-            
 
-            <div class="form-group">
+            <!-- Submit and Clear Buttons -->
+            <div class="form-group button-group">
                 <button type="submit" onclick="confirmSubmission(event)">Submit</button>
                 <button type="button" class="clear-button" onclick="clearForm()">Clear Form</button>
             </div>
@@ -285,7 +271,7 @@ function clearForm() {
 // Renewal Function
 // Modify the checkRenewalEligibility function
 async function checkRenewalEligibility() {
-    const applicationType = document.querySelector('input[name="applicationType"]:checked').value;
+    const applicationType = document.getElementById('applicationType').value;
 
     if (applicationType === 'renewal') {
         const tfid = prompt('Please enter your TFID for renewal:'); // Ask user to input TFID
@@ -305,11 +291,11 @@ async function checkRenewalEligibility() {
                         fetchExistingRecordByTFID(tfid); // Fetch record based on TFID
                     } else {
                         alert('Renewal is not allowed. Please wait until one year has passed since the last renewal.');
-                        document.getElementById('newApplication').checked = true;
+                        document.getElementById('applicationType').value = 'new'; // Reset to new
                     }
                 } else {
                     alert('No existing record found for renewal.');
-                    document.getElementById('newApplication').checked = true;
+                    document.getElementById('applicationType').value = 'new'; // Reset to new
                 }
             } catch (error) {
                 console.error('Error checking renewal:', error);
@@ -317,7 +303,7 @@ async function checkRenewalEligibility() {
             }
         } else {
             alert('Please enter a valid TFID.');
-            document.getElementById('newApplication').checked = true;
+            document.getElementById('applicationType').value = 'new'; // Reset to new
         }
     }
 }
@@ -326,6 +312,7 @@ async function checkRenewalEligibility() {
 async function fetchExistingRecordByTFID(tfid) {
     try {
         const response = await fetch(`http://localhost:8000/fetch-record?tfid=${encodeURIComponent(tfid)}`);
+
         const data = await response.json();
 
         if (data.success) {
@@ -355,6 +342,7 @@ async function fetchExistingRecordByTFID(tfid) {
                     newRow.insertCell().innerHTML = `<input type="text" name="unitMotorNo[]" value="${unit.motor_no}" required>`;
                     newRow.insertCell().innerHTML = `<input type="text" name="unitChassisNo[]" value="${unit.chassis_no}" required>`;
                     newRow.insertCell().innerHTML = `<input type="text" name="unitPlateNo[]" value="${unit.plate_no}" required>`;
+
                 });
             }
 
@@ -369,12 +357,11 @@ async function fetchExistingRecordByTFID(tfid) {
 }
 
 
-document.querySelectorAll('input[name="applicationType"]').forEach(radio => {
-    radio.addEventListener('change', checkRenewalEligibility);
-});
+document.getElementById('applicationType').addEventListener('change', checkRenewalEligibility);
+
 
 document.addEventListener('DOMContentLoaded', () => {
-    const renewalRadio = document.getElementById('renewalApplication');
+    const applicationTypeSelect = document.getElementById('applicationType');
     const dateInput = document.getElementById('date');
     const certificationDateInput = document.getElementById('certificationDate');
     const certificateIssueDateInput = document.getElementById('certificateIssueDate');
@@ -382,8 +369,10 @@ document.addEventListener('DOMContentLoaded', () => {
     const subscribedMonthInput = document.getElementById('subscribedMonth');
     const subscribedYearInput = document.getElementById('subscribedYear');
 
-    renewalRadio.addEventListener('change', () => {
-        if (renewalRadio.checked) {
+    applicationTypeSelect.addEventListener('change', () => {
+        const applicationType = applicationTypeSelect.value;
+
+        if (applicationType === 'renewal') {
             const today = new Date();
             const day = String(today.getDate()).padStart(2, '0'); // Get the day of the month (01-31)
             const month = String(today.getMonth() + 1).padStart(2, '0'); // Get the month (01-12), months are zero-indexed

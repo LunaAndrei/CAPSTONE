@@ -9,7 +9,12 @@ const FCRouter = require('./FranchiseProcess');
 const OccuProcessRouter = require('./Occuprocess');
 const VerifyingRouter = require('./Verifying');
 const HeadadminRouter = require('./HeadadminLogin'); // Head admin login router
-const HeadadminAccountRouter = require('./HeadAdminAccount'); // Use HeadadminAccount for account management routes
+const AdminChangPass = require('./AdminChangPass');
+const PasswordReset = require('./PasswordReset');
+const InspectorSignup = require('./InspectorSignup');
+const inspectorchangepass = require('./inspectorchangepass')
+const inspectorchangepass2 = require('./inspectorchangepass2')
+const HeadadminAccountRouter = require('./HeadAdminaccount'); // Use HeadadminAccount for account management routes
 const pool = require('./db');
 const cors = require('cors');
 const cookieParser = require('cookie-parser');
@@ -54,6 +59,11 @@ app.use('/', FCRouter);  // Franchise routes
 app.use('/', OccuProcessRouter);  // Occupation process routes
 app.use('/', VerifyingRouter);  // Verifying routes
 app.use('/', HeadadminRouter);  // Head admin login routes
+app.use('/', AdminChangPass);
+app.use('/', PasswordReset);
+app.use('/', inspectorchangepass);
+app.use('/', inspectorchangepass2);
+app.use('/', InspectorSignup);
 app.use('/', HeadadminAccountRouter);  // Use HeadadminAccountRouter for account management
 
 // Start the server

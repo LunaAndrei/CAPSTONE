@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <link rel="stylesheet" href="forgotpassAdmin.css" />
+  <link rel="icon" href="Pic/favicon.png">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"/>
+  <title>Ecenter San Luis - Reset Password</title>
+</head>
+<body>
+  <div class="overlay"></div>
+  <div class="center">
+    <div class="container">
+      <div class="text">Enter your Email to Reset your password</div>
+      
+      <div id="alert-container"></div> <!-- Alert container for error messages -->
+
+      <form id="loginForm">
+        <div class="data">
+          <label>Enter email address</label>
+          <div class="formcontainer">
+            <i class="fas fa-envelope"></i>
+            <input type="email" name="email" id="email" required/>
+          </div>
+        </div>
+        
+        <div class="forgot-pass">
+          <a href="login.html">Login</a>
+        </div>
+        <div class="btn">
+          <div class="inner"></div>
+          <button type="button" onclick="validateEmail()">Change Password</button>
+        </div>
+        <div class="signup-link">
+          The email credentials are needed to reset your password
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script>
+    async function validateEmail() {
+      const email = document.getElementById("email").value;
+      const alertContainer = document.getElementById("alert-container");
+      alertContainer.innerHTML = ""; // Clear any previous alerts
+
+      try {
+        const response = await fetch('/api/check-email', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ email })
+        });
+
+        const data = await response.json();
+        if (response.ok && data.exists) {
+          localStorage.setItem("resetEmail", email); // Store email in local storage
+          window.location.href = "forgotpassAdmin2.html";
+        } else {
+          alertContainer.innerHTML = '<p style="color:red;">Email not found in our records.</p>';
+        }
+      } catch (error) {
+        console.error("Error:", error);
+        alertContainer.innerHTML = '<p style="color:red;">An error occurred. Please try again.</p>';
+      }
+    }
+  </script>
+</body>
+</html>

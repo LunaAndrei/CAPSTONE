@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Inspector Signup</title>
+  <link rel="icon" href="Pic/favicon.png">
+  <link rel="stylesheet" href="Signupforinspector.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+</head>
+<body>
+  <div class="overlay"></div>
+  <div class="center">
+    <div class="container">
+      <div class="text">Sign up Inspector Account</div>
+      <form id="signupForm">
+        <div class="data">
+          <label for="inspector_id">Inspector ID</label>
+          <input type="text" name="inspector_id" id="inspector_id" required />
+        </div>
+        <div class="data">
+          <label for="name">Name</label>
+          <input type="text" name="name" id="name" required />
+        </div>
+        <div class="data">
+          <label for="email">Email Address</label>
+          <input type="email" name="email" id="email" required />
+        </div>
+        <div class="data password-container">
+          <label for="password">Password</label>
+          <input type="password" name="password" id="password" required />
+          <i class="fas fa-eye toggle-password" id="togglePassword"></i>
+        </div>
+        <div class="signup-link">
+          Only HeadAdmin can Access this part Authorized Personnel is Strictly Prohibited
+        </div>
+        <div class="btn">
+          <button type="submit">Signup</button>
+        </div>
+      </form>
+      <!-- Success Alert box -->
+      <div id="alert" class="alert" style="display: none;">
+        <span class="icon"><i class="fas fa-check-circle"></i></span>
+        <span id="alertMessage">Signup successful!</span>
+      </div>
+      <!-- Error Alert box -->
+      <div id="errorAlert" class="alert error-alert" style="display: none;">
+        <span class="icon"><i class="fas fa-exclamation-circle"></i></span>
+        <span id="errorMessage">Error message here</span>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Toggle password visibility
+    const passwordInput = document.getElementById('password');
+    const togglePasswordIcon = document.getElementById('togglePassword');
+
+    // Show the toggle icon when there is input in the password field
+    passwordInput.addEventListener('input', () => {
+      if (passwordInput.value) {
+        togglePasswordIcon.style.display = 'inline';
+      } else {
+        togglePasswordIcon.style.display = 'none';
+      }
+    });
+
+    // Toggle password visibility on icon click
+    togglePasswordIcon.addEventListener('click', () => {
+      const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+      passwordInput.setAttribute('type', type);
+      togglePasswordIcon.classList.toggle('fa-eye');
+      togglePasswordIcon.classList.toggle('fa-eye-slash');
+    });
+
+    // Function to show success alert and hide eye icon
+    function showAlert() {
+      const alertBox = document.getElementById('alert');
+      alertBox.style.display = 'flex';
+      togglePasswordIcon.style.display = 'none'; // Hide the eye icon on successful signup
+
+      setTimeout(() => {
+        alertBox.style.display = 'none';
+        document.getElementById('signupForm').reset();
+      }, 3000);
+    }
+
+    // Function to show error alert without hiding the eye icon
+    function showErrorAlert(message) {
+      const errorAlertBox = document.getElementById('errorAlert');
+      const errorMessage = document.getElementById('errorMessage');
+      errorMessage.textContent = message;
+      errorAlertBox.style.display = 'flex';
+
+      setTimeout(() => {
+        errorAlertBox.style.display = 'none';
+      }, 3000);
+    }
+
+    // Form submission handler
+    document.getElementById('signupForm').addEventListener('submit', async function (event) {
+      event.preventDefault();
+
+      const formData = new FormData(this);
+      const data = Object.fromEntries(formData.entries());
+
+      try {
+        const response = await fetch('/signupInspector', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(data)
+        });
+
+        const result = await response.json();
+        if (result.success) {
+          showAlert(); // Hide eye icon only on success
+        } else {
+          showErrorAlert(result.message);
+        }
+      } catch (error) {
+        console.error('Error:', error);
+      }
+    });
+  </script>
+</body>
+</html>

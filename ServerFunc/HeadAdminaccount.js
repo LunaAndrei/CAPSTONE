@@ -10,10 +10,6 @@ router.get('/admin-staff', async (req, res) => {
             FROM public."AdminStaff";
         `);
 
-        if (result.rows.length === 0) {
-            return res.status(404).json({ error: 'No active staff found' });
-        }
-
         res.json(result.rows);
     } catch (err) {
         console.error('Error fetching active staff', err);
@@ -28,10 +24,6 @@ router.get('/archived-staff', async (req, res) => {
             SELECT CONCAT("firstname", ' ', "Lastname") AS fullname, "Role", "email"
             FROM public."ArchivedStaff";
         `);
-
-        if (result.rows.length === 0) {
-            return res.status(404).json({ error: 'No archived staff found' });
-        }
 
         res.json(result.rows);
     } catch (err) {
@@ -112,5 +104,110 @@ router.post('/unarchive-account', async (req, res) => {
         res.status(500).json({ error: 'Server Error' });
     }
 });
+
+// Fetch inspectors (from Inspectors table)
+router.get('/inspectors', async (req, res) => {
+    try {
+        const result = await pool.query(`
+            SELECT "name"
+            FROM public."inspectors";
+        `);
+
+        res.json(result.rows);
+    } catch (err) {
+        console.error('Error fetching inspectors', err);
+        res.status(500).json({ error: 'Server Error' });
+    }
+});
+
+// Archive an inspector account
+router.post('/archive-inspector', async (req, res) => {
+    const { fullname } = req.body;
+
+    try {
+        // Fetch the inspector to archive from Inspectors
+        const inspectorResult = await pool.query(`
+            SELECT * FROM public."inspectors"
+            WHERE "name" = $1;
+        `, [fullname]);
+
+        if (inspectorResult.rows.length === 0) {
+            return res.status(404).json({ error: 'Inspector not found' });
+        }
+
+        const inspector = inspectorResult.rows[0];
+
+        // Insert the inspector into ArchivedInspectors
+        await pool.query(`
+            INSERT INTO public."ArchivedInspectors" ("inspector_id", "name", "email", "password")
+            VALUES ($1, $2, $3, $4);
+        `, [inspector.inspector_id, inspector.name, inspector.email, inspector.password]);
+
+        // Remove the inspector from Inspectors
+        await pool.query(`
+            DELETE FROM public."inspectors"
+            WHERE "name" = $1;
+        `, [fullname]);
+
+        res.status(200).json({ message: 'Inspector archived successfully' });
+    } catch (err) {
+        console.error('Error archiving inspector', err);
+        res.status(500).json({ error: 'Server Error' });
+    }
+});
+
+// Unarchive an inspector account
+router.post('/unarchive-inspector', async (req, res) => {
+    const { fullname } = req.body;
+
+    try {
+        // Fetch the inspector to unarchive from ArchivedInspectors
+        const inspectorResult = await pool.query(`
+            SELECT "inspector_id", "name", "email", "password"
+            FROM public."ArchivedInspectors"
+            WHERE "name" = $1;
+        `, [fullname]);
+
+        if (inspectorResult.rows.length === 0) {
+            return res.status(404).json({ error: 'Inspector not found in archive' });
+        }
+
+        const inspector = inspectorResult.rows[0];
+
+        // Insert the inspector back into Inspectors
+        await pool.query(`
+            INSERT INTO public."inspectors" ("inspector_id", "name", "email", "password")
+            VALUES ($1, $2, $3, $4);
+        `, [inspector.inspector_id, inspector.name, inspector.email, inspector.password]);
+
+        // Remove the inspector from ArchivedInspectors
+        await pool.query(`
+            DELETE FROM public."ArchivedInspectors"
+            WHERE "name" = $1;
+        `, [fullname]);
+
+        res.status(200).json({ message: 'Inspector unarchived successfully' });
+    } catch (err) {
+        console.error('Error unarchiving inspector', err);
+        res.status(500).json({ error: 'Server Error' });
+    }
+});
+
+
+// Fetch archived inspectors (from ArchivedInspectors table)
+router.get('/archived-inspectors', async (req, res) => {
+    try {
+        const result = await pool.query(`
+            SELECT "name"
+            FROM public."ArchivedInspectors";
+        `);
+
+        res.json(result.rows);
+    } catch (err) {
+        console.error('Error fetching archived inspectors', err);
+        res.status(500).json({ error: 'Server Error' });
+    }
+});
+
 
 module.exports = router;

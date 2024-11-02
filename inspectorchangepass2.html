@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Inspector Password Change</title>
+  <link rel="icon" href="Pic/favicon.png">
+  <link rel="stylesheet" href="inspectorchangepass2.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+</head>
+<body>
+  <div class="overlay"></div>
+  <div class="center">
+    <div class="container">
+      <div class="text">Changing Inspector Password</div>
+      <p id="error-message" style="color: red;"></p>
+      <p id="success-message" style="color: green;"></p>
+      <form id="passwordChangeForm">
+        <div class="data">
+          <label for="password">Password</label>
+          <input type="password" name="password" id="password" required />
+        </div>
+        <div class="data">
+          <label for="Confirmpassword">Confirm Password</label>
+          <input type="password" name="Confirmpassword" id="Confirmpassword" required />
+        </div>
+        <div class="signup-link">
+          Only HeadAdmin can Access this part. Unauthorized Personnel is Strictly Prohibited.
+        </div>
+        <div class="btn">
+          <button type="submit">Change Password</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script>
+    document.getElementById('passwordChangeForm').addEventListener('submit', async (event) => {
+      event.preventDefault();
+      const password = document.getElementById('password').value;
+      const confirmPassword = document.getElementById('Confirmpassword').value;
+      const email = localStorage.getItem('email'); // Retrieve email from localStorage
+
+      try {
+        const response = await fetch('/changePassword', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ email, password, confirmPassword })
+        });
+
+        const data = await response.json();
+
+        if (response.status === 200) {
+          // Show success message and clear form after 3 seconds
+          document.getElementById('success-message').textContent = data.message;
+          document.getElementById('error-message').textContent = '';
+
+          setTimeout(() => {
+            document.getElementById('success-message').textContent = '';
+            document.getElementById('passwordChangeForm').reset();
+          }, 3000); // 3 seconds
+        } else {
+          // Show error message
+          document.getElementById('error-message').textContent = data.message;
+          document.getElementById('success-message').textContent = '';
+        }
+      } catch (error) {
+        console.error('Error:', error);
+        document.getElementById('error-message').textContent = 'Failed to connect to the server.';
+      }
+    });
+  </script>
+</body>
+</html>

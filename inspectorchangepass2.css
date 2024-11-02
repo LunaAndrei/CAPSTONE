@@ -1,0 +1,146 @@
+@import url("https://fonts.googleapis.com/css?family=Poppins:400,500,600,700&display=swap");
+
+* {
+  margin: 0;
+  padding: 0;
+  outline: none;
+  box-sizing: border-box;
+  font-family: "Poppins", sans-serif;
+}
+
+body {
+  height: 100vh;
+  width: 100%;
+  background: url('Pic/Background.jpg') no-repeat center fixed;
+  background-size: cover;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+.overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 1;
+}
+
+.center {
+  position: relative;
+  z-index: 2;
+}
+
+.container {
+  background: #fff;
+  width: 350px;
+  padding: 20px;
+  box-shadow: 0 0 8px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+  border-radius: 20px;
+}
+
+.container .text {
+  font-size: 30px;
+  font-weight: 600;
+  text-align: center;
+}
+
+.container form .data {
+  height: 40px;
+  width: 100%;
+  margin: 30px 0;
+}
+
+form .data label {
+  font-size: 16px;
+}
+
+form .data input,
+form .data select {
+  height: 100%;
+  width: 100%;
+  padding-left: 10px;
+  font-size: 16px;
+  border: 3px solid silver;
+  transition: border-color 0.6s ease, box-shadow 0.6s ease;
+}
+
+form .data input:focus,
+form .data select:focus {
+  border-color: #3498db;
+}
+
+form .data input:hover,
+form .data select:hover {
+  border-color: #337fb2;
+  box-shadow: 0 0 5px rgba(52, 152, 219, 0.5);
+}
+
+form .btn {
+  margin: 25px 0;
+  height: 40px;
+  width: 100%;
+}
+
+form .btn button {
+  height: 100%;
+  width: 100%;
+  color: #fff;
+  background: #11131e;
+  font-size: 16px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  cursor: pointer;
+  border-radius: 8px;
+}
+
+.alert {
+  display: none; /* Hidden by default */
+  background-color: #d4edda; /* Light green */
+  color: #155724; /* Dark green */
+  padding: 15px;
+  border-radius: 5px;
+  position: fixed;
+  top: 10px;
+  right: 10px;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  font-size: 16px;
+}
+
+.alert .icon {
+  margin-right: 10px;
+}
+
+/* Red Alert Styles */
+.alert.error-alert {
+  background-color: #f8d7da; /* Light red */
+  color: #721c24; /* Dark red */
+  border-color: #f5c6cb;
+}
+
+
+.password-container {
+  position: relative;
+}
+
+.password-container input {
+  width: 100%;
+  padding-right: 40px;
+}
+
+.password-container .toggle-password {
+  position: absolute;
+  right: 10px;
+  top: 104%;
+  transform: translateY(-50%);
+  cursor: pointer;
+  display: none;
+}

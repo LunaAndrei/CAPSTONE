@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Occupational Status</title>
+    <link rel="stylesheet" href="occustatus.css">
+    <link rel="icon" href="Pic/favicon.png">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
+    <link rel="stylesheet" href="https://unpkg.com/boxicons/css/boxicons.min.css">
+</head>
+
+<body>
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <img src="Pic/favicon.png" alt="Logo">
+        <h2>Menu</h2>
+        <ul>
+            <li><a href="occustatus.html" onclick="showDashboard()"><i class="bx bxs-dashboard"></i> Dashboard</a></li>
+            <li><a href="applicantdashboard.html"><i class="fas fa-id-card icon"></i> Occupational Form</a></li>
+            <li><a href="applicant.html"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
+        </ul>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <div class="header">
+            <img src="Pic/lgulogo.png" alt="LGU Logo" class="lgu-logo">
+        </div>
+
+        <div class="application-status-card">
+            <div class="status-details">
+                <p><strong>Name:</strong> Lagunsing, John Carlo</p>
+                <p><strong>Vehicle:</strong> Tricycle</p>
+                <p><strong>Date:</strong> 04/05/24</p>
+                <p><strong>MOID:</strong> 10012</p>
+            </div>
+            <div class="status-info">
+                <p><strong>Status:</strong> <span class="status-approved">Approved</span></p>
+                <p><strong>Inspection:</strong> <span class="inspection-passed">Passed</span></p>
+                <p><strong>Documents:</strong> <span class="documents-passed">Passed</span></p>
+            </div>
+            <button onclick="goBack()">Back</button>
+        </div>
+    </div>
+
+    <script>
+        function goBack() {
+            window.history.back();
+        }
+    </script>
+</body>
+
+</html>

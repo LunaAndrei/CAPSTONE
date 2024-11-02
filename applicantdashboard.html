@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Ecenter San Luis - Occupational Permit</title>
-    <link rel="stylesheet" href="AdminOccuForm.css">
+    <link rel="stylesheet" href="applicantdashboard.css">
     <link rel="icon" href="Pic/favicon.png">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
     <link rel="stylesheet" href="https://unpkg.com/boxicons/css/boxicons.min.css">
@@ -17,30 +17,22 @@
         <img src="Pic/favicon.png" alt="Logo">
         <h2>Menu</h2>
         <ul>
-            <li><a href="Dashboard.html"><i class="bx bxs-dashboard"></i> Dashboard</a></li>
-            <li><a href="#"><i class="fas fa-chart-line"></i> Report</a></li>
-            <li><a href="#"><i class="iconify" data-icon="mdi:card-account-details-outline"></i> Permit Form</a></li>
-            <li><a href="VeryfingDocuments.html"><i class='bx bxs-file-find'></i> Verifying Documents</a></li>
-            <li><a href="AdminOccuForm.html"><i class="fas fa-id-card icon"></i> Occupational Form</a></li>
-            <li><a href="FranchiseForm.html"><i class="fas fa-id-card icon"></i> Franchise Form</a></li>
-            <li><a href="payment.html"><i class='bx bxs-wallet-alt'></i> Payment</a></li>
-            <b>Others</b>
-            <li><a href="#"><i class="fas fa-user"></i> Account</a></li>
-            <li><a href="#"><i class="fas fa-cog"></i> Settings</a></li>
-            <li><a href="#"><i class="fas fa-question-circle"></i> Help</a></li>
-            <li><a href="login.html"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
+            <li><a href="occustatus.html" onclick="showDashboard()"><i class="bx bxs-dashboard"></i> Dashboard</a></li>
+            <li><a href="applicantdashboard.html"><i class="fas fa-id-card icon"></i> Occupational Form</a></li>
+            <li><a href="applicant.html"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
         </ul>
     </div>
     <div class="main-content">
         <h1>OCCUPATIONAL APPLICATION FORM</h1>
 
+        <!-- Alert container -->
         <div id="alert-container" class="alert hidden">
             <span id="alert-icon"></span>
             <span id="alert-message"></span>
         </div>
 
         <form onsubmit="calculateAge(); return confirmSubmission(event)" method="post" action="http://localhost:8000/submitForm" enctype="multipart/form-data">
-            <div class="form-group-4">
+            <div class="form-group">
                 <div class="form-field">
                     <label for="lastName">Last Name</label>
                     <input type="text" id="lastName" name="lastName" required>
@@ -49,6 +41,9 @@
                     <label for="firstName">First Name</label>
                     <input type="text" id="firstName" name="firstName" required>
                 </div>
+            </div>
+
+            <div class="form-group">
                 <div class="form-field">
                     <label for="middleName">Middle Name</label>
                     <input type="text" id="middleName" name="middleName">
@@ -59,7 +54,7 @@
                 </div>
             </div>
 
-            <div class="form-group-4">
+            <div class="form-group">
                 <div class="form-field">
                     <label for="gender">Gender</label>
                     <select id="gender" name="gender" required>
@@ -76,6 +71,9 @@
                         <option value="widowed">Widowed</option>
                     </select>
                 </div>
+            </div>
+
+            <div class="form-group">
                 <div class="form-field">
                     <label for="dob">Date of Birth</label>
                     <input type="date" id="dob" name="dob" onchange="calculateAge()" required>
@@ -86,26 +84,24 @@
                 </div>
             </div>
 
-            <div class="form-group-4">
+            <label for="placeOfBirth">Place of Birth</label>
+            <input type="text" id="placeOfBirth" name="placeOfBirth" required>
+
+            <label for="homeAddress">Home Address</label>
+            <input type="text" id="homeAddress" name="homeAddress" required>
+
+            <div class="form-group">
                 <div class="form-field">
-                    <label for="placeOfBirth">Place of Birth</label>
-                    <input type="text" id="placeOfBirth" name="placeOfBirth" required>
-                </div>
-                <div class="form-field">
-                    <label for="homeAddress">Home Address</label>
-                    <input type="text" id="homeAddress" name="homeAddress" required>
+                    <label for="email">E-mail Address</label>
+                    <input type="email" id="email" name="email" required>
                 </div>
                 <div class="form-field">
                     <label for="cellphoneNumber">Cellphone Number</label>
                     <input type="tel" id="cellphoneNumber" name="cellphoneNumber" required>
                 </div>
-                <div class="form-field">
-                    <label for="email">E-mail Address</label>
-                    <input type="email" id="email" name="email" required>
-                </div>
             </div>
-
-            <div class="form-group-4">
+            
+            <div class="form-group">
                 <div class="form-field">
                     <label for="companyName">Company Name</label>
                     <input type="text" id="companyName" name="companyName" required>
@@ -114,24 +110,26 @@
                     <label for="jobPosition">Job Position</label>
                     <input type="text" id="jobPosition" name="jobPosition" required>
                 </div>
-                
+            </div>
+
+            <!-- Combined ID Type and Number -->
+            <div class="form-group">
                 <div class="form-field">
                     <label for="combinedId">ID Type and Number</label>
-                    <div class="id-type-container">
+                    <div style="display: flex;">
                         <select id="Typeofid" name="Typeofid" required>
                             <option value="Drivers License">Drivers License</option>
                             <option value="Philhealth">Philhealth</option>
                             <option value="NBI">NBI</option>
                             <option value="Company Id">Company ID</option>
-                            <option value="Philsys ID">Philsys ID</option>
-                            <option value="National">National</option>
+                            <option value="Company Id">Philsys ID</option>
+                            <option value="Company Id">National</option>
                         </select>
-                        <input type="text" id="IDnumber" name="IDnumber" placeholder="ID Number" required>
+                        <input type="text" id="IDnumber" name="IDnumber" placeholder="ID Number" required style="margin-left: 10px;">
                     </div>
                     <input type="hidden" id="combinedId" name="combinedId">
                 </div>
             </div>
-
 
             <label for="coe">Certificate of Employment</label>
             <input type="file" id="coe" name="coe" required>
@@ -145,7 +143,7 @@
             <label for="officialReceipt">Official Receipt</label>
             <input type="file" id="officialReceipt" name="officialReceipt" required>
 
-            <div class="form-group-4">
+            <div class="form-group">
                 <div class="form-field">
                     <label for="orNumber">OR Number</label>
                     <input type="text" id="orNumber" name="orNumber">
@@ -164,7 +162,7 @@
                 </div>
             </div>
 
-            <div class="form-group-4">
+            <div class="form-group">
                 <div class="form-field">
                     <label for="ctcNumber">CTC Number</label>
                     <input type="text" id="ctcNumber" name="ctcNumber" required>
@@ -240,7 +238,6 @@
             } else {
                 const errorData = await response.json();
                 showAlert(`Error: ${errorData.message}`, 'error');
-
 
             }
         } catch (error) {

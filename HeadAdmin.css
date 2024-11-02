@@ -164,18 +164,18 @@ form .btn button {
 
 .alert {
   display: none; /* Initially hidden */
-  background-color: rgb(37, 195, 203); /* Green background for the alert */
+  background-color: rgb(237, 43, 29); /* Green background for the alert */
   color: white;
-  padding: 6px;
-  border-radius: 2px;
-  font-size: 16px;
+  padding: 3px;
+  border-radius: 12px;
+  font-size: 20px;
   text-align: center;
   position: fixed; /* Position at the top of the page */
-  top: 5px; /* Stick to the top */
+  top: 15px; /* Stick to the top */
   left: 50%; /* Center horizontally */
   transform: translateX(-50%); /* Adjust for proper centering */
   width: 100%; /* Full width, or adjust as needed */
-  max-width: 300px; /* Optional: Limit max width for larger screens */
+  max-width: 250px; /* Optional: Limit max width for larger screens */
   z-index: 9999; /* Ensure it's on top of other elements */
   margin-top: 0;
 }
@@ -183,4 +183,11 @@ form .btn button {
 /* Show alert when necessary */
 .alert.show {
   display: block;
+}
+.alert i {
+  margin-right: 8px; /* Adjust spacing from text */
+  font-size: 20px; /* Adjust icon size */
+  vertical-align: middle; /* Center align icon with text */
+  color: white;
+  z-index: 10000; /* Match icon color to alert text */
 }
