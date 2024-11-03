@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Payment Page</title>
+    <title>Payment for Occupational Permit</title>
     <link rel="stylesheet" href="PayOcuPermit.css">
     <link rel="icon" href="Pic/favicon.png">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"/>
@@ -19,17 +19,12 @@
         <h2>Menu</h2>
         <ul>
             <li><a href="Dashboard.html"><i class="bx bxs-dashboard"></i> Dashboard</a></li>
-            <li><a href="#"><i class="fas fa-chart-line"></i> Report</a></li>
-            <li><a href="#"><i class="iconify" data-icon="mdi:card-account-details-outline"></i> Permit Form</a></li>
-            <li><a href="#"><i class='bx bxs-file-find'></i> Verifying Documents</a></li>
+            <li><a href="VeryfingDocuments.html"><i class='bx bxs-file-find'></i> Verifying Documents</a></li>
             <li><a href="AdminOccuForm.html"><i class="fas fa-id-card icon"></i> Occupational Form</a></li>
             <li><a href="FranchiseForm.html"><i class="fas fa-id-card icon"></i> Franchise Form</a></li>
-            <li><a href="#"><i class='bx bxs-wallet-alt'></i> Payment</a></li>
+            <li><a href="payment.html"><i class='bx bxs-wallet-alt'></i> Payment</a></li>
             <b>Others</b>
-            <li><a href="#"><i class="fas fa-user"></i> Account</a></li>
-            <li><a href="#"><i class="fas fa-cog"></i> Settings</a></li>
-            <li><a href="#"><i class="fas fa-question-circle"></i> Help</a></li>
-            <li><a href="login.html"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
+            <li><a href=""id="logoutButton"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
         </ul>
     </div>
 
@@ -96,5 +91,15 @@
 
 
     <script src="Javascipt/Calcu.js"></script>
+    <script>
+        document.getElementById('logoutButton').addEventListener('click', function(event) {
+    event.preventDefault(); // Prevent the default link behavior
+    var confirmation = confirm("Are you sure you want to log out?");
+    if (confirmation) {
+        window.location.href = 'login.html'; // Redirect to the login page
+    }
+});
+
+    </script>
 </body>
 </html>

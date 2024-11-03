@@ -107,3 +107,12 @@ document.getElementById('units').addEventListener('input', function() {
     let newTotal = originalTotal * units;
     document.getElementById('total').value = '₱' + newTotal.toFixed(2);
 });
+
+
+document.getElementById('logoutButton').addEventListener('click', function(event) {
+    event.preventDefault(); // Prevent the default link behavior
+    var confirmation = confirm("Are you sure you want to log out?");
+    if (confirmation) {
+        window.location.href = 'login.html'; // Redirect to the login page
+    }
+});
