@@ -4,6 +4,16 @@ padding: 0;
 box-sizing: border-box;
 }
 
+:root {
+    --primary-color: #0033cc;
+    --primary-hover-color: #0055ff;
+    --background-color: #f9fafc;
+    --text-color: #333;
+    --button-color: #28a745;
+    --button-hover-color: #218838;
+    --box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 10px;
+}
+
 .sidebar {
 width: 220px;
 height: 100vh;
@@ -345,4 +355,17 @@ background-color: #999999;
 
 .alert span {
     margin-right: 10px;
+}
+
+.logout {
+    margin-top: 250px;
+    color: white;
+    text-decoration: none;
+    font-size: 18px;
+    display: block;
+    padding: 10px;
+    text-align: center;
+    background-color: var(--primary-hover-color);
+    border-radius: 8px;
+    transition: background-color 0.3s;
 }

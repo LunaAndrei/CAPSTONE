@@ -14,10 +14,14 @@ const PasswordReset = require('./PasswordReset');
 const InspectorSignup = require('./InspectorSignup');
 const inspectorchangepass = require('./inspectorchangepass')
 const inspectorchangepass2 = require('./inspectorchangepass2')
-const HeadadminAccountRouter = require('./HeadAdminaccount'); // Use HeadadminAccount for account management routes
+const HeadadminAccountRouter = require('./HeadAdminaccount');
+const Analysis = require('./Analysis');
+const occupational= require("./occupational");
+const OccupationalApplicants = require("./OccupationalApplicants"); // Use HeadadminAccount for account management routes
 const pool = require('./db');
 const cors = require('cors');
 const cookieParser = require('cookie-parser');
+const Occuformhandler = require("./Occuformhandler");
 require('dotenv').config(); // Load environment variables from .env
 
 // Initialize Express app
@@ -48,7 +52,7 @@ app.use(session({
     saveUninitialized: false,
     cookie: {
         maxAge: 30 * 24 * 60 * 60 * 1000, // Cookie expiration (30 days)
-        secure: true // Set to true in production with HTTPS
+        secure: false // Set to true in production with HTTPS
     }
 }));
 
@@ -64,7 +68,12 @@ app.use('/', PasswordReset);
 app.use('/', inspectorchangepass);
 app.use('/', inspectorchangepass2);
 app.use('/', InspectorSignup);
-app.use('/', HeadadminAccountRouter);  // Use HeadadminAccountRouter for account management
+app.use('/', HeadadminAccountRouter);
+app.use('/data', Analysis); 
+app.use("/signup", occupational);
+app.use("/auth", OccupationalApplicants );
+app.use("/", Occuformhandler);
+  // Use HeadadminAccountRouter for account management
 
 // Start the server
 app.listen(port, () => {

@@ -21,7 +21,7 @@ app.use(session({
     saveUninitialized: false,
     cookie: {
         maxAge: 30 * 24 * 60 * 60 * 1000, // 30 days
-        secure: true // Set to true in production
+        secure: false // Set to true in production
     }
 }));
 app.use('/uploads', express.static(path.join(__dirname, '../uploads')));
@@ -131,8 +131,11 @@ router.get('/getOccupationalApplicants', (req, res) => {
 // Route to update status
 // Route to update status
 router.post('/updateStatus', (req, res) => {
-    const { tfid, occuid, status } = req.body;
-    const processedBy = (req.session.firstname || '').trim() + ' ' + (req.session.lastname || '').trim();
+    console.log("Session data in Verifying.js:", req.session);
+    const { tfid, occuid, status, firstname, lastname } = req.body;
+    const processedBy = (firstname || req.session.firstname || '').trim() + ' ' + (lastname || req.session.lastname || '').trim();
+
+    console.log("Processed By:", processedBy); // Check what is being passed
 
     if (occuid) {
         // Update for occupational applicants
@@ -166,7 +169,6 @@ router.post('/updateStatus', (req, res) => {
         res.status(400).send('Missing tfid or occuid');
     }
 });
-
 
 // Route to get specific OccuPermit by occuid
 router.get('/getOccuPermitDocuments/:occuid', (req, res) => {

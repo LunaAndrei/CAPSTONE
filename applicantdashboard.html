@@ -19,7 +19,7 @@
         <ul>
             <li><a href="occustatus.html" onclick="showDashboard()"><i class="bx bxs-dashboard"></i> Dashboard</a></li>
             <li><a href="applicantdashboard.html"><i class="fas fa-id-card icon"></i> Occupational Form</a></li>
-            <li><a href="applicant.html"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
+            <li><a href="" id="logoutButton"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
         </ul>
     </div>
     <div class="main-content">
@@ -283,6 +283,14 @@ function clearForm() {
     document.getElementById('age').disabled = true;
 }
 
+
+document.getElementById('logoutButton').addEventListener('click', function(event) {
+            event.preventDefault();
+            var confirmation = confirm("Are you sure you want to log out?");
+            if (confirmation) {
+                window.location.href = 'applicant.html';
+            }
+        });
     </script>
 </body>
 

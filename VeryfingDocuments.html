@@ -615,7 +615,19 @@ attachOccuPermitModalListeners();
     };
 });
 
+document.querySelectorAll('.print-btn').forEach(button => {
+    button.addEventListener('click', function() {
+        // Determine the corresponding modal content based on the button clicked
+        const modalContent = this.closest('.modal-content') ? this.closest('.modal-content').querySelector('.modal-body').innerHTML : '';
+        
+        // Copy modal content to print area
+        var printArea = document.getElementById('printArea');
+        printArea.innerHTML = modalContent;
 
+        // Trigger the print dialog
+        window.print();
+    });
+});
 
         </script>
     </div>

@@ -136,3 +136,49 @@ const passwordInput = document.getElementById('password');
           attachEventListeners();
       });
       
+
+
+      // ApplicantLogin.js
+  const loadingOverlay = document.getElementById('loadingOverlay');
+    document.getElementById("loginForm").addEventListener("submit", async function(event) {
+      event.preventDefault();
+
+      // Collect form data
+      const formData = new FormData(this);
+      const jsonData = Object.fromEntries(formData.entries());
+      loadingOverlay.style.display = 'none';
+      
+
+      try {
+        loadingOverlay.style.display = 'flex';
+        // Send POST request to login endpoint
+        const response = await fetch("/auth/login", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(jsonData)
+        });
+
+        // Process response
+        if (response.ok) {
+          window.location.href = "applicantdashboard.html"; // Redirect on success
+        } else {
+          const result = await response.json();
+          showAlert(result.message, "error");
+          loadingOverlay.style.display = 'none'; // Show error message
+        }
+      } catch (error) {
+        showAlert("An error occurred. Please try again.", "error");
+        loadingOverlay.style.display = 'none';
+      }
+    });
+
+    // Function to display alert messages
+    function showAlert(message, type) {
+      const alertContainer = document.getElementById("alert-container");
+      alertContainer.innerHTML = `<div class="alert ${type}">${message}</div>`;
+      setTimeout(() => {
+        alertContainer.innerHTML = ""; // Clear the alert after a delay
+      }, 3000);
+    }

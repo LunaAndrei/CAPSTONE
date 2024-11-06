@@ -10,9 +10,10 @@
 :root {
     --primary-color: #0033cc;
     --primary-hover-color: #0055ff;
-    --background-color: #f0f2f5;
-    --text-color: #ffffff;
-    --approved-color: #28a745;
+    --background-color: #f9fafc;
+    --text-color: #333;
+    --button-color: #28a745;
+    --button-hover-color: #218838;
     --box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 10px;
 }
 
@@ -32,17 +33,18 @@ body {
     width: 220px;
     height: 100vh;
     background-color: var(--primary-color);
-    color: var(--text-color);
-    position: fixed;
+    color: white;
     display: flex;
     flex-direction: column;
     padding: 20px;
+    position: fixed;
 }
 
 .sidebar img {
     width: 80px;
     height: 80px;
     margin: 0 auto 20px;
+    border-radius: 50%;
 }
 
 .sidebar h2 {
@@ -62,7 +64,7 @@ body {
 }
 
 .sidebar ul li a {
-    color: var(--text-color);
+    color: white;
     text-decoration: none;
     font-size: 18px;
     display: block;
@@ -78,193 +80,165 @@ body {
 
 .logout {
     margin-top: auto;
-    color: var(--text-color);
+    color: white;
     text-decoration: none;
     font-size: 18px;
     display: block;
     padding: 10px;
     text-align: center;
-    background-color: var(--primary-color);
+    background-color: var(--primary-hover-color);
     border-radius: 8px;
     transition: background-color 0.3s;
-}
-
-.logout:hover {
-    background-color: var(--primary-hover-color);
 }
 
 /* Main Content Styling */
 .mainContent {
     padding: 40px;
-    width: calc(100% - 240px); /* Adjusted to account for sidebar */
+    width: calc(100% - 240px);
+    margin-left: 240px;
     background-color: var(--background-color);
-    margin-left: 240px; /* Add margin-left to offset for the sidebar */
-    display: flex;
-    flex-direction: column;
-    align-items: center; /* Center the table and button horizontally */
 }
 
 h3 {
-    font-size: 40px;
-    text-align: center; /* Center the title */
+    font-size: 24px;
     margin-bottom: 20px;
+    font-weight: 600;
+    color: var(--text-color);
 }
 
-/* Table Styling for Admin Staff List */
+/* Table Styling */
 #staffTable {
     width: 100%;
     border-collapse: collapse;
-    margin-top: 20px;
-    background-color: #fff;
+    background-color: white;
     box-shadow: var(--box-shadow);
     border-radius: 8px;
     overflow: hidden;
 }
 
-#staffTable th, #staffTable td {
-    padding: 12px 15px;
+#staffTable th,
+#staffTable td {
+    padding: 15px;
     text-align: left;
-    border-bottom: 1px solid #ddd;
-    
 }
 
 #staffTable th {
     background-color: var(--primary-color);
-    color: var(--text-color);
+    color: white;
     font-weight: 600;
-    text-transform: uppercase;
 }
 
 #staffTable td {
-    font-size: 18px;
-    color: #333;
+    font-size: 16px;
+    color: var(--text-color);
+    border-bottom: 1px solid #ddd;
 }
 
-/* Hover effect for table rows */
+/* Row Hover Effect */
 #staffTable tr:hover {
     background-color: #f1f1f1;
 }
 
-/* Alternate row colors for better readability */
-#staffTable tr:nth-child(even) {
-    background-color: #f9f9f9;
+#staffTable tr:last-child td {
+    border-bottom: none;
 }
 
 /* Add Account Button */
 .add-button {
-    display: inline-block;
-    background-color: var(--approved-color); /* Green color for the button */
-    color: var(--text-color); /* White text */
-    text-decoration: none;
-    padding: 6px 12px; /* Smaller padding for a more compact button */
-    border-radius: 4px;
-    font-weight: 600;
-    margin-top: 20px; /* Space between the table and the button */
-    transition: background-color 0.3s;
-    box-shadow: var(--box-shadow);
-    display: flex;
+    display: inline-flex;
     align-items: center;
-    justify-content: center; /* Center the text and icon */
-    width: auto; /* Let the width adjust to the text */
-    font-size: 14px; /* Slightly smaller text */
+    background-color: var(--button-color);
+    color: white;
+    text-decoration: none;
+    padding: 10px 15px;
+    border-radius: 8px;
+    font-weight: 600;
+    margin-top: 20px;
+    transition: background-color 0.3s;
 }
 
 .add-button:hover {
-    background-color: #4fcb6c; /* Lighter shade on hover */
+    background-color: var(--button-hover-color);
 }
 
-/* Icon Style for Small Button */
 .add-button .icon {
-    margin-right: 5px; /* Spacing between icon and text */
-    font-size: 14px; /* Smaller icon size to match the button */
-    font-weight: bold;
+    font-size: 16px;
+    margin-right: 8px;
 }
 
-/* View Archived Accounts Button */
-.view-archived-button {
-    background-color: red;
-    color: var(--text-color);
+/* Archive and Unarchive Buttons */
+.archive-button,
+.unarchive-button {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 18px;
+    transition: color 0.3s;
+}
+
+.archive-button {
+    color: #dc3545;
+}
+
+.unarchive-button {
+    color: #28a745;
+}
+
+.archive-button:hover {
+    color: #c82333;
+}
+
+.unarchive-button:hover {
+    color: #218838;
+}
+
+/* Filter and Back Buttons */
+.filter-button {
+    background-color: #007bff;
+    color: white;
     padding: 8px 15px;
     font-size: 14px;
     border: none;
     border-radius: 4px;
     cursor: pointer;
-    margin-top: 20px;
+    margin-bottom: 10px;
     transition: background-color 0.3s;
+    float: right;
 }
 
-.view-archived-button:hover {
-    background-color: darkred;
+.filter-button:hover {
+    background-color: #0056b3;
 }
 
-/* Archive and Unarchive Button */
-.archive-button, .unarchive-button {
-    background-color: transparent;
-    border: none;
-    cursor: pointer;
-    color: red;
-    font-size: 20px;
-    transition: color 0.3s;
-    margin-left: 10px;
-    padding: 5px;
-}
-
-.archive-button:hover {
-    color: darkred;
-}
-
-.unarchive-button {
-    color: green;
-    transition: transform 0.3s ease-in-out; /* smooth transition */
-}
-
-.unarchive-button:hover {
-    color: darkgreen;
-    transform: rotate(45deg); /* rotate the button 15 degrees */
-}
-
-
-/* Adjust spacing for the table headers and columns */
-#archivedInspectorTable, #archivedTable {
+/* Additional Styling for Tables */
+#archivedInspectorTable,
+#archivedTable {
     width: 100%;
     border-collapse: collapse;
-    background-color: #fff;
+    background-color: white;
     box-shadow: var(--box-shadow);
     border-radius: 8px;
     overflow: hidden;
     margin-top: 20px;
 }
 
-#archivedInspectorTable th, #archivedInspectorTable td, 
-#archivedTable th, #archivedTable td {
-    padding: 12px 20px;
-    text-align: left;
-    border-bottom: 1px solid #ddd;
-}
-
-#archivedInspectorTable th, #archivedTable th {
+#archivedInspectorTable th,
+#archivedTable th {
     background-color: rgb(191, 53, 53);
-    color: var(--text-color);
+    color: white;
     font-weight: 600;
-    text-transform: uppercase;
 }
 
-#archivedInspectorTable td, #archivedTable td {
-    font-size: 18px;
-    color: #333;
-}
-
-
-
-.material-icons {
-    vertical-align: middle;
-    margin-left: 10px; /* Add margin-left to the icon to create space from the role text */
+#archivedInspectorTable td,
+#archivedTable td {
+    font-size: 16px;
+    color: var(--text-color);
 }
 
 /* Change Password Button */
 .change-password-button {
-    background-color: #ff9900; /* Orange color for the button */
-    color: var(--text-color); /* White text */
+    background-color: #ff9900;
+    color: white;
     text-decoration: none;
     padding: 8px 15px;
     font-size: 14px;
@@ -275,31 +249,22 @@ h3 {
 }
 
 .change-password-button:hover {
-    background-color: #f6b14a; /* Lighter shade on hover */
+    background-color: #f6b14a;
 }
 
-.change-password-button .icon {
-    margin-right: 5px; /* Spacing between icon and text */
+/* Section Headings */
+#archivedSection,
+#archivedInspectorSection {
+    margin-top: 20px;
 }
 
-/* Filter and Back Buttons */
-.filter-button {
-    background-color: #007bff; /* Blue color for the button */
-    color: var(--text-color); /* White text */
-    padding: 8px 15px;
-    font-size: 14px;
-    border: none;
-    border-radius: 4px;
+/* General Button Styling */
+button {
     cursor: pointer;
-    margin: 10px 0;
-    position: relative;
-    top: -10px; /* Position at the top right of the table */
-    float: right;
     transition: background-color 0.3s;
 }
 
-.filter-button:hover {
-    background-color: #0056b3;
+button:hover {
+    opacity: 0.9;
 }
-
 

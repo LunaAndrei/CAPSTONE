@@ -3,6 +3,17 @@ body {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+    overflow-x: hidden;
+}
+
+:root {
+    --primary-color: #0033cc;
+    --primary-hover-color: #0055ff;
+    --background-color: #f9fafc;
+    --text-color: #333;
+    --button-color: #28a745;
+    --button-hover-color: #218838;
+    --box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 10px;
 }
 
 .sidebar {
@@ -54,105 +65,114 @@ body {
     padding: 20px;
 }
 
-.main-content .header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-
 .main-content .header h1 {
+    
     font-size: 24px;
-}
-
-.search-container {
     position: relative;
-    display: flex;
-    align-items: center;
+    top:-10px
+}
+
+.data-comparison {
+    margin-bottom: 40px;
+    margin-left: 750px;
+}
+
+.chart-container {
+    width: 40%;
+    margin: 20px auto;
+    z-index: 10;
+}
+
+.data-comparison2 {
+    margin-top: -250px;
+}
+
+.chart-container2 {
+    width: 80%; 
+    max-width: 600px; 
+    margin-left: 10px;
+}
+
+.forecast-section {
+    margin-left: 700px;
+}
+
+.chart-container3 {
+    width: 400px;
+    height: 150px;
+}
+
+#forecasttext {
+    position: relative;
+    top: 25px;
+}
+
+/* Table and scrollable container styles */
+.table-container,#toggleButton {
+    width: 45%;
+    max-height: 400px; /* Adjust based on your design */
+    overflow-y: auto; /* Enables vertical scrolling */
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    position: relative;
+    top:-220px;
+    Left:45px;
+}
+
+.applicant-table {
     width: 100%;
-    max-width: 400px;
+    border-collapse: collapse;
 }
 
-.search-input {
-    padding: 10px 40px 10px 40px; /* Initially space on both sides */
-    border: 2px solid silver;
-    border-radius: 15px;
-    font-size: 16px;
-    width: 100%;
-    outline: none;
-}
-
-.search-icon {
-    position: absolute;
-    left: 10px;
-    color: gray;
-    transition: left 0.3s ease;
-}
-
-.search-input:focus + .search-icon {
-    left: calc(100% - 40px); /* Move the icon to the right when input is focused */
-}
-
-.bx.bxs-bell {
-    background-color: gray;
-    font-size: 20px;
-    color: whitesmoke;
+.applicant-table th, .applicant-table td {
     padding: 10px;
-    border-radius: 50%;
-    transition: transform 0.2s ease-in-out;
+    border: 1px solid #ddd;
+    text-align: left;
 }
 
-.bx.bxs-bell:hover {
-    animation: rotate 0.4s ease-in-out;
+.applicant-table th {
+    background-color: #f2f2f2;
 }
 
-@keyframes rotate {
-    0% {
-        transform: rotate(0deg);
-    }
-    25% {
-        transform: rotate(-20deg);
-    }
-    50% {
-        transform: rotate(0deg);
-    }
-    75% {
-        transform: rotate(20deg);
-    }
-    100% {
-        transform: rotate(0deg);
-    }
+#toggleButton{
+    background-color: #0033cc;
+    color: #f2f2f2;
+    padding: 10px;
+    cursor: pointer;
 }
 
-.main-content .dashboard {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 20px;
+#toggleButton:hover{
+    color: #0033cc;
+    background-color: #f2f2f2;
 }
 
-.dashboard .card {
-    background: white;
-    padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    flex: 1;
-    min-width: 300px;
+.chart-container4 {
+    width: 400px; /* Set width for the chart container */
+    height: 300px; /* Set height for the chart container */
+    position: relative;
+    margin-left: 55px; /* Center the chart */
+}
+
+.chart-container4 canvas {
+    max-width: 100%; /* Ensure canvas is responsive */
+    height: auto; /* Maintain aspect ratio */
+}
+
+.vehicle-type-chart{
+    position: relative;
+    top: -300px;
+    left:700px;
+}
+
+.logout {
+    margin-top: 250px;
+    color: white;
     text-decoration: none;
-    color: black;
-    transition: transform 0.3s, box-shadow 0.3s;
-}
-
-.dashboard .card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
-}
-
-.dashboard .card h3 {
-    margin-top: 0;
-}
-
-.pie-chart {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 200px;
+    font-size: 18px;
+    display: block;
+    padding: 10px;
+    text-align: center;
+    background-color: var(--primary-hover-color);
+    border-radius: 8px;
+    transition: background-color 0.3s;
 }

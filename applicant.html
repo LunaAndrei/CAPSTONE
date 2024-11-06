@@ -9,6 +9,12 @@
 </head>
 <body>
   <div class="overlay"></div>
+  <div class="loading-overlay" id="loadingOverlay">
+    <div class="road">
+      <div class="tricycle"></div>
+    </div>
+    <p>Loading, please wait...</p>
+  </div>
   <div class="content-wrapper">
     <div class="info-section">
       <div class="arrow-button left-arrow">
@@ -67,7 +73,7 @@
           </div>
           <div class="btn">
             <div class="inner"></div>
-            <button type="submit">Login</button>
+            <button type="submit"onclick="showLoading()">Login</button>
           </div>
           <div class="signup-link">
             Not a member? <a href="choose.html" class="permit-btn">Choose type of permit</a>
@@ -77,6 +83,6 @@
     </div>
   </div>
   <script src="Javascipt/ApplicantLogin.js" ></script>
-  <script src="Javascipt\Auto.js"></script> <!-- Add the AutoSlide JavaScript -->
+  <script src="Javascipt/Auto.js"></script> <!-- Add the AutoSlide JavaScript -->
 </body>
 </html>

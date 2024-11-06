@@ -7,6 +7,16 @@ body {
     overflow-x: hidden; /* Prevent horizontal scrolling */
 }
 
+:root {
+    --primary-color: #0033cc;
+    --primary-hover-color: #0055ff;
+    --background-color: #f9fafc;
+    --text-color: #333;
+    --button-color: #28a745;
+    --button-hover-color: #218838;
+    --box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 10px;
+}
+
 body.modal-open {
     overflow: hidden; /* Prevent scrolling when modal is open */
 }
@@ -392,3 +402,44 @@ select:focus {
     max-width: 100%;  
     max-height: 600px; /* Increased height limit */
 }
+.logout {
+    margin-top: 250px;
+    color: white;
+    text-decoration: none;
+    font-size: 18px;
+    display: block;
+    padding: 10px;
+    text-align: center;
+    background-color: var(--primary-hover-color);
+    border-radius: 8px;
+    transition: background-color 0.3s;
+}
+
+.pagination {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 20px;
+}
+
+.pagination button {
+    padding: 10px 20px;
+    margin: 0 10px;
+    font-size: 16px;
+    border: none;
+    background-color: var(--primary-color);
+    color: white;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: background-color 0.3s;
+}
+
+.pagination button:disabled {
+    background-color: #cccccc;
+    cursor: not-allowed;
+}
+
+.pagination span {
+    font-size: 18px;
+}
+
