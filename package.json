@@ -1,9 +1,12 @@
 {
   "name": "capstone",
   "version": "1.0.0",
+  "homepage": "https://github.com/LunaAndrei/CAPSTONE",
   "scripts": {
+    "build": "echo \"build\"",
     "start": "nodemon ServerFunc/main.js",
-    "test": "echo \"HELLO\" && exit 1"
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build"
   },
   "dependencies": {
     "bcrypt": "^5.1.1",
@@ -13,5 +16,8 @@
     "jsonwebtoken": "^9.0.2",
     "nodemon": "^3.1.7",
     "pg": "^8.12.0"
+  },
+  "devDependencies": {
+    "gh-pages": "^6.2.0"
   }
 }
