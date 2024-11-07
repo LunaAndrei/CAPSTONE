@@ -8,13 +8,16 @@
 
 /* Root variables for theme colors */
 :root {
-    --primary-color: #0033cc;
+    --primary-color: #0033cc; /* Blue for primary tables */
     --primary-hover-color: #0055ff;
     --background-color: #f9fafc;
     --text-color: #333;
     --button-color: #28a745;
     --button-hover-color: #218838;
     --box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 10px;
+    --view-archived-button-color: #007bff;
+    --view-archived-button-hover-color: #0056b3;
+    --archive-header-color: #bf3535; /* Red color for archive headers */
 }
 
 /* Body Styling */
@@ -107,40 +110,103 @@ h3 {
 }
 
 /* Table Styling */
-#staffTable {
+#staffTable,
+#archivedTable,
+#archivedInspectorTable {
     width: 100%;
     border-collapse: collapse;
     background-color: white;
     box-shadow: var(--box-shadow);
     border-radius: 8px;
     overflow: hidden;
+    margin-top: 20px;
 }
 
-#staffTable th,
-#staffTable td {
-    padding: 15px;
-    text-align: left;
-}
-
+/* Header color for Admin Staff and Inspector List (Blue) */
 #staffTable th {
     background-color: var(--primary-color);
     color: white;
     font-weight: 600;
+    padding: 15px;
+    text-align: center;
 }
 
-#staffTable td {
+/* Header color for Archive Staff and Archive Inspector tables (Red) */
+#archivedTable th,
+#archivedInspectorTable th {
+    background-color: var(--archive-header-color); /* Set to red color */
+    color: white;
+    font-weight: 600;
+    padding: 15px;
+    text-align: center;
+}
+
+/* General Table Cell Styling */
+#staffTable td,
+#archivedTable td,
+#archivedInspectorTable td {
+    padding: 15px;
+    text-align: center;
     font-size: 16px;
     color: var(--text-color);
     border-bottom: 1px solid #ddd;
 }
 
+/* Consistent width for columns */
+#archivedTable th:first-child,
+#archivedTable td:first-child,
+#archivedInspectorTable th:first-child,
+#archivedInspectorTable td:first-child {
+    width: 40%; /* Adjust width as needed for name column */
+}
+
+#archivedTable th:last-child,
+#archivedTable td:last-child,
+#archivedInspectorTable th:last-child,
+#archivedInspectorTable td:last-child {
+    width: 20%; /* Adjust width for icon column */
+}
+
 /* Row Hover Effect */
-#staffTable tr:hover {
+#staffTable tr:hover,
+#archivedTable tr:hover,
+#archivedInspectorTable tr:hover {
     background-color: #f1f1f1;
 }
 
-#staffTable tr:last-child td {
-    border-bottom: none;
+/* General styling for all archive and unarchive buttons */
+.archive-button,
+.unarchive-button {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 18px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: color 0.3s;
+    padding-left: 10px; /* Adjust left padding for button content */
+    padding-right: 10px; /* Adjust right padding for button content */
+}
+
+/* Styling for Archive button */
+.archive-button {
+    color: #dc3545; /* Red color for Archive button */
+    position: relative;
+    left: 40%;
+}
+
+.archive-button:hover {
+    color: #c82333; /* Darker red on hover */
+}
+
+/* Styling for Unarchive button */
+.unarchive-button {
+    color: #28a745; /* Green color for Unarchive button */
+}
+
+.unarchive-button:hover {
+    color: #218838; /* Darker green on hover */
 }
 
 /* Add Account Button */
@@ -166,32 +232,6 @@ h3 {
     margin-right: 8px;
 }
 
-/* Archive and Unarchive Buttons */
-.archive-button,
-.unarchive-button {
-    background: none;
-    border: none;
-    cursor: pointer;
-    font-size: 18px;
-    transition: color 0.3s;
-}
-
-.archive-button {
-    color: #dc3545;
-}
-
-.unarchive-button {
-    color: #28a745;
-}
-
-.archive-button:hover {
-    color: #c82333;
-}
-
-.unarchive-button:hover {
-    color: #218838;
-}
-
 /* Filter and Back Buttons */
 .filter-button {
     background-color: #007bff;
@@ -208,31 +248,6 @@ h3 {
 
 .filter-button:hover {
     background-color: #0056b3;
-}
-
-/* Additional Styling for Tables */
-#archivedInspectorTable,
-#archivedTable {
-    width: 100%;
-    border-collapse: collapse;
-    background-color: white;
-    box-shadow: var(--box-shadow);
-    border-radius: 8px;
-    overflow: hidden;
-    margin-top: 20px;
-}
-
-#archivedInspectorTable th,
-#archivedTable th {
-    background-color: rgb(191, 53, 53);
-    color: white;
-    font-weight: 600;
-}
-
-#archivedInspectorTable td,
-#archivedTable td {
-    font-size: 16px;
-    color: var(--text-color);
 }
 
 /* Change Password Button */
@@ -252,19 +267,19 @@ h3 {
     background-color: #f6b14a;
 }
 
-/* Section Headings */
-#archivedSection,
-#archivedInspectorSection {
+/* View Archived Button */
+.view-archived-button {
+    background-color: var(--view-archived-button-color);
+    color: white;
+    padding: 10px 15px;
+    font-size: 14px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s;
     margin-top: 20px;
 }
 
-/* General Button Styling */
-button {
-    cursor: pointer;
-    transition: background-color 0.3s;
+.view-archived-button:hover {
+    background-color: var(--view-archived-button-hover-color);
 }
-
-button:hover {
-    opacity: 0.9;
-}
-
