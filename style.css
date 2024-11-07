@@ -1,0 +1,14 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+    .chart-container canvas {
+        width: 60px !important;
+        height: 60px !important;
+    }
+    .data-comparison, .data-comparison2, .forecast-section, .vehicle-type-chart {
+        max-width: 80px;
+        max-height: 80px;
+    }
+

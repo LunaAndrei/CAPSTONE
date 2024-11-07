@@ -6,7 +6,8 @@
     "build": "echo \"build\"",
     "start": "nodemon ServerFunc/main.js",
     "predeploy": "npm run build",
-    "deploy": "gh-pages -d build"
+    "deploy": "gh-pages -d build",
+    "build:css": "npx tailwindcss -i ./CAPSTONE/style.css -o ./CAPSTONE/dist/output.css --minify"
   },
   "dependencies": {
     "bcrypt": "^5.1.1",
@@ -18,6 +19,7 @@
     "pg": "^8.12.0"
   },
   "devDependencies": {
-    "gh-pages": "^6.2.0"
+    "gh-pages": "^6.2.0",
+    "tailwindcss": "^3.0.0" 
   }
 }

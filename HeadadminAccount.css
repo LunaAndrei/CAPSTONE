@@ -202,7 +202,9 @@ h3 {
 
 /* Styling for Unarchive button */
 .unarchive-button {
-    color: #28a745; /* Green color for Unarchive button */
+    color: #28a745;
+    position: relative;
+    left: 40%;
 }
 
 .unarchive-button:hover {
