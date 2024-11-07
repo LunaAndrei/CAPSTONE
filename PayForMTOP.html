@@ -4,145 +4,144 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Payment for MTOP</title>
-    <link rel="stylesheet" href="PayForMTOP.css">
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     <link rel="icon" href="Pic/favicon.png">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"/>
     <link rel="stylesheet" href="https://unpkg.com/boxicons/css/boxicons.min.css">
     <script src="https://code.iconify.design/2/2.1.0/iconify.min.js"></script>
 </head>
-<body>
+<body class="font-sans overflow-x-hidden bg-gray-50">
 
-
-    <div class="sidebar">
-        <img src="Pic/favicon.png" alt="Logo">
-        <h2>Menu</h2>
-        <ul>
-            <li><a href="Dashboard.html"><i class="bx bxs-dashboard"></i> Dashboard</a></li>
-            <li><a href="VeryfingDocuments.html"><i class='bx bxs-file-find'></i> Verifying Documents</a></li>
-            <li><a href="AdminOccuForm.html"><i class="fas fa-id-card icon"></i> Occupational Form</a></li>
-            <li><a href="FranchiseForm.html"><i class="fas fa-id-card icon"></i> Franchise Form</a></li>
-            <li><a href="payment.html"><i class='bx bxs-wallet-alt'></i> Payment</a></li>
-            <a href="#" id="logoutButton" class="logout"><i class="fas fa-sign-out-alt"></i> Logout</a> 
+    <!-- Sidebar -->
+    <div class="fixed top-0 left-0 h-full w-56 bg-blue-900 text-white p-5">
+        <img src="Pic/favicon.png" alt="Logo" class="w-12 h-12 mx-auto mb-4 rounded-full">
+        <h2 class="text-xl text-center mb-6">Menu</h2>
+        <ul class="space-y-4">
+            <li><a href="Dashboard.html" class="block py-2 rounded-md hover:bg-blue-700"><i class="bx bxs-dashboard mr-2"></i> Dashboard</a></li>
+            <li><a href="VeryfingDocuments.html" class="block py-2 rounded-md hover:bg-blue-700"><i class='bx bxs-file-find mr-2'></i> Verifying Documents</a></li>
+            <li><a href="AdminOccuForm.html" class="block py-2 rounded-md hover:bg-blue-700"><i class="fas fa-id-card mr-2"></i> Occupational Form</a></li>
+            <li><a href="FranchiseForm.html" class="block py-2 rounded-md hover:bg-blue-700"><i class="fas fa-id-card mr-2"></i> Franchise Form</a></li>
+            <li><a href="payment.html" class="block py-2 rounded-md hover:bg-blue-700"><i class='bx bxs-wallet-alt mr-2'></i> Payment</a></li>
+            <a href="#" id="logoutButton" class="block py-2 mt-8 text-center bg-blue-700 rounded-md hover:bg-blue-600"><i class="fas fa-sign-out-alt mr-2"></i> Logout</a> 
         </ul>
     </div>
 
+    <!-- Main Content -->
+    <div class="ml-64 p-10 space-y-8">
+        <h1 class="text-3xl font-semibold text-center">Payment for MTOP</h1>
 
-    <div class="main-content">
-        <h1>Payment for MTOP</h1>
-
-
-        <div class="search-container">
-            <label for="search-id">Search:</label>
-            <input type="text" id="search-id" placeholder="Search Motor Operator ID" required>
-            <button class="search-button">Search</button>
-            <button class="view-receipt-button">View Receipt</button>
+        <!-- Search Container -->
+        <div class="grid grid-cols-4 gap-3 max-w-5xl mx-auto items-center mb-8">
+            <label for="search-id" class="text-lg font-bold col-span-1">Search:</label>
+            <input type="text" id="search-id" placeholder="Search Motor Operator ID" required class="col-span-2 p-3 text-lg border rounded-md border-gray-300 focus:outline-none">
+            <div class="flex space-x-3">
+                <button class="px-4 py-3 text-lg font-semibold text-white bg-blue-900 rounded-md hover:bg-blue-700">Search</button>
+                <button class="px-4 py-3 text-lg font-semibold text-white bg-blue-900 rounded-md hover:bg-blue-700">View Receipt</button>
+            </div>
         </div>
 
-
-        <div class="details-container">
+        <!-- Details Container -->
+        <div class="grid grid-cols-4 gap-4 p-6 max-w-5xl mx-auto bg-gray-100 rounded-lg shadow-inner">
             <!-- First Row -->
             <div>
-                <label for="id"><strong>MO_ID:</strong></label>
-                <input type="text" id="id">
+                <label for="id" class="block text-lg font-bold mb-1">MO_ID:</label>
+                <input type="text" id="id" class="w-full p-3 text-lg border border-gray-300 rounded-md focus:outline-none">
             </div>
             <div>
-                <label for="name"><strong>Name:</strong></label>
-                <input type="text" id="name">
+                <label for="name" class="block text-lg font-bold mb-1">Name:</label>
+                <input type="text" id="name" class="w-full p-3 text-lg border border-gray-300 rounded-md focus:outline-none">
             </div>
             <div>
-                <label for="address"><strong>Address:</strong></label>
-                <input type="text" id="address">
+                <label for="address" class="block text-lg font-bold mb-1">Address:</label>
+                <input type="text" id="address" class="w-full p-3 text-lg border border-gray-300 rounded-md focus:outline-none">
             </div>
             <div>
-                <label for="category"><strong>Category:</strong></label>
-                <select id="category">
+                <label for="category" class="block text-lg font-bold mb-1">Category:</label>
+                <select id="category" class="w-full p-3 text-lg border border-gray-300 rounded-md focus:outline-none">
                     <option value="Tricycle Permit - New (Operator)">Tricycle Permit - New</option>
                     <option value="Tricycle Permit - Renewal (Operator)">Tricycle Permit - Renewal</option>
                     <option value="Tricycle Permit - Both (Operator)">Tricycle Permit - Both</option>
                 </select>
             </div>
 
-
             <!-- Second Row -->
             <div>
-                <label for="filling-fee"><strong>Filling Fee:</strong></label>
-                <input type="text" id="filling-fee" value="₱22.00">
+                <label for="filling-fee" class="block text-lg font-bold mb-1">Filling Fee:</label>
+                <input type="text" id="filling-fee" value="₱22.00" class="w-full p-3 text-lg border border-gray-300 rounded-md focus:outline-none">
             </div>
             <div>
-                <label for="business-permit"><strong>Business Permit:</strong></label>
-                <input type="text" id="business-permit" value="₱33.00">
+                <label for="business-permit" class="block text-lg font-bold mb-1">Business Permit:</label>
+                <input type="text" id="business-permit" value="₱33.00" class="w-full p-3 text-lg border border-gray-300 rounded-md focus:outline-none">
             </div>
             <div>
-                <label for="mtop"><strong>MTOP:</strong></label>
-                <input type="text" id="mtop" value="₱165.00">
+                <label for="mtop" class="block text-lg font-bold mb-1">MTOP:</label>
+                <input type="text" id="mtop" value="₱165.00" class="w-full p-3 text-lg border border-gray-300 rounded-md focus:outline-none">
             </div>
             <div>
-                <label for="pol-med-mayor"><strong>Pol/Med/Mayor:</strong></label>
-                <input type="text" id="pol-med-mayor" value="₱99.00">
+                <label for="pol-med-mayor" class="block text-lg font-bold mb-1">Pol/Med/Mayor:</label>
+                <input type="text" id="pol-med-mayor" value="₱99.00" class="w-full p-3 text-lg border border-gray-300 rounded-md focus:outline-none">
             </div>
-
 
             <!-- Third Row -->
             <div>
-                <label for="plate-number"><strong>Plate No./Sticker No.:</strong></label>
-                <input type="text" id="plate-number" value="₱130.00">
+                <label for="plate-number" class="block text-lg font-bold mb-1">Plate No./Sticker No.:</label>
+                <input type="text" id="plate-number" value="₱130.00" class="w-full p-3 text-lg border border-gray-300 rounded-md focus:outline-none">
             </div>
             <div>
-                <label for="inspection-fee"><strong>Inspection Fee:</strong></label>
-                <input type="text" id="inspection-fee" value="₱55.00">
+                <label for="inspection-fee" class="block text-lg font-bold mb-1">Inspection Fee:</label>
+                <input type="text" id="inspection-fee" value="₱55.00" class="w-full p-3 text-lg border border-gray-300 rounded-md focus:outline-none">
             </div>
             <div>
-                <label for="id-card"><strong>ID Card:</strong></label>
-                <input type="text" id="id-card" value="₱0.00">
+                <label for="id-card" class="block text-lg font-bold mb-1">ID Card:</label>
+                <input type="text" id="id-card" value="₱0.00" class="w-full p-3 text-lg border border-gray-300 rounded-md focus:outline-none">
             </div>
             <div>
-                <label for="sec-fee"><strong>Sec Fee:</strong></label>
-                <input type="text" id="sec-fee" value="₱37.00">
+                <label for="sec-fee" class="block text-lg font-bold mb-1">Sec Fee:</label>
+                <input type="text" id="sec-fee" value="₱37.00" class="w-full p-3 text-lg border border-gray-300 rounded-md focus:outline-none">
             </div>
-
 
             <!-- Fourth Row -->
             <div>
-                <label for="dst"><strong>DST:</strong></label>
-                <input type="text" id="dst" value="₱0.00">
+                <label for="dst" class="block text-lg font-bold mb-1">DST:</label>
+                <input type="text" id="dst" value="₱0.00" class="w-full p-3 text-lg border border-gray-300 rounded-md focus:outline-none">
             </div>
             <div>
-                <label for="supervision-fee"><strong>Supervision Fee:</strong></label>
-                <input type="text" id="supervision-fee" value="₱40.00">
+                <label for="supervision-fee" class="block text-lg font-bold mb-1">Supervision Fee:</label>
+                <input type="text" id="supervision-fee" value="₱40.00" class="w-full p-3 text-lg border border-gray-300 rounded-md focus:outline-none">
             </div>
             <div>
-                <label for="penalty"><strong>Penalty:</strong></label>
-                <input type="text" id="penalty" value="₱0.00">
+                <label for="penalty" class="block text-lg font-bold mb-1">Penalty:</label>
+                <input type="text" id="penalty" value="₱0.00" class="w-full p-3 text-lg border border-gray-300 rounded-md focus:outline-none">
             </div>
-
 
             <!-- Payment Section -->
-            <div class="payment-container">
-                <label for="total"><strong>Total:</strong></label>
-                <input type="text" id="total" value="₱581.00">
+            <div class="col-span-4 grid grid-cols-4 gap-4 items-center">
+                <div class="col-span-1">
+                    <label for="total" class="block text-lg font-bold mb-1">Total:</label>
+                    <input type="text" id="total" value="₱581.00" class="w-full p-3 text-lg border border-gray-300 rounded-md focus:outline-none">
+                </div>
+                <div class="col-span-1">
+                    <label for="units" class="block text-lg font-bold mb-1">Units:</label>
+                    <input type="number" id="units" value="1" class="w-full p-3 text-lg border border-gray-300 rounded-md focus:outline-none">
+                </div>
+                <div class="col-span-1">
+                    <label for="amount" class="block text-lg font-bold mb-1">Amount:</label>
+                    <input type="number" id="amount" class="w-full p-3 text-lg border border-gray-300 rounded-md focus:outline-none">
+                </div>
+                <div class="col-span-1">
+                    <label for="change" class="block text-lg font-bold mb-1">Change:</label>
+                    <input type="text" id="change" readonly class="w-full p-3 text-lg border border-gray-300 rounded-md focus:outline-none bg-gray-200">
+                </div>
+            </div>
 
-
-                <label for="units"><strong>Units:</strong></label>
-                <input type="number" id="units" value="1">
-
-
-                <label for="amount"><strong>Amount:</strong></label>
-                <input type="number" id="amount">
-
-
-                <label for="change"><strong>Change:</strong></label>
-                <input type="text" id="change" readonly>
-
-
-                <button id="pay-button" class="pay-button">PAY</button>
-                <a href="payment.html" style="text-decoration: none;">
-                    <button class="cancel-button">CANCEL</button>
-                </a>
+            <div class="col-span-4 flex justify-center gap-6 mt-4">
+                <button id="pay-button" class="px-6 py-3 text-lg font-semibold text-green-700 border-2 border-green-500 rounded-md hover:bg-green-500 hover:text-white transition duration-300 ease-in-out">PAY</button>
+                <a href="payment.html" class="px-6 py-3 text-lg font-semibold text-red-700 text-center border-2 border-red-500 rounded-md hover:bg-red-500 hover:text-white transition duration-300 ease-in-out">CANCEL</a>
             </div>
         </div>
     </div>
 
-
+    <!-- JavaScript -->
     <script src="Javascipt/Calcu.js"></script>
 </body>
 </html>

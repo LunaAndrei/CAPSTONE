@@ -4,39 +4,44 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Payment</title>
-    <link rel="stylesheet" href="payment.css">
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     <link rel="icon" href="Pic/favicon.png">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
     <link rel="stylesheet" href="https://unpkg.com/boxicons/css/boxicons.min.css">
     <script src="https://code.iconify.design/2/2.1.0/iconify.min.js"></script>
 </head>
-<body>
-    <div class="sidebar">
-        <img src="Pic/favicon.png" alt="Logo">
-        <h2>Menu</h2>
-        <ul>
-            <li><a href="Dashboard.html"><i class="bx bxs-dashboard"></i> Dashboard</a></li>
-            <li><a href="VeryfingDocuments.html"><i class='bx bxs-file-find'></i> Verifying Documents</a></li>
-            <li><a href="AdminOccuForm.html"><i class="fas fa-id-card icon"></i> Occupational Form</a></li>
-            <li><a href="FranchiseForm.html"><i class="fas fa-id-card icon"></i> Franchise Form</a></li>
-            <li><a href="payment.html"><i class='bx bxs-wallet-alt'></i> Payment</a></li>
-            <a href="#" id="logoutButton" class="logout"><i class="fas fa-sign-out-alt"></i> Logout</a> 
+<body class="flex h-screen font-sans text-gray-800 bg-gray-100">
+    <!-- Sidebar -->
+    <div class="fixed top-0 left-0 bottom-0 w-56 p-5 bg-blue-900 text-white">
+        <img src="Pic/favicon.png" alt="Logo" class="w-12 h-12 rounded-full mx-auto mb-3">
+        <h2 class="text-lg text-center mb-5">Menu</h2>
+        <ul class="space-y-3">
+            <li><a href="Dashboard.html" class="block py-2 hover:bg-blue-700 rounded-md"><i class="bx bxs-dashboard mr-2"></i> Dashboard</a></li>
+            <li><a href="VeryfingDocuments.html" class="block py-2 hover:bg-blue-700 rounded-md"><i class='bx bxs-file-find mr-2'></i> Verifying Documents</a></li>
+            <li><a href="AdminOccuForm.html" class="block py-2 hover:bg-blue-700 rounded-md"><i class="fas fa-id-card mr-2"></i> Occupational Form</a></li>
+            <li><a href="FranchiseForm.html" class="block py-2 hover:bg-blue-700 rounded-md"><i class="fas fa-id-card mr-2"></i> Franchise Form</a></li>
+            <li><a href="payment.html" class="block py-2 hover:bg-blue-700 rounded-md"><i class='bx bxs-wallet-alt mr-2'></i> Payment</a></li>
+            <a href="#" id="logoutButton" class="block py-2 text-center bg-blue-700 rounded-md hover:bg-blue-600 mt-8"><i class="fas fa-sign-out-alt mr-2"></i> Logout</a>
         </ul>
     </div>
-    <div class="main-content">
-        <h1>Payment</h1>
-        <div class="buttons">
-            <a href="PayOcuPermit.html" class="button occupational">Occupational Permit</a>
-            <a href="PayForMTOP.html" class="button motor-operator">Motor Operator Permit</a>
+
+    <!-- Main Content -->
+    <div class="flex flex-col justify-center items-center w-full ml-64 p-8 space-y-10">
+        <h1 class="text-4xl font-semibold text-gray-700">Payment</h1>
+        <div class="flex flex-col items-center w-full space-y-5">
+            <a href="PayOcuPermit.html" class="flex items-center justify-center w-2/3 max-w-md p-5 text-xl font-semibold text-gray-800 bg-gray-200 rounded-lg hover:bg-purple-500 hover:text-white transform hover:-translate-y-1 transition-all duration-200">Occupational Permit</a>
+            <a href="PayForMTOP.html" class="flex items-center justify-center w-2/3 max-w-md p-5 text-xl font-semibold text-gray-800 bg-gray-200 rounded-lg hover:bg-purple-500 hover:text-white transform hover:-translate-y-1 transition-all duration-200">Motor Operator Permit</a>
         </div>
-        <a href="confirm.html" class="confirm-button">Confirm</a>
+        <a href="confirm.html" class="mt-10 px-8 py-3 text-xl font-semibold text-gray-800 bg-gray-200 rounded-full hover:bg-gray-400 transform hover:-translate-y-1 transition-all duration-200">Confirm</a>
     </div>
+
+    <!-- Logout Script -->
     <script>
         document.getElementById('logoutButton').addEventListener('click', function(event) {
-            event.preventDefault(); // Prevent the default link behavior
+            event.preventDefault();
             var confirmation = confirm("Are you sure you want to log out?");
             if (confirmation) {
-                window.location.href = 'login.html'; // Redirect to the login page
+                window.location.href = 'login.html';
             }
         });
     </script>
