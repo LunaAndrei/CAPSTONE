@@ -1,7 +1,7 @@
 {
   "name": "capstone",
   "version": "1.0.0",
-  "homepage": "https://github.com/LunaAndrei/CAPSTONE",
+  "homepage": "https://github.com/JohnCarloLagunsing/CAPSTONE",
   "scripts": {
     "build": "echo \"build\"",
     "start": "nodemon ServerFunc/main.js",
