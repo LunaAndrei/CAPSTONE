@@ -1,4 +1,10 @@
 {
+  "name": "capstone",
+  "version": "1.0.0",
+  "scripts": {
+    "start": "nodemon ServerFunc/main.js",
+    "test": "echo \"HELLO\" && exit 1"
+  },
   "dependencies": {
     "bcrypt": "^5.1.1",
     "body-parser": "^1.20.2",
