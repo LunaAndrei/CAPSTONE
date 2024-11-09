@@ -27,18 +27,22 @@ router.post(
       return res.status(400).json({ message: "User not authenticated. Please log in." });
     }
 
-    // Check if user has previously submitted
-    try {
-      // Ensure occuid is not set in the session for new submissions
-      if (!req.session.has_submitted) {
-        req.session.occuid = null;
-      }
+    // Log session data before checking for existing submission
+    console.log("Session occuid before check:", req.session.occuid);
+    console.log("Session data before check:", req.session);
 
-      // Check if there's already an approved application for this user in the Occustatus table
-      const checkQuery = 'SELECT status FROM public."occustatus" WHERE "occuid" = $1 AND status = $2';
+    // Ensure occuid is initialized in the session if it isn't set
+    if (!req.session.occuid) {
+      req.session.occuid = null; // Initialize to null if not set
+    }
+
+    // Check if the user already has an approved application in the Occustatus table
+    try {
+      const checkQuery = 'SELECT status FROM public."occustatus" WHERE "occuid" = $1 AND status ILIKE $2';
       const checkResult = await pool.query(checkQuery, [req.session.occuid, 'Approved']);
-      
+
       if (checkResult.rows.length > 0) {
+        console.log("Found approved application for occuid:", req.session.occuid);
         return res.status(400).json({ message: "You already have an approved application and cannot submit another." });
       }
     } catch (error) {
