@@ -9,6 +9,16 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
     <link rel="stylesheet" href="https://unpkg.com/boxicons/css/boxicons.min.css">
     <script src="https://code.iconify.design/2/2.1.0/iconify.min.js"></script>
+    <style>
+        .alert.success {
+            background-color: #28a745; /* Green background */
+            color: white;
+        }
+        .alert.error {
+            background-color: #dc3545; /* Red background */
+            color: white;
+        }
+    </style>
 </head>
 <body class="font-sans text-gray-800 bg-gray-100">
     <!-- Sidebar -->
@@ -30,7 +40,11 @@
         <h1 class="text-2xl font-semibold text-center text-gray-700 uppercase mb-6">Tricycle Franchise Application Form</h1>
 
         <!-- Alert Container -->
-        <div id="alert-container" class="hidden items-center p-4 mb-6 rounded-md text-white"></div>
+        <div id="alert-container" class="hidden items-center p-4 mb-6 rounded-md text-white">
+            <span id="alert-icon" class="mr-2"></span>
+            <span id="alert-message"></span>
+        </div>
+        
 
         <!-- Form -->
         <form action="http://localhost:8000/submit" method="POST" enctype="multipart/form-data" class="max-w-3xl mx-auto bg-white p-8 shadow-lg rounded-lg space-y-8">
@@ -193,24 +207,26 @@
         }
 
         async function confirmSubmission(event) {
-            event.preventDefault();
-            const confirmed = confirm("Are you sure you want to submit this form?");
-            if (confirmed) {
-                const form = document.querySelector('form');
-                const formData = new FormData(form);
-                try {
-                    const response = await fetch(form.action, { method: form.method, body: formData });
-                    if (response.ok) {
-                        alert('Form submitted successfully!');
-                        form.reset();
-                    } else {
-                        alert('Failed to submit form');
-                    }
-                } catch (error) {
-                    console.error('Submission failed', error);
-                }
+    event.preventDefault();
+    const confirmed = confirm("Are you sure you want to submit this form?");
+    if (confirmed) {
+        const form = document.querySelector('form');
+        const formData = new FormData(form);
+        try {
+            const response = await fetch(form.action, { method: form.method, body: formData });
+            if (response.ok) {
+                showAlert('Form submitted successfully!', 'success'); // Use showAlert instead of alert
+                form.reset();
+            } else {
+                showAlert('Failed to submit form', 'error'); // Use showAlert instead of alert
             }
+        } catch (error) {
+            console.error('Submission failed', error);
+            showAlert('An error occurred during submission', 'error'); // Use showAlert instead of alert
         }
+    }
+}
+
 
         function clearForm() {
             document.querySelector('form').reset();

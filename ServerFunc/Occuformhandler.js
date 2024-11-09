@@ -1,23 +1,18 @@
+// Occuformhandler.js
 const express = require("express");
 const multer = require("multer");
-const path = require("path");
 const bodyParser = require("body-parser");
 const cors = require("cors");
-const pool = require("./db"); // PostgreSQL pool setup in db.js
+const pool = require("./db");
 
 const router = express.Router();
-
-// Use cors middleware to allow cross-origin requests
 router.use(cors());
-
-// Set up multer storage in memory for binary file storage
-const storage = multer.memoryStorage();
-const upload = multer({ storage: storage });
-
 router.use(bodyParser.urlencoded({ extended: true }));
 router.use(bodyParser.json());
 
-// Endpoint to handle form submission with binary file storage
+const storage = multer.memoryStorage();
+const upload = multer({ storage: storage });
+
 router.post(
   "/submitForm",
   upload.fields([
@@ -27,6 +22,34 @@ router.post(
     { name: "officialReceipt", maxCount: 1 },
   ]),
   async (req, res) => {
+    // Check if user is authenticated
+    if (!req.session.user_id) {
+      return res.status(400).json({ message: "User not authenticated. Please log in." });
+    }
+
+    // Check if user has previously submitted
+    try {
+      // Ensure occuid is not set in the session for new submissions
+      if (!req.session.has_submitted) {
+        req.session.occuid = null;
+      }
+
+      // Check if there's already an approved application for this user in the Occustatus table
+      const checkQuery = 'SELECT status FROM public."occustatus" WHERE "occuid" = $1 AND status = $2';
+      const checkResult = await pool.query(checkQuery, [req.session.occuid, 'Approved']);
+      
+      if (checkResult.rows.length > 0) {
+        return res.status(400).json({ message: "You already have an approved application and cannot submit another." });
+      }
+    } catch (error) {
+      console.error("Error checking for existing application:", error.stack);
+      return res.status(500).json({ message: "Error checking application status" });
+    }
+
+    // Log the received data for debugging
+    console.log("Form data:", req.body);
+    console.log("Files:", req.files);
+
     const {
       lastName,
       firstName,
@@ -52,13 +75,18 @@ router.post(
       ctcPlaceIssued,
     } = req.body;
 
-    // Get binary data from multer for each file
     const coe = req.files["coe"] ? req.files["coe"][0].buffer : null;
     const healthCard = req.files["healthCard"] ? req.files["healthCard"][0].buffer : null;
     const birthCertificate = req.files["birthCertificate"] ? req.files["birthCertificate"][0].buffer : null;
     const officialReceipt = req.files["officialReceipt"] ? req.files["officialReceipt"][0].buffer : null;
 
+    // Ensure required files are present
+    if (!coe || !officialReceipt) {
+      return res.status(400).json({ message: "Required files (Certificate of Employment and Official Receipt) are missing." });
+    }
+
     try {
+      // Insert form data into OccuPermit
       const query = `
         INSERT INTO public."OccuPermit" (
           "Lastname", "Firstname", "Middlename", "Suffix", "Address", "DateofBirth", "Age", "PlaceofBirth",
@@ -68,7 +96,7 @@ router.post(
         ) VALUES (
           $1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12,
           $13, $14, $15, $16, $17, $18, $19, $20, $21, $22, $23, $24, $25, $26
-        )
+        ) RETURNING "Occuid"
       `;
 
       const values = [
@@ -100,12 +128,32 @@ router.post(
         ctcPlaceIssued,
       ];
 
-      // Insert the form data along with the binary files into the database
-      await pool.query(query, values);
-      res.status(200).json({ message: "Form submitted successfully!" });
+      // Insert the form data and get the generated Occuid
+      const result = await pool.query(query, values);
+      const occuid = result.rows[0].Occuid.toString(); // Convert occuid to string to match VARCHAR type
+
+      // Update permit_session to set has_submitted to TRUE and store occuid as VARCHAR
+      await pool.query(
+        'UPDATE permit_session SET has_submitted = TRUE, occuid = $1 WHERE sid = $2',
+        [occuid, req.session.user_id]
+      );
+
+      // Set occuid in the session
+      req.session.occuid = occuid;
+
+      // Save session and respond
+      req.session.save((err) => {
+        if (err) {
+          console.error("Error saving session:", err);
+          return res.status(500).json({ message: "Error saving session" });
+        }
+        console.log("Session successfully saved with occuid:", req.session.occuid);
+        res.status(200).json({ message: "Form submitted successfully!", occuid });
+      });
+
     } catch (err) {
-      console.error("Error inserting data:", err);
-      res.status(500).json({ message: "Error submitting form" });
+      console.error("Error inserting data:", err.stack); // More detailed logging
+      res.status(500).json({ message: "Error submitting form", error: err.message });
     }
   }
 );

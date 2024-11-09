@@ -1,10 +1,12 @@
-const passwordInput = document.getElementById('password');
-const togglePasswordIcon = document.querySelector('.toggle-password');
-const loadingOverlay = document.getElementById('loadingOverlay');
+const passwordInput = document.getElementById('passwordInput');
+const togglePasswordIcon = document.getElementById('togglePasswordIcon');
 
-// Show the toggle icon when there is input in the password field
 passwordInput.addEventListener('input', () => {
-    togglePasswordIcon.style.display = passwordInput.value ? 'inline' : 'none';
+    if (passwordInput.value) {
+        togglePasswordIcon.classList.remove('hidden');
+    } else {
+        togglePasswordIcon.classList.add('hidden');
+    }
 });
 
 function togglePassword() {
@@ -14,6 +16,7 @@ function togglePassword() {
     // Toggle the icon
     togglePasswordIcon.innerHTML = type === 'password' ? '<i class="fa fa-eye"></i>' : '<i class="fa fa-eye-slash"></i>';
 }
+
 
 document.getElementById('loginForm').addEventListener('submit', async function(event) {
     event.preventDefault();

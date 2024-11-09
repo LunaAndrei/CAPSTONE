@@ -8,16 +8,18 @@ const serverRouter = require('./server');
 const FCRouter = require('./FranchiseProcess');
 const OccuProcessRouter = require('./Occuprocess');
 const VerifyingRouter = require('./Verifying');
-const HeadadminRouter = require('./HeadadminLogin'); // Head admin login router
+const HeadadminRouter = require('./HeadadminLogin');
 const AdminChangPass = require('./AdminChangPass');
 const PasswordReset = require('./PasswordReset');
 const InspectorSignup = require('./InspectorSignup');
-const inspectorchangepass = require('./inspectorchangepass')
-const inspectorchangepass2 = require('./inspectorchangepass2')
+const inspectorchangepass = require('./inspectorchangepass');
+const inspectorchangepass2 = require('./inspectorchangepass2');
 const HeadadminAccountRouter = require('./HeadAdminaccount');
 const Analysis = require('./Analysis');
-const occupational= require("./occupational");
-const OccupationalApplicants = require("./OccupationalApplicants"); // Use HeadadminAccount for account management routes
+const occupational = require("./occupational");
+const SubmissionOccu = require("./SubmissionOccu")
+const OccupationalApplicants = require("./OccupationalApplicants");
+const Occustatus = require("./Occustatus");
 const pool = require('./db');
 const cors = require('cors');
 const cookieParser = require('cookie-parser');
@@ -41,13 +43,13 @@ app.use(cors({
     credentials: true
 }));
 
-// Use session middleware with PostgreSQL session store
+// Session for general app (existing session configuration for 'session' table)
 app.use(session({
     store: new pgSession({
-        pool: pool, // Connect to PostgreSQL
-        tableName: 'session' // Customize the session table name
+        pool: pool,
+        tableName: 'session' // Existing session table for general login activities
     }),
-    secret: process.env.SESSION_SECRET || 'aV3ryC0mpl3xP@ssphr@se1234!', // Use secret from .env
+    secret: process.env.SESSION_SECRET || 'aV3ryC0mpl3xP@ssphr@se1234!',
     resave: false,
     saveUninitialized: false,
     cookie: {
@@ -55,6 +57,21 @@ app.use(session({
         secure: false // Set to true in production with HTTPS
     }
 }));
+
+// Session for permit-related routes (using 'permit_session' table)
+const permitSession = session({
+    store: new pgSession({
+        pool: pool,
+        tableName: 'permit_session' // New session table specifically for OccuPermit-related sessions
+    }),
+    secret: process.env.SESSION_SECRET || 'aV3ryC0mpl3xP@ssphr@se1234!',
+    resave: false,
+    saveUninitialized: false,
+    cookie: {
+        maxAge: 30 * 24 * 60 * 60 * 1000,
+        secure: false
+    }
+});
 
 // Use routers for different routes
 app.use('/', loginProcessRouter);  // Login related routes
@@ -71,9 +88,19 @@ app.use('/', InspectorSignup);
 app.use('/', HeadadminAccountRouter);
 app.use('/data', Analysis); 
 app.use("/signup", occupational);
-app.use("/auth", OccupationalApplicants );
-app.use("/", Occuformhandler);
-  // Use HeadadminAccountRouter for account management
+app.use("/auth", OccupationalApplicants);
+app.use('/', SubmissionOccu)
+
+// Apply the `permitSession` middleware specifically to OccuPermit-related routes
+app.use("/submit", permitSession, Occuformhandler); // Use `permitSession` for form submission
+app.use("/status", permitSession, Occustatus); // Use `permitSession` for checking OccuPermit status
+app.get('/test-session', permitSession, (req, res) => {
+    if (req.session.occuid) {
+        res.send(`Session occuid: ${req.session.occuid}`);
+    } else {
+        res.send('No occuid in session');
+    }
+});
 
 // Start the server
 app.listen(port, () => {

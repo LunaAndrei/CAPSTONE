@@ -33,8 +33,8 @@
           <label class="block text-lg">Password</label>
           <div class="relative">
             <i class="fas fa-lock absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-700"></i>
-            <input type="password" name="password" id="password" required class="h-12 w-full pl-12 pr-12 text-lg border-2 border-gray-300 rounded-lg shadow-sm hover:border-blue-400 focus:outline-none" />
-            <span class="absolute right-3 top-1/2 transform -translate-y-1/2 cursor-pointer" onclick="togglePassword()">
+            <input type="password" name="password" id="passwordInput" required class="h-12 w-full pl-12 pr-12 text-lg border-2 border-gray-300 rounded-lg shadow-sm hover:border-blue-400 focus:outline-none" />
+            <span class="absolute right-3 top-1/2 transform -translate-y-1/2 cursor-pointer hidden" id="togglePasswordIcon" onclick="togglePassword()">
               <i class="fa fa-eye" id="toggleIcon"></i>
             </span>
           </div>
@@ -49,6 +49,7 @@
       </form>
     </div>
   </div>
+ 
   <script src="Javascipt/Login.js"></script>
 </body>
 </html>
