@@ -1,6 +1,6 @@
 const express = require('express');
 const bodyParser = require('body-parser');
-const bcrypt = require('bcrypt');
+const bcrypt = require('bcryptjs');
 const pool = require('./db'); // Assuming you have a db connection in db.js
 const { v4: uuidv4 } = require('uuid');
 const cors = require('cors');

@@ -1,7 +1,7 @@
 // auth.js
 const express = require("express");
 const router = express.Router();
-const bcrypt = require("bcrypt");
+const bcrypt = require("bcryptjs");
 const pool = require("./db"); // Assuming db.js exports a properly configured pool
 
 // Login route

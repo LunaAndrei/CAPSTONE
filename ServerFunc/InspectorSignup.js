@@ -1,6 +1,6 @@
 const express = require('express');
 const pool = require('./db'); // Assuming you have already set up your database connection in 'db.js'
-const bcrypt = require('bcrypt');
+const bcrypt = require('bcryptjs');
 const router = express.Router();
 const path = require('path');
 
