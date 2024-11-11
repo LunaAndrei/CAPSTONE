@@ -1,13 +1,19 @@
 const passwordInput = document.getElementById('passwordInput');
 const togglePasswordIcon = document.getElementById('togglePasswordIcon');
+const loadingOverlay = document.getElementById('loadingOverlay');
+const alertContainer = document.getElementById('alert-container');
 
-passwordInput.addEventListener('input', () => {
-    if (passwordInput.value) {
-        togglePasswordIcon.classList.remove('hidden');
-    } else {
-        togglePasswordIcon.classList.add('hidden');
-    }
-});
+if (passwordInput && togglePasswordIcon) {
+    passwordInput.addEventListener('input', () => {
+        if (passwordInput.value) {
+            togglePasswordIcon.classList.remove('hidden');
+        } else {
+            togglePasswordIcon.classList.add('hidden');
+        }
+    });
+
+    togglePasswordIcon.addEventListener('click', togglePassword);
+}
 
 function togglePassword() {
     const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
@@ -17,48 +23,48 @@ function togglePassword() {
     togglePasswordIcon.innerHTML = type === 'password' ? '<i class="fa fa-eye"></i>' : '<i class="fa fa-eye-slash"></i>';
 }
 
+const loginForm = document.getElementById('loginForm');
+if (loginForm) {
+    loginForm.addEventListener('submit', async function(event) {
+        event.preventDefault();
+        
+        const email = event.target.email.value;
+        const password = event.target.password.value;
 
-document.getElementById('loginForm').addEventListener('submit', async function(event) {
-    event.preventDefault();
-    
-    const email = event.target.email.value;
-    const password = event.target.password.value;
-    const alertContainer = document.getElementById('alert-container');
+        // Clear any previous error messages
+        if (alertContainer) alertContainer.innerHTML = '';
+        if (loadingOverlay) loadingOverlay.style.display = 'none';
 
-    // Clear any previous error messages and hide the loading overlay
-    alertContainer.innerHTML = '';
-    loadingOverlay.style.display = 'none';
+        try {
+            // Show loading overlay only after form submission
+            if (loadingOverlay) loadingOverlay.style.display = 'flex';
 
-    try {
-        // Show loading overlay only after form submission
-        loadingOverlay.style.display = 'flex';
+            // Send login request to the server
+            const response = await fetch('/login', {
+                method: 'POST',
+                credentials: 'include',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ email, password })
+            });
 
-        // Send login request to the server
-        const response = await fetch('/login', {
-            method: 'POST',
-            credentials: 'include',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({ email, password })
-        });
+            const result = await response.json();
 
-        const result = await response.json();
-
-        if (response.status === 401) {
-            // Show error message if login is incorrect and hide overlay
-            alertContainer.innerHTML = `<div style="color: red; text-align: center;">${result.error}</div>`;
-            loadingOverlay.style.display = 'none'; // Hide overlay on error
-        } else if (response.ok) {
-            // If login is successful, redirect
-            window.location.href = '/Dashboard.html';
-        } else {
-            // Hide loading overlay for any other unexpected response
-            loadingOverlay.style.display = 'none';
+            if (response.status === 401) {
+                // Show error message if login is incorrect
+                if (alertContainer) alertContainer.innerHTML = `<div style="color: red; text-align: center;">${result.error}</div>`;
+                if (loadingOverlay) loadingOverlay.style.display = 'none';
+            } else if (response.ok) {
+                // If login is successful, redirect
+                window.location.href = '/Dashboard.html';
+            } else {
+                if (loadingOverlay) loadingOverlay.style.display = 'none';
+            }
+        } catch (error) {
+            console.error("Login error:", error);
+            if (alertContainer) alertContainer.innerHTML = `<div style="color: red; text-align: center;">An error occurred. Please try again later.</div>`;
+            if (loadingOverlay) loadingOverlay.style.display = 'none';
         }
-    } catch (error) {
-        console.error("Login error:", error);
-        alertContainer.innerHTML = `<div style="color: red; text-align: center;">An error occurred. Please try again later.</div>`;
-        loadingOverlay.style.display = 'none'; // Hide overlay on network or server error
-    }
-});
+    });
+}

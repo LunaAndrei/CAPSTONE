@@ -38,12 +38,22 @@ router.post(
 
     // Check if the user already has an approved application in the Occustatus table
     try {
-      const checkQuery = 'SELECT status FROM public."occustatus" WHERE "occuid" = $1 AND status ILIKE $2';
-      const checkResult = await pool.query(checkQuery, [req.session.occuid, 'Approved']);
+      // Check if there's an existing application with "Approved" or "On Process" status
+      const checkQuery = `
+        SELECT status 
+        FROM public."occustatus" 
+        WHERE "occuid" = $1 AND (status ILIKE $2 OR status ILIKE $3)
+      `;
+      const checkResult = await pool.query(checkQuery, [req.session.occuid, 'Approved', 'On Process']);
 
       if (checkResult.rows.length > 0) {
-        console.log("Found approved application for occuid:", req.session.occuid);
-        return res.status(400).json({ message: "You already have an approved application and cannot submit another." });
+        const existingStatus = checkResult.rows[0].status;
+
+        if (existingStatus === "Approved") {
+          return res.status(400).json({ message: "You already have an approved application and cannot submit another." });
+        } else if (existingStatus === "On Process") {
+          return res.status(400).json({ message: "Your application is still in process. Please wait for approval." });
+        }
       }
     } catch (error) {
       console.error("Error checking for existing application:", error.stack);

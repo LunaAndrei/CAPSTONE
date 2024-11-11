@@ -96,6 +96,10 @@
                 <p id="claimMessage" class="claim-message" style="display: none;">
                     You can claim your permit at the Municipality of San Luis from 8:00 AM to 5:00 PM.
                 </p>
+                <!--Message for Denied Permit-->
+                <p id="resubmitMessage" class="loading-message" style="display: none;">
+                    Your application has been declined. Please resubmit your application.
+                </p>
             </div>
             <div class="loading-message" id="loadingMessage">Fetching your application status, please wait...</div>
             <div class="error-message" id="errorMessage" style="display: none;"></div>
@@ -130,6 +134,7 @@
             const statusElement = document.getElementById('status');
             statusElement.classList.remove('text-orange-500', 'text-red-600', 'text-green-600');
             const claimMessage = document.getElementById('claimMessage');
+            const resubmitMessage = document.getElementById('resubmitMessage');
 
             if (data.status === "On Process") {
                 statusElement.style.color = "#FFA500";
@@ -137,6 +142,7 @@
             } else if (data.status === "Declined") {
                 statusElement.classList.add('text-red-600');
                 claimMessage.style.display = "none";
+                resubmitMessage.style.display = "block";
             } else if (data.status === "Approved") {
                 statusElement.classList.add('text-green-600');
                 claimMessage.style.display = "block";

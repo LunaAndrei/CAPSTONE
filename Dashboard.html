@@ -13,9 +13,10 @@
 </head>
 <body class="font-sans bg-gray-100 text-gray-900 overflow-x-hidden">
 
+
     <div class="flex h-screen overflow-hidden">
         <!-- Sidebar -->
-        <div class="fixed top-0 left-0 h-full w-56 bg-blue-900 text-white p-5">
+        <div id="sidebar" class="fixed top-0 left-0 h-full w-56 bg-blue-900 text-white p-5 transform -translate-x-full lg:translate-x-0 transition-transform duration-300 z-20">
             <img src="Pic/favicon.png" alt="Logo" class="w-12 h-12 mx-auto mb-4 rounded-full">
             <h2 class="text-xl text-center mb-6">Menu</h2>
             <ul class="space-y-4">
@@ -24,93 +25,112 @@
                 <li><a href="AdminOccuForm.html" class="block py-2 rounded-md hover:bg-blue-700"><i class="fas fa-id-card mr-2"></i> Occupational Form</a></li>
                 <li><a href="FranchiseForm.html" class="block py-2 rounded-md hover:bg-blue-700"><i class="fas fa-id-card mr-2"></i> Franchise Form</a></li>
                 <li><a href="payment.html" class="block py-2 rounded-md hover:bg-blue-700"><i class='bx bxs-wallet-alt mr-2'></i> Payment</a></li>
-                <a href="#" id="logoutButton" class="block py-2 mt-8 text-center bg-blue-700 rounded-md hover:bg-blue-600"><i class="fas fa-sign-out-alt mr-2"></i> Logout</a> 
+                <a href="#" id="logoutButton" class="block py-2 mt-8 text-center bg-blue-700 rounded-md hover:bg-blue-600"><i class="fas fa-sign-out-alt mr-2"></i> Logout</a>
             </ul>
         </div>
 
+
+        <!-- Mobile Sidebar Toggle Button -->
+        <button id="menuToggle" class="lg:hidden fixed top-4 left-4 z-30 p-2 bg-blue-900 text-white rounded-md focus:outline-none" onclick="toggleSidebar()">
+            <i class="fas fa-bars"></i>
+        </button>
+
+
         <!-- Main Content -->
-        <div class="main-content flex-1 ml-60 overflow-y-auto p-6">
+         <div class="main-content flex-1 md:ml-60 overflow-y-auto p-6">
             <!-- Header -->
             <div class="header text-center mb-6">
                 <h1 class="text-2xl font-bold text-gray-800">Dashboard</h1>
             </div>
+
 
             <!-- Chart Grid Layout -->
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-4">
                 <!-- Data Comparison Chart -->
                 <div class="bg-white shadow-md rounded-lg p-4 h-96 flex flex-col items-center">
                     <canvas id="comparisonChart" class="w-full h-40 max-w-xs"></canvas>
-                    <div id="comparisonMessage" class="text-[10px] text-gray-700 text-center mt-1 p-2 leading-tight max-w-full"></div>
+                    <div id="comparisonMessage" class="text-gray-700 text-center mt-1 p-2 leading-tight max-w-full text-[10px] md:text-sm"></div>
                 </div>
 
-               <!-- Inspection Status Chart (Bar Graph) -->
-<div class="bg-white shadow-md rounded-lg p-4 h-[28rem] flex flex-col items-center">
-    <canvas id="notApprovedChart" class="w-full h-40 max-w-xs"></canvas>
-    <div id="notApprovedMessage" class="text-[10px] text-gray-700 text-center mt-1 p-2 leading-tight max-w-full">
-        <strong>Total Not Approved Inspections:</strong> 8.<br>
-        <strong>Common rejection reasons:</strong> Not Open Pipe, Light in Sidecar (8 each).
-    </div>
-</div>
 
-<!-- Forecast Section (Line Graph) -->
-<div class="bg-white shadow-md rounded-lg p-4 h-[28rem] flex flex-col items-center">
-    <canvas id="forecastChart" class="w-full h-40 max-w-xs"></canvas>
-    <div id="forecastMessage" class="text-[10px] text-gray-700 text-center mt-1 p-2 leading-tight max-w-full">
-        Based on the trend, expect 65 new permits and 123 inspections next month.
-        <br>Forecast:<br>
-        - Dec 2024: 655 permits<br>
-        - Jan 2025: 6555 permits
-    </div>
-</div>
+                <!-- Inspection Status Chart (Bar Graph) -->
+                <div class="bg-white shadow-md rounded-lg p-4 h-[28rem] flex flex-col items-center">
+                    <canvas id="notApprovedChart" class="w-full h-40 max-w-xs"></canvas>
+                    <div id="notApprovedMessage" class="text-gray-700 text-center mt-1 p-2 leading-tight max-w-full text-[10px] md:text-sm">
+                        <strong>Total Not Approved Inspections:</strong> 8.<br>
+                        <strong>Common rejection reasons:</strong> Not Open Pipe, Light in Sidecar (8 each).
+                    </div>
+                </div>
+
+
+                <!-- Forecast Section (Line Graph) -->
+                <div class="bg-white shadow-md rounded-lg p-4 h-[28rem] flex flex-col items-center">
+                    <canvas id="forecastChart" class="w-full h-40 max-w-xs"></canvas>
+                    <div id="forecastMessage" class="text-gray-700 text-center mt-1 p-2 leading-tight max-w-full text-[10px] md:text-sm">
+                        Based on the trend, expect 65 new permits and 123 inspections next month.
+                        <br>Forecast:<br>
+                        - Dec 2024: 655 permits<br>
+                        - Jan 2025: 6555 permits
+                    </div>
+                </div>
 
 
                 <!-- Vehicle Types Distribution -->
                 <div class="bg-white shadow-md rounded-lg p-4 h-96 flex flex-col items-center">
                     <canvas id="vehicleTypeChart" class="w-full h-40 max-w-xs"></canvas>
-                    <div id="mostCommonVehicleText" class="text-[10px] text-gray-700 text-center mt-1 p-2 leading-tight max-w-full"></div>
+                    <div id="mostCommonVehicleText" class="text-gray-700 text-center mt-1 p-2 leading-tight max-w-full text-[10px] md:text-sm"></div>
                 </div>
             </div>
-            
+           
             <!-- Toggle Button and Applicant Table -->
-           <div class="toggle-section text-center mt-6">
-    <button id="toggleButton" onclick="toggleTable()" class="bg-blue-700 text-white px-4 py-2 text-sm rounded-lg hover:bg-blue-600 transition">
-        Show The Applicants
-    </button>
-</div>
-
-<div id="applicantTable" class="bg-white shadow-lg rounded-lg p-6 max-h-64 overflow-y-auto mt-4 text-sm">
-    <table class="min-w-full border-collapse rounded-lg overflow-hidden shadow-lg">
-        <thead class="bg-blue-700 text-white text-left">
-            <tr>
-                <th class="py-3 px-5 font-semibold border-b border-gray-200">Occuid</th>
-                <th class="py-3 px-5 font-semibold border-b border-gray-200">Name</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr class="bg-gray-50 hover:bg-blue-100">
-                <td class="py-3 px-5 border-b border-gray-200">001-2024</td>
-                <td class="py-3 px-5 border-b border-gray-200">Carl Jonel M. Hawak</td>
-            </tr>
-            <tr class="bg-white hover:bg-blue-100">
-                <td class="py-3 px-5 border-b border-gray-200">002-2024</td>
-                <td class="py-3 px-5 border-b border-gray-200">John Carlo M. Lagunsing</td>
-            </tr>
-            <tr class="bg-gray-50 hover:bg-blue-100">
-                <td class="py-3 px-5 border-b border-gray-200">003-2024</td>
-                <td class="py-3 px-5 border-b border-gray-200">Pinky M. Lagunsing</td>
-            </tr>
-            <!-- Additional rows as needed -->
-        </tbody>
-    </table>
-</div>
+            <div class="toggle-section text-center mt-6">
+                <button id="toggleButton" onclick="toggleTable()" class="bg-blue-700 text-white px-4 py-2 text-sm rounded-lg hover:bg-blue-600 transition">
+                    Show The Applicants for the Inspections
+                </button>
+            </div>
 
 
+            <div id="applicantTable" class="bg-white shadow-lg rounded-lg p-6 max-h-64 overflow-y-auto mt-4 text-sm">
+                <table class="min-w-full border-collapse rounded-lg overflow-hidden shadow-lg">
+                    <thead class="bg-blue-700 text-white text-left">
+                        <tr>
+                            <th class="py-3 px-5 font-semibold border-b border-gray-200">Occuid</th>
+                            <th class="py-3 px-5 font-semibold border-b border-gray-200">Name</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="bg-gray-50 hover:bg-blue-100">
+                            <td class="py-3 px-5 border-b border-gray-200">001-2024</td>
+                            <td class="py-3 px-5 border-b border-gray-200">Carl Jonel M. Hawak</td>
+                        </tr>
+                        <tr class="bg-white hover:bg-blue-100">
+                            <td class="py-3 px-5 border-b border-gray-200">002-2024</td>
+                            <td class="py-3 px-5 border-b border-gray-200">John Carlo M. Lagunsing</td>
+                        </tr>
+                        <tr class="bg-gray-50 hover:bg-blue-100">
+                            <td class="py-3 px-5 border-b border-gray-200">003-2024</td>
+                            <td class="py-3 px-5 border-b border-gray-200">Pinky M. Lagunsing</td>
+                        </tr>
+                        <!-- Additional rows as needed -->
+                    </tbody>
+                </table>
+            </div>
         </div>
     </div>
 
+
     
     <script >
-        
+         function toggleSidebar() {
+            const sidebar = document.getElementById("sidebar");
+            sidebar.classList.toggle("-translate-x-full");
+        }
+       
+        function toggleTable() {
+            const table = document.getElementById("applicantTable");
+            table.classList.toggle("hidden");
+        }
+
 
 document.getElementById('logoutButton').addEventListener('click', function(event) {
     event.preventDefault();

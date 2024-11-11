@@ -12,6 +12,12 @@
      }
  });
 
+ function toggleSidebar() {
+    const sidebar = document.getElementById("sidebar");
+    sidebar.classList.toggle("-translate-x-full");
+}
+
+
  function filterByInspector() {
      const addAccountButton = document.getElementById('addAccountButton');
      const viewArchivedButton = document.getElementById('viewArchivedButton');
