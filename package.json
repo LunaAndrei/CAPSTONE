@@ -4,7 +4,7 @@
   "homepage": "https://github.com/JohnCarloLagunsing/CAPSTONE",
   "scripts": {
     "build": "echo \"build\"",
-    "start": "nodemon ServerFunc/main.js",
+    "start": "node ServerFunc/main.js",
     "predeploy": "npm run build",
     "deploy": "gh-pages -d build",
     "build:css": "npx tailwindcss -i ./CAPSTONE/style.css -o ./CAPSTONE/dist/output.css --minify"
